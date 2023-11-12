@@ -1,0 +1,5 @@
+__author__ = "Alexander Turowicz"
+__version__ = "0.0.1"
+__maintainer__ = "Alexander Turowicz"
+__email__ = "support@getoriginal.com"
+__status__ = "Production"
