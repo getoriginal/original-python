@@ -16,7 +16,7 @@ def get_user_agent() -> str:
 def get_default_header() -> Dict[str, str]:
     base_headers = {
         "Content-type": "application/json",
-        "X-ORIGINAL-Client": get_user_agent(),
+        # "X-ORIGINAL-Client": get_user_agent(),
     }
     return base_headers
 
@@ -64,11 +64,11 @@ class Original(OriginalInterface):
         default_params = self.get_default_params()
         default_params.update(params)
         headers = get_default_header()
-        headers["Authorization"] = self.auth_token
-        headers["original-auth-type"] = "jwt"
+        headers["Authorization"] = f"Bearer {self.token}"
+        headers["X-API-KEY"] = self.api_key
 
         url = f"{self.base_url}/{relative_url}"
-
+        print("URL:", url, method.__name__, params, data, headers)
         if method.__name__ in ["post", "put", "patch"]:
             serialized = json.dumps(data)
 
@@ -102,11 +102,11 @@ class Original(OriginalInterface):
     ) -> OriginalResponse:
         return self._make_request(self.session.patch, relative_url, params, data)
 
-    def create_user(self, **user_data: Any) -> OriginalResponse:
-        return self.post("user", data=user_data)
+    def create_user(self, email: str, client_id: str) -> OriginalResponse:
+        return self.post("user", data={"email": email, "client_id": client_id})
 
     def get_user(self, user_id: str) -> OriginalResponse:
-        return self.get(f"users/{user_id}")
+        return self.get(f"user/{user_id}")
 
     def get_user_by_email(
         self, email: str
@@ -121,36 +121,36 @@ class Original(OriginalInterface):
     def get_collection(
         self, uid: str
     ) -> OriginalResponse:
-        return self.get(f"collections/{uid}")
+        return self.get(f"collection/{uid}")
 
     def create_asset(self, **asset_data: Any) -> OriginalResponse:
         return self.post("asset", data=asset_data)
 
     def edit_asset(self, uid: str, **asset_data: Any) -> OriginalResponse:
-        return self.put(f"assets/{uid}", data=asset_data)
+        return self.put(f"asset/{uid}", data=asset_data)
 
     def get_asset(self, uid: str) -> OriginalResponse:
-        return self.get(f"assets/{uid}")
+        return self.get(f"asset/{uid}")
 
     def get_assets_by_user_uid(self, user_uid: str) -> OriginalResponse:
-        return self.get("assets", params={"user_uid": user_uid})
+        return self.get("asset", params={"user_uid": user_uid})
 
     def create_transfer(self, **transfer_data: Any) -> OriginalResponse:
         return self.post("transfer", data=transfer_data)
 
     def get_transfer(self, uid: str) -> OriginalResponse:
-        return self.get(f"transfers/{uid}")
+        return self.get(f"transfer/{uid}")
 
     def get_transfers_by_user_uid(self, user_uid: str) -> OriginalResponse:
-        return self.get("transfers", params={"user_uid": user_uid})
+        return self.get("transfer", params={"user_uid": user_uid})
 
     def create_burn(self, **burn_data: Any) -> OriginalResponse:
         return self.post("burn", data=burn_data)
 
     def get_burn(self, uid: str) -> OriginalResponse:
-        return self.get(f"burns/{uid}")
+        return self.get(f"burn/{uid}")
 
     def get_burns_by_user_uid(self, user_uid: str) -> OriginalResponse:
-        return self.get("burns", params={"user_uid": user_uid})
+        return self.get("burn", params={"user_uid": user_uid})
 
 

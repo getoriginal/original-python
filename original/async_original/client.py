@@ -1,5 +1,5 @@
 import json
-import sys
+from abc import ABC
 from typing import (
     Any,
     AsyncContextManager,
@@ -27,9 +27,9 @@ def get_default_header() -> Dict[str, str]:
     return base_headers
 
 
-class OriginalAsync(OriginalInterface, AsyncContextManager):
+class OriginalAsync(OriginalInterface, AsyncContextManager, ABC):
     def __init__(
-        self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
+            self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
     ):
         super().__init__(
             api_key=api_key, api_secret=api_secret, timeout=timeout, **options
@@ -59,11 +59,11 @@ class OriginalAsync(OriginalInterface, AsyncContextManager):
         return OriginalResponse(parsed_result, dict(response.headers), response.status)
 
     async def _make_request(
-        self,
-        method: Callable,
-        relative_url: str,
-        params: Dict = None,
-        data: Any = None,
+            self,
+            method: Callable,
+            relative_url: str,
+            params: Dict = None,
+            data: Any = None,
     ) -> OriginalResponse:
         params = params or {}
         params = {
@@ -81,21 +81,21 @@ class OriginalAsync(OriginalInterface, AsyncContextManager):
             serialized = json.dumps(data)
 
         async with method(
-            "/" + relative_url.lstrip("/"),
-            data=serialized,
-            headers=headers,
-            params=default_params,
-            timeout=self.timeout,
+                "/" + relative_url.lstrip("/"),
+                data=serialized,
+                headers=headers,
+                params=default_params,
+                timeout=self.timeout,
         ) as response:
             return await self._parse_response(response)
 
     async def put(
-        self, relative_url: str, params: Dict = None, data: Any = None
+            self, relative_url: str, params: Dict = None, data: Any = None
     ) -> OriginalResponse:
         return await self._make_request(self.session.put, relative_url, params, data)
 
     async def post(
-        self, relative_url: str, params: Dict = None, data: Any = None
+            self, relative_url: str, params: Dict = None, data: Any = None
     ) -> OriginalResponse:
         return await self._make_request(self.session.post, relative_url, params, data)
 
@@ -106,10 +106,9 @@ class OriginalAsync(OriginalInterface, AsyncContextManager):
         return await self._make_request(self.session.delete, relative_url, params, None)
 
     async def patch(
-        self, relative_url: str, params: Dict = None, data: Any = None
+            self, relative_url: str, params: Dict = None, data: Any = None
     ) -> OriginalResponse:
         return await self._make_request(self.session.patch, relative_url, params, data)
-
 
     async def create_user(self, **user_data: Any) -> OriginalResponse:
         return await self.post("user", data={"user": user_data})
@@ -118,7 +117,7 @@ class OriginalAsync(OriginalInterface, AsyncContextManager):
         return await self.get(f"user/{user_id}")
 
     async def get_user_by_email(
-        self, email: str
+            self, email: str
     ) -> OriginalResponse:
         return await self.get("user", params={"email": email})
 
@@ -141,7 +140,7 @@ class OriginalAsync(OriginalInterface, AsyncContextManager):
         return await self.get("asset", params={"user_uid": app_user_uid})
 
     async def create_transfer(
-        self, **transfer_data: Any
+            self, **transfer_data: Any
     ) -> OriginalResponse:
         return await self.post("transfer", data={"transfer": transfer_data})
 

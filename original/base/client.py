@@ -9,7 +9,7 @@ from original.types.original_response import OriginalResponse
 
 class OriginalInterface(abc.ABC):
     def __init__(
-        self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
+            self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
     ):
         self.api_key = api_key
         self.api_secret = api_secret
@@ -26,26 +26,23 @@ class OriginalInterface(abc.ABC):
         elif os.getenv("ORIGINAL_URL"):
             self.base_url = os.environ["ORIGINAL_URL"]
 
-        self.token = self.create_token(api_key, api_secret)
+        self.token = jwt.encode(
+            {"resource": "*", "action": "*", "user_id": "*", "api_key": api_key}, api_secret
+        )
 
     def get_default_params(self) -> Dict[str, str]:
         return {"api_key": self.api_key, "api_secret": self.api_secret}
 
-    def create_token(self, resource="*", action="*", user_id="*", custom_secret=None):
-        secret = custom_secret if custom_secret else self.api_secret
-        data = {
-            "user_id": user_id,
-            "action": action,
-            "resource": resource,
-            "api_key": self.api_key
-        }
-        return jwt.encode(data, secret)
+    def create_token(self):
+        return jwt.encode(
+            {"resource": "*", "action": "*", "user_id": "*", "api_key": self.api_key}, self.api_secret
+        )
 
     def create_search_params(
-        self,
-        filter_conditions: Dict,
-        query: Union[str, Dict],
-        **options: Any,
+            self,
+            filter_conditions: Dict,
+            query: Union[str, Dict],
+            **options: Any,
     ) -> Dict[str, Any]:
         params = options.copy()
         if isinstance(query, str):
@@ -59,7 +56,7 @@ class OriginalInterface(abc.ABC):
 
     @abc.abstractmethod
     def create_user(
-        self, **user_data: Any
+            self, **user_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original user.
@@ -78,7 +75,7 @@ class OriginalInterface(abc.ABC):
 
     @abc.abstractmethod
     def get_user_by_email(
-        self, email: str
+            self, email: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Gets a user by email
@@ -90,7 +87,7 @@ class OriginalInterface(abc.ABC):
 
     @abc.abstractmethod
     def get_user_by_client_id(
-        self, client_id: str
+            self, client_id: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Gets a user by client_id
@@ -100,10 +97,9 @@ class OriginalInterface(abc.ABC):
         """
         pass
 
-
     @abc.abstractmethod
     def get_collection(
-        self, uid: str
+            self, uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original collection.
@@ -115,7 +111,7 @@ class OriginalInterface(abc.ABC):
 
     @abc.abstractmethod
     def create_asset(
-        self, **asset_data: Any
+            self, **asset_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original asset.
@@ -127,7 +123,7 @@ class OriginalInterface(abc.ABC):
 
     @abc.abstractmethod
     def edit_asset(
-        self, **asset_data: Any
+            self, **asset_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Update an Original asset.
@@ -159,7 +155,7 @@ class OriginalInterface(abc.ABC):
 
     @abc.abstractmethod
     def create_transfer(
-        self, **transfer_data: Any
+            self, **transfer_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original transfer.
@@ -191,7 +187,7 @@ class OriginalInterface(abc.ABC):
 
     @abc.abstractmethod
     def create_burn(
-        self, **burn_data: Any
+            self, **burn_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original burn.
