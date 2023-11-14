@@ -26,7 +26,6 @@ def pytest_configure(config):
 @pytest.fixture(scope="module")
 def client():
     base_url = os.environ.get("TEST_ENDPOINT")
-    print(base_url, os.environ["TEST_API_KEY"], os.environ["TEST_API_SECRET"] )
     options = {"base_url": base_url} if base_url else {}
     return Original(
         api_key=os.environ["TEST_API_KEY"],

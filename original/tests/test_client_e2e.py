@@ -17,7 +17,7 @@ TEST_TRANSFER_TO_WALLET_ADDRESS = os.getenv('TEST_TRANSFER_TO_WALLET_ADDRESS')
 TEST_TRANSFER_TO_USER_UID = os.getenv('TEST_TRANSFER_TO_USER_UID')
 
 
-class TestClient:
+class TestClientE2E:
 
     def test_create_user(self, client: Original):
         client_id = get_random_string(8)
