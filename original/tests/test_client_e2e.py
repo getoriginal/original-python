@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from original import Original
+from original import OriginalClient
 from original.tests.utils import get_random_string
 import time
 
@@ -19,47 +19,47 @@ TEST_TRANSFER_TO_USER_UID = os.getenv('TEST_TRANSFER_TO_USER_UID')
 
 class TestClientE2E:
 
-    def test_create_user(self, client: Original):
+    def test_create_user(self, client: OriginalClient):
         client_id = get_random_string(8)
         response = client.create_user(email=f"{client_id}@test.com", client_id=client_id)
         assert response["data"]["uid"] is not None
 
-    def test_get_user(self, client: Original):
+    def test_get_user(self, client: OriginalClient):
         response = client.get_user(TEST_APP_USER_UID)
         assert response["data"]["uid"] == TEST_APP_USER_UID
         assert response["data"]["email"] == TEST_APP_USER_EMAIL
 
-    def test_get_user_by_email(self, client: Original):
+    def test_get_user_by_email(self, client: OriginalClient):
         response = client.get_user_by_email(TEST_APP_USER_EMAIL)
         assert response["data"]["uid"] == TEST_APP_USER_UID
         assert response["data"]["email"] == TEST_APP_USER_EMAIL
 
-    def test_get_user_by_client_id(self, client: Original):
+    def test_get_user_by_client_id(self, client: OriginalClient):
         response = client.get_user_by_client_id(TEST_APP_USER_CLIENT_ID)
         assert response["data"]["uid"] == TEST_APP_USER_UID
         assert response["data"]["email"] == TEST_APP_USER_EMAIL
 
-    def test_get_user_by_client_id_with_no_results(self, client: Original):
+    def test_get_user_by_client_id_with_no_results(self, client: OriginalClient):
         response = client.get_user_by_client_id("no_results")
         assert response["data"] == None
 
-    def test_get_user_not_found_throws_404(self, client: Original):
+    def test_get_user_not_found_throws_404(self, client: OriginalClient):
         try:
             client.get_user("not_found")
         except Exception as e:
             assert e.status_code == 404
 
-    def test_get_collection(self, client: Original):
+    def test_get_collection(self, client: OriginalClient):
         response = client.get_collection(TEST_APP_COLLECTION_UID)
         assert response["data"]["uid"] == TEST_APP_COLLECTION_UID
 
-    def test_get_collection_not_found_throws_404(self, client: Original):
+    def test_get_collection_not_found_throws_404(self, client: OriginalClient):
         try:
             client.get_collection("not_found")
         except Exception as e:
             assert e.status_code == 404
 
-    def test_create_asset(self, client: Original):
+    def test_create_asset(self, client: OriginalClient):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,
@@ -80,7 +80,7 @@ class TestClientE2E:
         response = client.create_asset(**request_data)
         assert response["data"]["uid"] is not None
 
-    def test_edit_asset(self, client: Original):
+    def test_edit_asset(self, client: OriginalClient):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,
@@ -115,33 +115,33 @@ class TestClientE2E:
         edited_response = client.edit_asset(asset_uid, **edited_data)
         assert edited_response["success"] is True
 
-    def test_get_asset(self, client: Original):
+    def test_get_asset(self, client: OriginalClient):
         response = client.get_asset(TEST_ASSET_UID)
         assert response["data"]["uid"] == TEST_ASSET_UID
 
-    def test_get_asset_not_found_throws_404(self, client: Original):
+    def test_get_asset_not_found_throws_404(self, client: OriginalClient):
         try:
             client.get_asset("not_found")
         except Exception as e:
             assert e.status_code == 404
 
-    def test_get_asset_by_user_uid(self, client: Original):
+    def test_get_asset_by_user_uid(self, client: OriginalClient):
         response = client.get_assets_by_user_uid(TEST_APP_USER_UID)
         assert isinstance(response["data"], list)
 
-    def test_get_asset_by_user_uid_with_no_results(self, client: Original):
+    def test_get_asset_by_user_uid_with_no_results(self, client: OriginalClient):
         response = client.get_assets_by_user_uid("no_results")
         assert response["data"] == []
 
-    def test_get_transfer_by_user_uid(self, client: Original):
+    def test_get_transfer_by_user_uid(self, client: OriginalClient):
         response = client.get_transfers_by_user_uid(TEST_APP_USER_UID)
         assert isinstance(response["data"], list)
 
-    def test_get_burn_by_user_uid(self, client: Original):
+    def test_get_burn_by_user_uid(self, client: OriginalClient):
         response = client.get_burns_by_user_uid(TEST_APP_USER_UID)
         assert isinstance(response["data"], list)
 
-    def test_full_create_transfer_burn_asset_flow(self, client: Original):
+    def test_full_create_transfer_burn_asset_flow(self, client: OriginalClient):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,

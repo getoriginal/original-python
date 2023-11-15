@@ -1,4 +1,4 @@
-# from .async_original import OriginalAsync
-from .client import Original
+from .async_client import OriginalAsyncClient
+from .client import OriginalClient
 
-__all__ = ["Original"]
+__all__ = ["OriginalClient"]
