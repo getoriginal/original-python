@@ -111,8 +111,8 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     ) -> OriginalResponse:
         return await self._make_request(self.session.patch, relative_url, params, data)
 
-    async def create_user(self, **user_data: Any) -> OriginalResponse:
-        return await self.post("user", data=user_data)
+    async def create_user(self, email: str, client_id: str) -> OriginalResponse:
+        return await self.post("user", data={"email": email, "client_id": client_id})
 
     async def get_user(self, user_id: str) -> OriginalResponse:
         return await self.get(f"user/{user_id}")
