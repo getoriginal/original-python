@@ -1,16 +1,18 @@
 import json
-from abc import ABC
+from types import TracebackType
 from typing import (
     Any,
     AsyncContextManager,
     Callable,
     Dict,
+    Optional,
+    Type,
 )
 
 import aiohttp
 
 from original.__pkg__ import __version__
-from original.base.client import OriginalInterface
+from original.base.client import BaseOriginalClient
 from original.base.exceptions import OriginalAPIException
 from original.types.original_response import OriginalResponse
 
@@ -27,7 +29,7 @@ def get_default_header() -> Dict[str, str]:
     return base_headers
 
 
-class OriginalAsync(OriginalInterface, AsyncContextManager, ABC):
+class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     def __init__(
             self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
     ):
@@ -74,14 +76,13 @@ class OriginalAsync(OriginalInterface, AsyncContextManager, ABC):
         default_params = self.get_default_params()
         default_params.update(params)
         headers = get_default_header()
-        headers["Authorization"] = self.auth_token
-        headers["original-auth-type"] = "jwt"
+        headers["Authorization"] = f"Bearer {self.token}"
+        headers["X-API-KEY"] = self.api_key
 
         if method.__name__ in ["post", "put", "patch"]:
             serialized = json.dumps(data)
-
         async with method(
-                "/" + relative_url.lstrip("/"),
+                "/api/v1/" + relative_url.lstrip("/"),
                 data=serialized,
                 headers=headers,
                 params=default_params,
@@ -111,7 +112,7 @@ class OriginalAsync(OriginalInterface, AsyncContextManager, ABC):
         return await self._make_request(self.session.patch, relative_url, params, data)
 
     async def create_user(self, **user_data: Any) -> OriginalResponse:
-        return await self.post("user", data={"user": user_data})
+        return await self.post("user", data=user_data)
 
     async def get_user(self, user_id: str) -> OriginalResponse:
         return await self.get(f"user/{user_id}")
@@ -121,17 +122,17 @@ class OriginalAsync(OriginalInterface, AsyncContextManager, ABC):
     ) -> OriginalResponse:
         return await self.get("user", params={"email": email})
 
-    async def get_user_by_client_id(self, client_id: str, **options: Any) -> OriginalResponse:
-        return await self.get("user", params={"id": client_id, **options})
+    async def get_user_by_client_id(self, client_id: str) -> OriginalResponse:
+        return await self.get("user", params={"client_id": client_id})
 
-    async def get_collection(self, **options: Any) -> OriginalResponse:
-        return await self.get("collection", params=options)
+    async def get_collection(self, uid: str) -> OriginalResponse:
+        return await self.get(f"collection/{uid}")
 
     async def create_asset(self, **asset_data: Any) -> OriginalResponse:
-        return await self.post("asset", data={"asset": asset_data})
+        return await self.post("asset", data=asset_data)
 
     async def edit_asset(self, asset_uid: str, **asset_data: Any) -> OriginalResponse:
-        return await self.put(f"asset/{asset_uid}", data={"asset": asset_data})
+        return await self.put(f"asset/{asset_uid}", data=asset_data)
 
     async def get_asset(self, asset_uid: str) -> OriginalResponse:
         return await self.get(f"asset/{asset_uid}")
@@ -142,7 +143,7 @@ class OriginalAsync(OriginalInterface, AsyncContextManager, ABC):
     async def create_transfer(
             self, **transfer_data: Any
     ) -> OriginalResponse:
-        return await self.post("transfer", data={"transfer": transfer_data})
+        return await self.post("transfer", data=transfer_data)
 
     async def get_transfer(self, transfer_uid: str) -> OriginalResponse:
         return await self.get(f"transfer/{transfer_uid}")
@@ -151,10 +152,24 @@ class OriginalAsync(OriginalInterface, AsyncContextManager, ABC):
         return await self.get("transfer", params={"user_uid": app_user_uid})
 
     async def create_burn(self, **burn_data: Any) -> OriginalResponse:
-        return await self.post("burn", data={"burn": burn_data})
+        return await self.post("burn", data=burn_data)
 
     async def get_burn(self, burn_uid: str) -> OriginalResponse:
         return await self.get(f"burn/{burn_uid}")
 
     async def get_burns_by_user_uid(self, app_user_uid: str) -> OriginalResponse:
         return await self.get("burn", params={"user_uid": app_user_uid})
+
+    async def close(self) -> None:
+        await self.session.close()
+
+    async def __aenter__(self) -> "OriginalAsyncClient":
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
+        await self.close()

@@ -22,6 +22,6 @@ class OriginalAPIException(Exception):
 
     def __str__(self) -> str:
         if self.json_response:
-            return f'Original error code {self.error_code}: {self.error_message}"'
+            return f'Original error code {self.error_code}: {self.error_message}, {self.status_code}"'
         else:
             return f"Original error HTTP code: {self.status_code}"

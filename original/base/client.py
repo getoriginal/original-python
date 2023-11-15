@@ -7,7 +7,7 @@ import jwt
 from original.types.original_response import OriginalResponse
 
 
-class OriginalInterface(abc.ABC):
+class BaseOriginalClient(abc.ABC):
     def __init__(
             self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
     ):
@@ -19,12 +19,14 @@ class OriginalInterface(abc.ABC):
             self.timeout = float(os.environ["ORIGINAL_TIMEOUT"])
 
         self.options = options
-        self.base_url = "https://api.getoriginal.com/api/v1"
+        self.base_url = "https://api-sandbox.getoriginal.com/api/v1"
 
         if options.get("base_url"):
             self.base_url = options["base_url"]
         elif os.getenv("ORIGINAL_URL"):
             self.base_url = os.environ["ORIGINAL_URL"]
+
+        self.base_url = self.base_url.rstrip("/")
 
         self.token = jwt.encode(
             {"resource": "*", "action": "*", "user_id": "*", "api_key": api_key}, api_secret
@@ -215,28 +217,4 @@ class OriginalInterface(abc.ABC):
         :param app_user_uid: the app user uid
         :return:
         """
-        pass
-
-    #####################
-    #  Private methods  #
-    #####################
-
-    @abc.abstractmethod
-    def get(self, relative_url: str, params: Dict = None) -> Any:
-        pass
-
-    @abc.abstractmethod
-    def post(self, relative_url: str, params: Dict = None, data: Any = None) -> Any:
-        pass
-
-    @abc.abstractmethod
-    def delete(self, relative_url: str, params: Dict = None) -> Any:
-        pass
-
-    @abc.abstractmethod
-    def patch(self, relative_url: str, params: Dict = None, data: Any = None) -> Any:
-        pass
-
-    @abc.abstractmethod
-    def put(self, relative_url: str, params: Dict = None, data: Any = None) -> Any:
         pass

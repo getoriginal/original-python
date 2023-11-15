@@ -1,8 +1,10 @@
+import asyncio
 import os
 
 import pytest
 
-from original import Original
+from original import OriginalClient
+from original.async_client import OriginalAsyncClient
 
 
 def pytest_runtest_makereport(item, call):
@@ -27,7 +29,7 @@ def pytest_configure(config):
 def client():
     base_url = os.environ.get("TEST_ENDPOINT")
     options = {"base_url": base_url} if base_url else {}
-    return Original(
+    return OriginalClient(
         api_key=os.environ["TEST_API_KEY"],
         api_secret=os.environ["TEST_API_SECRET"],
         timeout=10,
@@ -35,3 +37,21 @@ def client():
     )
 
 
+@pytest.fixture(scope="module")
+def event_loop():
+    loop = asyncio.get_event_loop_policy().new_event_loop()
+    yield loop
+    loop.close()
+
+
+@pytest.fixture(scope="module")
+async def async_client():
+    base_url = os.environ.get("TEST_ORIGINAL_HOST")
+    options = {"base_url": base_url} if base_url else {}
+    async with OriginalAsyncClient(
+        api_key=os.environ["TEST_API_KEY"],
+        api_secret=os.environ["TEST_API_SECRET"],
+        timeout=10,
+        **options,
+    ) as original_client:
+        yield original_client

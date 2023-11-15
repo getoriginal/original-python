@@ -4,7 +4,7 @@ from typing import Any, Callable, Dict
 import requests
 
 from original.__pkg__ import __version__
-from original.base.client import OriginalInterface
+from original.base.client import BaseOriginalClient
 from original.base.exceptions import OriginalAPIException
 from original.types.original_response import OriginalResponse
 
@@ -16,12 +16,12 @@ def get_user_agent() -> str:
 def get_default_header() -> Dict[str, str]:
     base_headers = {
         "Content-type": "application/json",
-        # "X-ORIGINAL-Client": get_user_agent(),
+        "X-ORIGINAL-Client": get_user_agent(),
     }
     return base_headers
 
 
-class Original(OriginalInterface):
+class OriginalClient(BaseOriginalClient):
     def __init__(
         self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
     ):
@@ -68,7 +68,6 @@ class Original(OriginalInterface):
         headers["X-API-KEY"] = self.api_key
 
         url = f"{self.base_url}/{relative_url}"
-        print("URL:", url, method.__name__, params, data, headers)
         if method.__name__ in ["post", "put", "patch"]:
             serialized = json.dumps(data)
 
@@ -126,8 +125,8 @@ class Original(OriginalInterface):
     def create_asset(self, **asset_data: Any) -> OriginalResponse:
         return self.post("asset", data=asset_data)
 
-    def edit_asset(self, uid: str, **asset_data: Any) -> OriginalResponse:
-        return self.put(f"asset/{uid}", data=asset_data)
+    def edit_asset(self, asset_uid: str, **asset_data: Any) -> OriginalResponse:
+        return self.put(f"asset/{asset_uid}", data=asset_data)
 
     def get_asset(self, uid: str) -> OriginalResponse:
         return self.get(f"asset/{uid}")

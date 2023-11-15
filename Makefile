@@ -19,7 +19,7 @@ lint-fix:
 	isort original
 
 test:  ## Run tests
-	API_KEY=$(API_KEY) API_SECRET=$(API_SECRET) pytest --cov=original original/tests
+	API_KEY=$(API_KEY) API_SECRET=$(API_SECRET) pytest original/tests
 
 check: lint test  ## Run linters + tests
 
