@@ -28,12 +28,12 @@ with open("original/__pkg__.py") as fp:
     exec(fp.read(), about)
 
 setup(
-    name="original",
+    name="original-sdk",
     version=about["__version__"],
     author=about["__maintainer__"],
     author_email=about["__email__"],
     url="https://github.com/GetOriginal/original-python",
-    description="Client for Original.",
+    description="Python client for Original.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(exclude=["*tests*"]),
