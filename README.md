@@ -28,15 +28,13 @@ $ pip install original-sdk
 
 ### Initialization
 
-The Original SDK is set up to expose and type all values returned from the Original API.
-
-Import the sdk with using commonjs or es6 imports.
+The Original SDK is set up to expose the Original API.
 
 Read the full [Original API documentation](https://docs.getoriginal.com).
 
 ```python
 
-from original_sdk import OriginalClient
+from original-sdk import OriginalClient
 
 ```
 
