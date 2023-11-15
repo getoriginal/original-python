@@ -26,11 +26,11 @@ exclude = '''
 
 [tool.isort]
 profile = "black"
-src_paths = ["original"]
-known_first_party = ["original"]
+src_paths = ["original_sdk"]
+known_first_party = ["original_sdk"]
 
 [tool.pytest.ini_options]
-testpaths = ["original/tests"]
+testpaths = ["original_sdk/tests"]
 asyncio_mode = "auto"
 
 [tool.mypy]
@@ -41,5 +41,5 @@ warn_unused_configs = true
 strict_optional = false
 
 [[tool.mypy.overrides]]
-module = "original.tests.*"
+module = "original_sdk.tests.*"
 ignore_errors = true

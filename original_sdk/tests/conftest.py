@@ -3,8 +3,8 @@ import os
 
 import pytest
 
-from original import OriginalClient
-from original.async_client import OriginalAsyncClient
+from original_sdk import OriginalClient
+from original_sdk.async_client import OriginalAsyncClient
 
 
 def pytest_runtest_makereport(item, call):

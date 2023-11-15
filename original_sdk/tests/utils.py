@@ -1,7 +1,7 @@
 import asyncio
-import time
 import random
 import string
+import time
 from typing import Any, Awaitable, Callable
 
 
@@ -22,7 +22,7 @@ def wait_for(condition: Callable[[], Any], timeout: int = 5):
 
 
 async def wait_for_async(
-        condition: Callable[..., Awaitable[Any]], timeout: int = 5, **kwargs
+    condition: Callable[..., Awaitable[Any]], timeout: int = 5, **kwargs
 ):
     start = time.time()
 

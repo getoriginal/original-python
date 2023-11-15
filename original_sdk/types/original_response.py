@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
-from original.types.rate_limit import RateLimitInfo
+from original_sdk.types.rate_limit import RateLimitInfo
 
 
 class OriginalResponse(dict):

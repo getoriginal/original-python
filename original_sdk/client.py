@@ -3,14 +3,14 @@ from typing import Any, Callable, Dict
 
 import requests
 
-from original.__pkg__ import __version__
-from original.base.client import BaseOriginalClient
-from original.base.exceptions import OriginalAPIException
-from original.types.original_response import OriginalResponse
+from original_sdk.__pkg__ import __version__
+from original_sdk.base.client import BaseOriginalClient
+from original_sdk.base.exceptions import OriginalAPIException
+from original_sdk.types.original_response import OriginalResponse
 
 
 def get_user_agent() -> str:
-    return f"original-python-client-{__version__}"
+    return f"original_sdk-python-client-{__version__}"
 
 
 def get_default_header() -> Dict[str, str]:
@@ -107,19 +107,13 @@ class OriginalClient(BaseOriginalClient):
     def get_user(self, user_id: str) -> OriginalResponse:
         return self.get(f"user/{user_id}")
 
-    def get_user_by_email(
-        self, email: str
-    ) -> OriginalResponse:
+    def get_user_by_email(self, email: str) -> OriginalResponse:
         return self.get("user", params={"email": email})
 
-    def get_user_by_client_id(
-        self, client_id: str
-    ) -> OriginalResponse:
+    def get_user_by_client_id(self, client_id: str) -> OriginalResponse:
         return self.get("user", params={"client_id": client_id})
 
-    def get_collection(
-        self, uid: str
-    ) -> OriginalResponse:
+    def get_collection(self, uid: str) -> OriginalResponse:
         return self.get(f"collection/{uid}")
 
     def create_asset(self, **asset_data: Any) -> OriginalResponse:
@@ -151,5 +145,3 @@ class OriginalClient(BaseOriginalClient):
 
     def get_burns_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return self.get("burn", params={"user_uid": user_uid})
-
-

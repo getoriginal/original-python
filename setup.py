@@ -24,11 +24,11 @@ with open("README.md", "r") as f:
 
 about = {}
 
-with open("original/__pkg__.py") as fp:
+with open("original_sdk/__pkg__.py") as fp:
     exec(fp.read(), about)
 
 setup(
-    name="original-sdk",
+    name="original_sdk",
     version=about["__version__"],
     author=about["__maintainer__"],
     author_email=about["__email__"],

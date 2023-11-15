@@ -34,7 +34,7 @@ Read the full [Original API documentation](https://docs.getoriginal.com).
 
 ```python
 
-from original-sdk import OriginalClient
+from original_sdk import OriginalClient
 
 ```
 

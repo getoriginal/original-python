@@ -1,2 +1,2 @@
 [run]
-omit = original/tests/*
+omit = original_sdk/tests/*

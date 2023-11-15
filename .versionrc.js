@@ -12,5 +12,5 @@ const pkgUpdater = {
 }
 
 module.exports = {
-    bumpFiles: [{ filename: './original/__pkg__.py', updater: pkgUpdater }],
+    bumpFiles: [{ filename: './original_sdk/__pkg__.py', updater: pkgUpdater }],
 }
