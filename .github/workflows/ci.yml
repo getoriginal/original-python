@@ -1,0 +1,57 @@
+name: build
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Test & lint
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        python: ["3.10"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # gives the commit message linter access to all previous commits
+
+      - name: Commit lint
+        if: ${{ matrix.python == '3.7' && github.ref == 'refs/heads/main' }}
+        uses: wagoid/commitlint-github-action@v4
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install deps with ${{ matrix.python }}
+        run: pip install ".[test, ci]"
+
+      - name: Lint with ${{ matrix.python }}
+        if: ${{ matrix.python == '3.7' }}
+        run: make lint
+
+      - name: Test with ${{ matrix.python }}
+        env:
+          TEST_ORIGINAL_HOST: ${{secrets.TEST_ORIGINAL_HOST}}
+          TEST_API_KEY: ${{secrets.TEST_API_KEY}}
+          TEST_API_SECRET: ${{secrets.TEST_API_SECRET}}
+          TEST_APP_USER_UID: ${{secrets.TEST_APP_USER_UID}}
+          TEST_APP_USER_EMAIL: ${{secrets.TEST_APP_USER_EMAIL}}
+          TEST_APP_USER_CLIENT_ID: ${{secrets.TEST_APP_USER_CLIENT_ID}}
+          TEST_APP_COLLECTION_UID: ${{secrets.TEST_APP_COLLECTION_UID}}
+          TEST_ASSET_UID: ${{secrets.TEST_ASSET_UID}}
+          TEST_TRANSFER_TO_WALLET_ADDRESS: ${{secrets.TEST_TRANSFER_TO_WALLET_ADDRESS}}
+          TEST_TRANSFER_TO_USER_UID: ${{secrets.TEST_TRANSFER_TO_USER_UID}}
+          TEST_TRANSFER_UID: ${{secrets.TEST_TRANSFER_UID}}
+          TEST_BURN_UID: ${{secrets.TEST_BURN_UID}}
+          PYTHONPATH: ${{ github.workspace }}
+        run: make test

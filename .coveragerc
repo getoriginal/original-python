@@ -1,0 +1,2 @@
+[run]
+omit = original_sdk/tests/*
