@@ -8,7 +8,7 @@ install_requires = [
     "pyjwt>=2.0.0,<3",
     "typing_extensions; python_version < '3.8'",
 ]
-tests_require = ["pytest", "pytest-asyncio"]
+tests_require = ["pytest", "pytest-asyncio", "python-dotenv"]
 ci_require = [
     "black",
     "flake8",
