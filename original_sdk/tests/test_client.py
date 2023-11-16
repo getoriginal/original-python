@@ -43,3 +43,15 @@ class TestClient:
             base_url="http://localhost:8000/",
         )
         assert client.base_url == "http://localhost:8000"
+
+    def test_default_api_version(self):
+        client = OriginalClient(api_key=TEST_API_KEY, api_secret=TEST_API_SECRET)
+        assert client.api_version == "v1"
+
+    def test_api_version_is_set(self):
+        client = OriginalClient(
+            api_key=TEST_API_KEY,
+            api_secret=TEST_API_SECRET,
+            api_version="v2",
+        )
+        assert client.api_version == "v2"

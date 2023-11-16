@@ -3,10 +3,10 @@ from typing import Any, Callable, Dict
 
 import requests
 
-from original_sdk.__pkg__ import __version__
-from original_sdk.base.client import BaseOriginalClient
-from original_sdk.base.exceptions import OriginalAPIException
-from original_sdk.types.original_response import OriginalResponse
+from .__pkg__ import __version__
+from .base.client import BaseOriginalClient
+from .base.exceptions import OriginalAPIException
+from .types.original_response import OriginalResponse
 
 
 def get_user_agent() -> str:
@@ -67,7 +67,7 @@ class OriginalClient(BaseOriginalClient):
         headers["Authorization"] = f"Bearer {self.token}"
         headers["X-API-KEY"] = self.api_key
 
-        url = f"{self.base_url}/{relative_url}"
+        url = f"{self.base_url}/api/{self.api_version}/{relative_url}"
         if method.__name__ in ["post", "put", "patch"]:
             serialized = json.dumps(data)
 

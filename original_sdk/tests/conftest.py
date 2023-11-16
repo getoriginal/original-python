@@ -27,7 +27,7 @@ def pytest_configure(config):
 
 @pytest.fixture(scope="module")
 def client():
-    base_url = os.environ.get("TEST_ENDPOINT")
+    base_url = os.environ.get("TEST_ORIGINAL_HOST")
     options = {"base_url": base_url} if base_url else {}
     return OriginalClient(
         api_key=os.environ["TEST_API_KEY"],

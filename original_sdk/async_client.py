@@ -4,10 +4,10 @@ from typing import Any, AsyncContextManager, Callable, Dict, Optional, Type
 
 import aiohttp
 
-from original_sdk.__pkg__ import __version__
-from original_sdk.base.client import BaseOriginalClient
-from original_sdk.base.exceptions import OriginalAPIException
-from original_sdk.types.original_response import OriginalResponse
+from .__pkg__ import __version__
+from .base.client import BaseOriginalClient
+from .base.exceptions import OriginalAPIException
+from .types.original_response import OriginalResponse
 
 
 def get_user_agent() -> str:
@@ -77,7 +77,7 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         if method.__name__ in ["post", "put", "patch"]:
             serialized = json.dumps(data)
         async with method(
-            "/api/v1/" + relative_url.lstrip("/"),
+            f"/api/{self.api_version}/" + relative_url.lstrip("/"),
             data=serialized,
             headers=headers,
             params=default_params,

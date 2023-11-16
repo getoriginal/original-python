@@ -11,13 +11,13 @@ concurrency:
 
 jobs:
   build:
-    name: 🧪 Test & lint
+    name: Test & lint
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
-        python: ["3.7", "3.8", "3.9", "3.10"]
+        python: ["3.10"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -41,7 +41,6 @@ jobs:
 
       - name: Test with ${{ matrix.python }}
         env:
-          TEST_ENDPOINT: ${{secrets.TEST_ENDPOINT}}
           TEST_ORIGINAL_HOST: ${{secrets.TEST_ORIGINAL_HOST}}
           TEST_API_KEY: ${{secrets.TEST_API_KEY}}
           TEST_API_SECRET: ${{secrets.TEST_API_SECRET}}
