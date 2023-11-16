@@ -41,7 +41,18 @@ jobs:
 
       - name: Test with ${{ matrix.python }}
         env:
-          API_KEY: ${{ secrets.API_KEY }}
-          API_SECRET: ${{ secrets.API_SECRET }}
+          TEST_ENDPOINT: ${{secrets.TEST_ENDPOINT}}
+          TEST_ORIGINAL_HOST: ${{secrets.TEST_ORIGINAL_HOST}}
+          TEST_API_KEY: ${{secrets.TEST_API_KEY}}
+          TEST_API_SECRET: ${{secrets.TEST_API_SECRET}}
+          TEST_APP_USER_UID: ${{secrets.TEST_APP_USER_UID}}
+          TEST_APP_USER_EMAIL: ${{secrets.TEST_APP_USER_EMAIL}}
+          TEST_APP_USER_CLIENT_ID: ${{secrets.TEST_APP_USER_CLIENT_ID}}
+          TEST_APP_COLLECTION_UID: ${{secrets.TEST_APP_COLLECTION_UID}}
+          TEST_ASSET_UID: ${{secrets.TEST_ASSET_UID}}
+          TEST_TRANSFER_TO_WALLET_ADDRESS: ${{secrets.TEST_TRANSFER_TO_WALLET_ADDRESS}}
+          TEST_TRANSFER_TO_USER_UID: ${{secrets.TEST_TRANSFER_TO_USER_UID}}
+          TEST_TRANSFER_UID: ${{secrets.TEST_TRANSFER_UID}}
+          TEST_BURN_UID: ${{secrets.TEST_BURN_UID}}
           PYTHONPATH: ${{ github.workspace }}
         run: make test
