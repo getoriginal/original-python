@@ -12,7 +12,7 @@ DEFAULT_API_VERSION = "v1"
 
 class BaseOriginalClient(abc.ABC):
     def __init__(
-            self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
+        self, api_key: str, api_secret: str, timeout: float = 6.0, **options: Any
     ):
         self.api_key = api_key
         self.api_secret = api_secret
@@ -52,10 +52,10 @@ class BaseOriginalClient(abc.ABC):
         )
 
     def create_search_params(
-            self,
-            filter_conditions: Dict,
-            query: Union[str, Dict],
-            **options: Any,
+        self,
+        filter_conditions: Dict,
+        query: Union[str, Dict],
+        **options: Any,
     ) -> Dict[str, Any]:
         params = options.copy()
         if isinstance(query, str):
@@ -69,7 +69,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def create_user(
-            self, email: str, client_id: str
+        self, email: str, client_id: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original user.
@@ -78,7 +78,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_user(
-            self, uid: str
+        self, uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original user.
@@ -90,7 +90,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_user_by_email(
-            self, email: str
+        self, email: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Gets a user by email
@@ -102,7 +102,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_user_by_client_id(
-            self, client_id: str
+        self, client_id: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Gets a user by client_id
@@ -114,7 +114,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_collection(
-            self, uid: str
+        self, uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original collection.
@@ -126,7 +126,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def create_asset(
-            self, **asset_data: Any
+        self, **asset_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original asset.
@@ -138,7 +138,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def edit_asset(
-            self, asset_uid: str, **asset_data: Any
+        self, asset_uid: str, **asset_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Update an Original asset.
@@ -151,7 +151,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_asset(
-            self, asset_uid: str
+        self, asset_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original asset.
@@ -163,7 +163,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_assets_by_user_uid(
-            self, app_user_uid: str
+        self, app_user_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original asset by owner uid.
@@ -175,7 +175,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def create_transfer(
-            self, **transfer_data: Any
+        self, **transfer_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original transfer.
@@ -187,7 +187,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_transfer(
-            self, transfer_uid: str
+        self, transfer_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original transfer.
@@ -199,7 +199,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_transfers_by_user_uid(
-            self, app_user_uid: str
+        self, app_user_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original transfer by user uid.
@@ -211,7 +211,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def create_burn(
-            self, **burn_data: Any
+        self, **burn_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original burn.
@@ -223,7 +223,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_burn(
-            self, burn_uid: str
+        self, burn_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original burn.
@@ -235,7 +235,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_burns_by_user_uid(
-            self, app_user_uid: str
+        self, app_user_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original burn by user uid.
