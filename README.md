@@ -160,7 +160,7 @@ transfer = client.get_transfer(transfer_uid)
 
 # gets transfers by user uid
 # will return a list of transfers for the user
-transfers = client.get_transfers_by_user_uid(user_uid=user_uid)
+transfers = client.get_transfers_by_user_uid(user_uid)
 ```
 
 ### Burn
@@ -172,11 +172,11 @@ The burn methods exposed by the sdk are used to burn assets from a user's wallet
 # returns the uid of the newly created burn
 burn_uid = client.create_burn(
   asset_uid=asset_uid,
-  from_user_uid=TEST_TRANSFER_TO_USER_UID,
+  from_user_uid=user_uid,
 )
 
 # gets a burn by uid, will throw a 404 Not Found error if the burn does not exist
-burn = await client.get_burn(burn_uid)
+burn = client.get_burn(burn_uid)
 
 # gets burns by user uid
 burns = client.get_burn_by_user_uid(user_uid)
