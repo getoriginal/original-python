@@ -151,6 +151,9 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     async def get_burns_by_user_uid(self, app_user_uid: str) -> OriginalResponse:
         return await self.get("burn", params={"user_uid": app_user_uid})
 
+    async def get_deposit(self, user_uid: str) -> OriginalResponse:
+        return await self.get("deposit", params={"user_uid": user_uid})
+
     async def close(self) -> None:
         await self.session.close()
 

@@ -244,3 +244,13 @@ class BaseOriginalClient(abc.ABC):
         :return:
         """
         pass
+
+    @abc.abstractmethod
+    def get_deposit(self, user_uid: str) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Get an Original deposit by user uid.
+
+        :param app_user_uid: the app user uid
+        :return:
+        """
+        pass

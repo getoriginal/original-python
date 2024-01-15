@@ -15,7 +15,8 @@ TEST_APP_COLLECTION_UID = os.getenv("TEST_APP_COLLECTION_UID")
 TEST_ASSET_UID = os.getenv("TEST_ASSET_UID")
 TEST_TRANSFER_TO_WALLET_ADDRESS = os.getenv("TEST_TRANSFER_TO_WALLET_ADDRESS")
 TEST_TRANSFER_TO_USER_UID = os.getenv("TEST_TRANSFER_TO_USER_UID")
-
+TEST_ACCEPTANCE_CHAIN_ID = 80001
+TEST_ACCEPTANCE_NETWORK = "Mumbai"
 
 class TestClientE2E:
     async def test_create_user(self, async_client: OriginalAsyncClient):
@@ -153,6 +154,12 @@ class TestClientE2E:
         response = await async_client.get_burns_by_user_uid(TEST_APP_USER_UID)
         assert isinstance(response["data"], list)
 
+    async def test_get_deposit(self, async_client: OriginalAsyncClient):
+        response = await async_client.get_deposit(TEST_TRANSFER_TO_USER_UID)
+        assert response["data"]["wallet_address"] == TEST_TRANSFER_TO_WALLET_ADDRESS
+        assert response["data"]["chain_id"] == TEST_ACCEPTANCE_CHAIN_ID
+        assert response["data"]["network"] == TEST_ACCEPTANCE_NETWORK
+
     async def test_full_create_transfer_burn_asset_flow(
         self, async_client: OriginalAsyncClient
     ):
@@ -179,7 +186,7 @@ class TestClientE2E:
         is_transferable = False
         retries = 0
 
-        while is_transferable is False and retries < 10:
+        while is_transferable is False and retries < 15:
             response = await async_client.get_asset(asset_uid)
             is_transferable = response["data"]["is_transferable"]
             time.sleep(15)
@@ -196,7 +203,7 @@ class TestClientE2E:
         is_transferring = True
         retries = 0
 
-        while is_transferring is True and retries < 10:
+        while is_transferring is True and retries < 15:
             response = await async_client.get_asset(asset_uid)
             is_transferring = response["data"]["is_transferring"]
             time.sleep(15)
@@ -218,7 +225,7 @@ class TestClientE2E:
         is_burning = True
         retries = 0
 
-        while is_burning is True and retries < 10:
+        while is_burning is True and retries < 15:
             response = await async_client.get_burn(burn_uid)
             is_burning = response["data"]["status"] != "done"
             time.sleep(15)
@@ -231,7 +238,7 @@ class TestClientE2E:
         final_asset_burned_status = False
         retries = 0
 
-        while final_asset_burned_status is False and retries < 10:
+        while final_asset_burned_status is False and retries < 15:
             response = await async_client.get_asset(asset_uid)
             final_asset_burned_status = response["data"]["is_burned"]
             time.sleep(15)

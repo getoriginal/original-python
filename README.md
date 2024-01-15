@@ -11,6 +11,7 @@
   - [Collection](#collection)
   - [Transfer](#transfer)
   - [Burn](#burn)
+  - [Deposit](#deposit)
 
 ## 📝 About Original
 
@@ -182,3 +183,13 @@ burn = client.get_burn(burn_uid)
 burns = client.get_burn_by_user_uid(user_uid)
 ```
 
+
+### Deposit
+
+The deposit methods exposed by the sdk are used to return the details for depositing assets.
+
+```python
+# gets deposit details for a user
+# returns the deposit details
+deposit = client.get_deposit(user_uid)
+```
