@@ -18,6 +18,7 @@ TEST_TRANSFER_TO_USER_UID = os.getenv("TEST_TRANSFER_TO_USER_UID")
 TEST_ACCEPTANCE_CHAIN_ID = 80001
 TEST_ACCEPTANCE_NETWORK = "Mumbai"
 
+
 class TestClientE2E:
     async def test_create_user(self, async_client: OriginalAsyncClient):
         client_id = get_random_string(8)

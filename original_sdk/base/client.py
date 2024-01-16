@@ -6,7 +6,7 @@ import jwt
 
 from original_sdk.types.original_response import OriginalResponse
 
-DEFAULT_BASE_URL = "https://api-sandbox.getoriginal.com/api/v1"
+DEFAULT_BASE_URL = "https://api.getoriginal.com/v1"
 DEFAULT_API_VERSION = "v1"
 
 
@@ -246,7 +246,9 @@ class BaseOriginalClient(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def get_deposit(self, user_uid: str) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+    def get_deposit(
+        self, user_uid: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original deposit by user uid.
 
