@@ -145,3 +145,6 @@ class OriginalClient(BaseOriginalClient):
 
     def get_burns_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return self.get("burn", params={"user_uid": user_uid})
+
+    def get_deposit(self, user_uid: str) -> OriginalResponse:
+        return self.get("deposit", params={"user_uid": user_uid})

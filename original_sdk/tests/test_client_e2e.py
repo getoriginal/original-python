@@ -15,6 +15,8 @@ TEST_APP_COLLECTION_UID = os.getenv("TEST_APP_COLLECTION_UID")
 TEST_ASSET_UID = os.getenv("TEST_ASSET_UID")
 TEST_TRANSFER_TO_WALLET_ADDRESS = os.getenv("TEST_TRANSFER_TO_WALLET_ADDRESS")
 TEST_TRANSFER_TO_USER_UID = os.getenv("TEST_TRANSFER_TO_USER_UID")
+TEST_ACCEPTANCE_CHAIN_ID = 80001
+TEST_ACCEPTANCE_NETWORK = "Mumbai"
 
 
 class TestClientE2E:
@@ -143,6 +145,12 @@ class TestClientE2E:
     def test_get_burn_by_user_uid(self, client: OriginalClient):
         response = client.get_burns_by_user_uid(TEST_APP_USER_UID)
         assert isinstance(response["data"], list)
+
+    def test_get_deposit(self, client: OriginalClient):
+        response = client.get_deposit(TEST_TRANSFER_TO_USER_UID)
+        assert response["data"]["wallet_address"] == TEST_TRANSFER_TO_WALLET_ADDRESS
+        assert response["data"]["chain_id"] == TEST_ACCEPTANCE_CHAIN_ID
+        assert response["data"]["network"] == TEST_ACCEPTANCE_NETWORK
 
     def test_full_create_transfer_burn_asset_flow(self, client: OriginalClient):
         asset_name = get_random_string(8)
