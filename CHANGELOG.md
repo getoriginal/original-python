@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/getoriginal/original-python/compare/v1.0.2...v1.0.3) (2024-01-17)
+
+
+### Bug Fixes
+
+* [ORI-1675] remove sandbox and add production url as default ([f0b6387](https://github.com/getoriginal/original-python/commit/f0b6387a0e3978fe34c74e1db6a712fb5e9664d7))
+
 ### 1.0.2 (2023-11-20)
 
 
