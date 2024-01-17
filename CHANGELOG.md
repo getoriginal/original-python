@@ -5,9 +5,15 @@ All notable changes to this project will be documented in this file. See [standa
 ## [1.1.0](https://github.com/getoriginal/original-python/compare/v1.0.2...v1.1.0) (2024-01-17)
 
 
+### Features
+
+* [ORI-1675] add method exposing the deposit api in the sdk ([9e8ab3e](https://github.com/getoriginal/original-python/commit/9e8ab3ecd0f0aa5497baa049a8653207f59cdf4d))
+
+
 ### Bug Fixes
 
 * [ORI-1675] remove sandbox and add production url as default ([f0b6387](https://github.com/getoriginal/original-python/commit/f0b6387a0e3978fe34c74e1db6a712fb5e9664d7))
+
 
 ### 1.0.2 (2023-11-20)
 
