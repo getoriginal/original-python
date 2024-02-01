@@ -42,6 +42,7 @@ jobs:
       - name: Test with ${{ matrix.python }}
         env:
           TEST_ORIGINAL_HOST: ${{secrets.TEST_ORIGINAL_HOST}}
+          TEST_ORIGINAL_API_VERSION: ${{secrets.TEST_ORIGINAL_API_VERSION}}
           TEST_API_KEY: ${{secrets.TEST_API_KEY}}
           TEST_API_SECRET: ${{secrets.TEST_API_SECRET}}
           TEST_APP_USER_UID: ${{secrets.TEST_APP_USER_UID}}

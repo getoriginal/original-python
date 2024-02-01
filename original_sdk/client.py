@@ -67,7 +67,7 @@ class OriginalClient(BaseOriginalClient):
         headers["Authorization"] = f"Bearer {self.token}"
         headers["X-API-KEY"] = self.api_key
 
-        url = f"{self.base_url}/api/{self.api_version}/{relative_url}"
+        url = f"{self.base_url}/{self.api_version}/{relative_url}"
         if method.__name__ in ["post", "put", "patch"]:
             serialized = json.dumps(data)
 

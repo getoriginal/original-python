@@ -17,6 +17,7 @@ TEST_TRANSFER_TO_WALLET_ADDRESS = os.getenv("TEST_TRANSFER_TO_WALLET_ADDRESS")
 TEST_TRANSFER_TO_USER_UID = os.getenv("TEST_TRANSFER_TO_USER_UID")
 TEST_ACCEPTANCE_CHAIN_ID = 80001
 TEST_ACCEPTANCE_NETWORK = "Mumbai"
+TEST_RETRY_COUNTER = 20
 
 
 class TestClientE2E:
@@ -107,7 +108,7 @@ class TestClientE2E:
         is_transferable = False
         retries = 0
 
-        while is_transferable is False and retries < 10:
+        while is_transferable is False and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             is_transferable = response["data"]["is_transferable"]
             time.sleep(15)
@@ -176,7 +177,7 @@ class TestClientE2E:
         is_transferable = False
         retries = 0
 
-        while is_transferable is False and retries < 10:
+        while is_transferable is False and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             is_transferable = response["data"]["is_transferable"]
             time.sleep(15)
@@ -193,7 +194,7 @@ class TestClientE2E:
         is_transferring = True
         retries = 0
 
-        while is_transferring is True and retries < 10:
+        while is_transferring is True and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             is_transferring = response["data"]["is_transferring"]
             time.sleep(15)
@@ -215,7 +216,7 @@ class TestClientE2E:
         is_burning = True
         retries = 0
 
-        while is_burning is True and retries < 10:
+        while is_burning is True and retries < TEST_RETRY_COUNTER:
             response = client.get_burn(burn_uid)
             is_burning = response["data"]["status"] != "done"
             time.sleep(15)
@@ -228,7 +229,7 @@ class TestClientE2E:
         final_asset_burned_status = False
         retries = 0
 
-        while final_asset_burned_status is False and retries < 10:
+        while final_asset_burned_status is False and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             final_asset_burned_status = response["data"]["is_burned"]
             time.sleep(15)

@@ -6,7 +6,7 @@ import jwt
 
 from original_sdk.types.original_response import OriginalResponse
 
-DEFAULT_BASE_URL = "https://api.getoriginal.com/v1"
+DEFAULT_BASE_URL = "https://api.getoriginal.com"
 DEFAULT_API_VERSION = "v1"
 
 

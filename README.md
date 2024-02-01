@@ -113,7 +113,7 @@ asset = client.get_asset(new_asset_uid)
 
 # gets assets by the owner uid
 # will return a list of assets owned by the user
-assets = client.get_asset_by_user_uid(new_asset_uid)
+assets = client.get_asset_by_user_uid(user_uid)
 
 # prepare the edit asset params
 edit_asset_data = {
