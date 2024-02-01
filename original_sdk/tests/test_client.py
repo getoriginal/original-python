@@ -26,7 +26,7 @@ class TestClient:
 
     def test_default_base_url(self):
         client = OriginalClient(api_key=TEST_API_KEY, api_secret=TEST_API_SECRET)
-        assert client.base_url == "https://api.getoriginal.com/v1"
+        assert client.base_url == "https://api.getoriginal.com"
 
     def test_base_url_is_set(self):
         client = OriginalClient(
