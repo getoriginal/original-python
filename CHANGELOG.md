@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/getoriginal/original-python/compare/v1.1.0...v1.1.1) (2024-02-01)
+
+
+### Bug Fixes
+
+* [ORI-1793] fix bug with concatenated url /api/ string in make request endpoint. ([fa66b64](https://github.com/getoriginal/original-python/commit/fa66b64aae3a497f872e6ff9bbe4c8733c7d9f83))
+
 ## [1.1.0](https://github.com/getoriginal/original-python/compare/v1.0.2...v1.1.0) (2024-01-17)
 
 
