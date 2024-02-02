@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/getoriginal/original-python/compare/v1.1.1...v1.1.2) (2024-02-02)
+
+
+### Bug Fixes
+
+* [ORI-1801] Fix bugs/typos in README.md ([c742bad](https://github.com/getoriginal/original-python/commit/c742bad146f57ab1240e6322ec1482a0bc4c6dbe))
+
 ### [1.1.1](https://github.com/getoriginal/original-python/compare/v1.1.0...v1.1.1) (2024-02-01)
 
 

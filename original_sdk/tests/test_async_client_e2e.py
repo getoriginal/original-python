@@ -1,6 +1,7 @@
 import os
 import time
 
+import pytest
 from dotenv import load_dotenv
 
 from original_sdk.async_client import OriginalAsyncClient
@@ -27,6 +28,14 @@ class TestClientE2E:
             email=f"{client_id}@test.com", client_id=client_id
         )
         assert response["data"]["uid"] is not None
+
+    async def test_error_message(self, client: OriginalAsyncClient):
+        client_id = "existing_user"
+        with pytest.raises(
+            Exception,
+            match="Original error code 400:{'success': False, 'error': {'type': 'validation_error', 'detail': {'code': 'invalid', 'message': 'User already exists.'}}}",
+        ):
+            await client.create_user(email=f"{client_id}@test.com", client_id=client_id)
 
     async def test_get_user(self, async_client: OriginalAsyncClient):
         response = await async_client.get_user(TEST_APP_USER_UID)
