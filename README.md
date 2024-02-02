@@ -106,7 +106,7 @@ new_asset_data = {
 
 # create a new asset
 # returns the uid of the newly created asset
-new_asset_uid = client.create_asset(new_asset_data)
+new_asset_uid = client.create_asset(**new_asset_data)
 
 # gets an asset by uid, will throw a 404 Not Found error if the asset does not exist
 asset = client.get_asset(new_asset_uid)
@@ -117,9 +117,11 @@ assets = client.get_asset_by_user_uid(user_uid)
 
 # prepare the edit asset params
 edit_asset_data = {
+    "data": {
         "name": "Dave Starbelly Edited",
         "unique_name": True,
-        "description": "Friendly OpenSea Creature that enjoys long swims in the ocean. Edited"
+        "image_url": "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png",
+        "description": "Friendly OpenSea Creature that enjoys long swims in the ocean. Edited",
         "attributes": [
             {
                 "trait_type": "Base",
@@ -127,10 +129,11 @@ edit_asset_data = {
             },
         ]
     }
+}
 
 # edits an asset by uid, by passing in the new asset data
 # returns success true or false
-client.edit_asset(new_asset_uid, {"data": edit_asset_data})
+client.edit_asset(new_asset_uid, **edit_asset_data)
 ```
 
 ### Collection
