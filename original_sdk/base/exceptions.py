@@ -8,13 +8,15 @@ class OriginalAPIException(Exception):
         self.json_response = False
 
         try:
-            self.full_error_detail = json.loads(text)
+            full_error = json.loads(text)
+            self.error_type = full_error["error"]["type"]
+            self.error_detail = full_error["error"]["detail"]
             self.json_response = True
         except ValueError:
             pass
 
     def __str__(self) -> str:
         if self.json_response:
-            return f"Original error code {self.status_code}:{self.full_error_detail}"
+            return f"Original error code {self.status_code}: type: {self.error_type}: {self.error_detail}"
         else:
             return f"Original error HTTP code: {self.status_code}"
