@@ -8,8 +8,6 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * [ORI-1804] Fix sdk exception message to properly show error details. ([b6d747a](https://github.com/getoriginal/original-python/commit/b6d747a01a76e00ddd50c0a9eb6d06ed09992c7a))
-* [ORI-1804] improve sdk error handling, add tests, sync with new API error changes. ([7846fa5](https://github.com/getoriginal/original-python/commit/7846fa505874ed3884f2e00eb3024c138ffe9bab))
-* [ORI-1804] improve sdk error handling, add tests, sync with new API error changes. ([f8846f4](https://github.com/getoriginal/original-python/commit/f8846f40ec27b0b3fd1263cdaf8b189e431a6939))
 
 ### [1.1.2](https://github.com/getoriginal/original-python/compare/v1.1.1...v1.1.2) (2024-02-02)
 
