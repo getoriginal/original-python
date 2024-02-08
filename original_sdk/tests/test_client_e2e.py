@@ -1,6 +1,7 @@
 import os
 import time
 
+import pytest
 from dotenv import load_dotenv
 
 from original_sdk import OriginalClient
@@ -27,6 +28,15 @@ class TestClientE2E:
             email=f"{client_id}@test.com", client_id=client_id
         )
         assert response["data"]["uid"] is not None
+
+    def test_error_message(self, client: OriginalClient):
+        client_id = "existing_user"
+        with pytest.raises(
+            Exception,
+            match="Original error code 400: type: client_error: {'code': 'bad_request', 'message': 'User already "
+            "exists.'}",
+        ):
+            client.create_user(email=f"{client_id}@test.com", client_id=client_id)
 
     def test_get_user(self, client: OriginalClient):
         response = client.get_user(TEST_APP_USER_UID)

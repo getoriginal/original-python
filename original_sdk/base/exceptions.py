@@ -1,9 +1,4 @@
 import json
-from typing import Dict
-
-
-class OriginalChannelException(Exception):
-    pass
 
 
 class OriginalAPIException(Exception):
@@ -13,15 +8,15 @@ class OriginalAPIException(Exception):
         self.json_response = False
 
         try:
-            parsed_response: Dict = json.loads(text)
-            self.error_code = parsed_response.get("code", "unknown")
-            self.error_message = parsed_response.get("message", "unknown")
+            full_error = json.loads(text)
+            self.error_type = full_error["error"]["type"]
+            self.error_detail = full_error["error"]["detail"]
             self.json_response = True
         except ValueError:
             pass
 
     def __str__(self) -> str:
         if self.json_response:
-            return f'Original error code {self.error_code}: {self.error_message}, {self.status_code}"'
+            return f"Original error code {self.status_code}: type: {self.error_type}: {self.error_detail}"
         else:
             return f"Original error HTTP code: {self.status_code}"
