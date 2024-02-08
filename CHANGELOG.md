@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/getoriginal/original-python/compare/v1.1.2...v1.1.3) (2024-02-08)
+
+
+### Bug Fixes
+
+* [ORI-1804] Fix sdk exception message to properly show error details. ([b6d747a](https://github.com/getoriginal/original-python/commit/b6d747a01a76e00ddd50c0a9eb6d06ed09992c7a))
+
 ### [1.1.2](https://github.com/getoriginal/original-python/compare/v1.1.1...v1.1.2) (2024-02-02)
 
 
