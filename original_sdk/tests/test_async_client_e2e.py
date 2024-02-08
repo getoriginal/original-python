@@ -33,7 +33,7 @@ class TestClientE2E:
         client_id = "existing_user"
         with pytest.raises(
             Exception,
-            match="Original error code 400: type: client_error: {'code': 'application_error', 'message': 'User already "
+            match="Original error code 400: type: client_error: {'code': 'bad_request', 'message': 'User already "
             "exists.'}",
         ):
             await client.create_user(email=f"{client_id}@test.com", client_id=client_id)
