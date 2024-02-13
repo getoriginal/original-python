@@ -4,7 +4,7 @@ import jwt
 import pytest
 from dotenv import load_dotenv
 
-from original_sdk import OriginalClient, Environment
+from original_sdk import Environment, OriginalClient
 
 load_dotenv()
 
