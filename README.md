@@ -1,8 +1,7 @@
-# Official Python sdk for [Original](https://getoriginal.com) API
+# Official Python SDK for [Original](https://getoriginal.com) API
 
 ## Table of Contents
 
-- [About Original](#-about-original)
 - [Getting Started](#-getting-started)
 - [Documentation](#-documentation)
   - [Initialization](#initialization)
@@ -13,11 +12,11 @@
   - [Burn](#burn)
   - [Deposit](#deposit)
 
-## 📝 About Original
-
-You can request access for an Original account at our [Request Access](https://getoriginal.com/contact-us/) page.
 
 ## ✨ Getting started
+
+Ensure you have registered for an account at [Original](https://app.getoriginal.com) before getting started.
+You will need to create an app and note down your API key and secret from the [API Keys page](https://docs.getoriginal.com/docs/create-your-api-key) to use the Original SDK.
 
 Install Original
 
@@ -33,17 +32,35 @@ The Original SDK is set up to expose the Original API.
 
 Read the full [Original API documentation](https://docs.getoriginal.com).
 
-```python
 
+Create a new instance of the Original client by passing in your api key and secret, with the environment associated with that app.
+
+### Development
+For development apps, you must pass the environment:
+
+```python
+from original_sdk import OriginalClient, Environment
+
+client = OriginalClient(api_key='YOUR_DEV_APP_API_KEY', api_secret='YOUR_DEV_APP_SECRET', env=Environment.Development)
+```
+
+### Production
+For production apps, you can optionally pass the production environment:
+
+```python
+from original_sdk import OriginalClient, Environment
+
+client = OriginalClient(api_key='YOUR_PROD_APP_API_KEY', api_secret='YOUR_PROD_APP_SECRET', env=Environment.Production)
+```
+
+or omit the environment, which will default to production:
+
+```python
 from original_sdk import OriginalClient
 
+client = OriginalClient(api_key='YOUR_PROD_APP_API_KEY', api_secret='YOUR_PROD_APP_SECRET')
 ```
 
-Create a new instance of the Original client by passing in your api key and api key secret.
-
-```python
-client = OriginalClient(api_key='YOUR_API_KEY', api_secret='API_KEY_SECRET')
-```
 
 ### User
 

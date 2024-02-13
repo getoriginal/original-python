@@ -4,9 +4,11 @@ from typing import Any, Awaitable, Dict, Union
 
 import jwt
 
+from original_sdk.types.environment import Environment, get_environment
 from original_sdk.types.original_response import OriginalResponse
 
-DEFAULT_BASE_URL = "https://api.getoriginal.com"
+DEVELOPMENT_BASE_URL = "https://api-dev.getoriginal.com"
+PRODUCTION_BASE_URL = "https://api.getoriginal.com"
 DEFAULT_API_VERSION = "v1"
 
 
@@ -22,13 +24,21 @@ class BaseOriginalClient(abc.ABC):
             self.timeout = float(os.environ["ORIGINAL_TIMEOUT"])
 
         self.options = options
-        self.base_url = DEFAULT_BASE_URL
+        self.base_url = PRODUCTION_BASE_URL
         self.api_version = DEFAULT_API_VERSION
 
         if options.get("base_url"):
             self.base_url = options["base_url"]
         elif os.getenv("ORIGINAL_URL"):
             self.base_url = os.environ["ORIGINAL_URL"]
+
+        env = options.get("env")
+        if env:
+            env = get_environment(env)
+            if env == Environment.Development:
+                self.base_url = DEVELOPMENT_BASE_URL
+            elif env == Environment.Production:
+                self.base_url = PRODUCTION_BASE_URL
 
         if options.get("api_version"):
             self.api_version = options["api_version"]
