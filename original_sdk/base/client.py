@@ -25,6 +25,7 @@ class BaseOriginalClient(abc.ABC):
 
         self.options = options
         self.base_url = PRODUCTION_BASE_URL
+        self.env = None
         self.api_version = DEFAULT_API_VERSION
 
         if options.get("base_url"):
@@ -32,13 +33,15 @@ class BaseOriginalClient(abc.ABC):
         elif os.getenv("ORIGINAL_URL"):
             self.base_url = os.environ["ORIGINAL_URL"]
 
-        env = options.get("env")
-        if env:
-            env = get_environment(env)
-            if env == Environment.Development:
-                self.base_url = DEVELOPMENT_BASE_URL
-            elif env == Environment.Production:
-                self.base_url = PRODUCTION_BASE_URL
+        if options.get("env"):
+            self.env = get_environment(options.get("env"))
+        elif os.getenv("ORIGINAL_ENV"):
+            self.env = get_environment(os.environ["ORIGINAL_ENV"])
+
+        if self.env == Environment.Development:
+            self.base_url = DEVELOPMENT_BASE_URL
+        elif self.env == Environment.Production:
+            self.base_url = PRODUCTION_BASE_URL
 
         if options.get("api_version"):
             self.api_version = options["api_version"]
