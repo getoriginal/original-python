@@ -34,7 +34,7 @@ class BaseOriginalClient(abc.ABC):
             self.base_url = os.environ["ORIGINAL_URL"]
 
         if options.get("env"):
-            self.env = get_environment(options.get("env"))
+            self.env = get_environment(options["env"])
         elif os.getenv("ORIGINAL_ENV"):
             self.env = get_environment(os.environ["ORIGINAL_ENV"])
 
