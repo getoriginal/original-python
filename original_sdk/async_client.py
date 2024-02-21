@@ -16,7 +16,7 @@ def get_user_agent() -> str:
 
 def get_default_header() -> Dict[str, str]:
     base_headers = {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
         "X-ORIGINAL-Client": get_user_agent(),
     }
     return base_headers
@@ -30,7 +30,6 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
             api_key=api_key, api_secret=api_secret, timeout=timeout, **options
         )
         self.session = aiohttp.ClientSession(
-            base_url=self.base_url,
             connector=aiohttp.TCPConnector(keepalive_timeout=59.0),
         )
 
@@ -74,10 +73,12 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         headers["Authorization"] = f"Bearer {self.token}"
         headers["X-API-KEY"] = self.api_key
 
+        url = f"{self.base_url}/{self.api_version}/{relative_url}"
+
         if method.__name__ in ["post", "put", "patch"]:
             serialized = json.dumps(data)
         async with method(
-            f"/api/{self.api_version}/" + relative_url.lstrip("/"),
+            url,
             data=serialized,
             headers=headers,
             params=default_params,
