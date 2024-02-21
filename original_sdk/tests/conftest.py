@@ -49,7 +49,9 @@ def event_loop():
 @pytest.fixture(scope="module")
 async def async_client():
     base_url = os.environ.get("TEST_ORIGINAL_HOST")
+    api_version = os.environ.get("TEST_ORIGINAL_API_VERSION")
     options = {"base_url": base_url} if base_url else {}
+    options = {**options, "api_version": api_version} if api_version else {**options}
     async with OriginalAsyncClient(
         api_key=os.environ["TEST_API_KEY"],
         api_secret=os.environ["TEST_API_SECRET"],
