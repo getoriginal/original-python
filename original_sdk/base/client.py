@@ -5,6 +5,7 @@ from typing import Any, Awaitable, Dict, Union
 import jwt
 
 from original_sdk.types.environment import Environment, get_environment
+from original_sdk.types.exceptions import is_error_status_code, parse_and_raise_error
 from original_sdk.types.original_response import OriginalResponse
 
 DEVELOPMENT_BASE_URL = "https://api-dev.getoriginal.com"
@@ -79,6 +80,13 @@ class BaseOriginalClient(abc.ABC):
         params.update({"filter_conditions": filter_conditions})
 
         return params
+
+    def handle_parsed_response(
+        self, parsed_result: dict, reason: str, status: int, headers: dict
+    ) -> OriginalResponse:
+        if is_error_status_code(status):
+            parse_and_raise_error(parsed_result, reason, status)
+        return OriginalResponse(parsed_result, headers, status)
 
     @abc.abstractmethod
     def create_user(

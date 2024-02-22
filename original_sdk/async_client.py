@@ -6,7 +6,7 @@ import aiohttp
 
 from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
-from .types.exceptions import ClientError, is_error_status_code, parse_and_raise_error
+from .types.exceptions import ClientError
 from .types.original_response import OriginalResponse
 
 
@@ -41,21 +41,23 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         """
         self.session = session
 
+    async def _get_response_details(self, response: aiohttp.ClientResponse):
+        try:
+            json_response = await response.json()
+            headers = dict(response.headers)
+            status = response.status
+            return json_response, headers, status
+        except (json.JSONDecodeError, aiohttp.ContentTypeError):
+            text = await response.text()
+            raise ClientError("Invalid JSON received", response.status, text)
+
     async def _parse_response(
         self, response: aiohttp.ClientResponse
     ) -> OriginalResponse:
-        try:
-            parsed_result = await response.json()
-        except (json.JSONDecodeError, aiohttp.ContentTypeError):
-            text = await response.text()
-            raise ClientError(
-                message="Invalid JSON received", status=response.status, data=text
-            )
-
-        if is_error_status_code(response.status):
-            parse_and_raise_error(parsed_result, response.reason, response.status)
-
-        return OriginalResponse(parsed_result, dict(response.headers), response.status)
+        parsed_result, headers, status = await self._get_response_details(response)
+        return self.handle_parsed_response(
+            parsed_result, response.reason, response.status, headers
+        )
 
     async def _make_request(
         self,

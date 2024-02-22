@@ -3,11 +3,7 @@ from typing import Any, Callable, Dict
 
 import requests
 
-from original_sdk.types.exceptions import (
-    ClientError,
-    is_error_status_code,
-    parse_and_raise_error,
-)
+from original_sdk.types.exceptions import ClientError
 
 from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
@@ -44,20 +40,21 @@ class OriginalClient(BaseOriginalClient):
         """
         self.session = session
 
-    def _parse_response(self, response: requests.Response) -> OriginalResponse:
+    def _get_response_details(self, response: requests.Response):
         try:
-            parsed_result = response.json() if response.text else {}
+            json_response = response.json()
+            headers = dict(response.headers)
+            status = response.status_code
+            return json_response, headers, status
         except ValueError:
             raise ClientError(
-                message="Invalid JSON received",
-                status=response.status_code,
-                data=response.text,
+                "Invalid JSON received", response.status_code, response.text
             )
-        if is_error_status_code(response.status_code):
-            parse_and_raise_error(parsed_result, response.reason, response.status_code)
 
-        return OriginalResponse(
-            parsed_result, dict(response.headers), response.status_code
+    def _parse_response(self, response: requests.Response) -> OriginalResponse:
+        parsed_result, headers, status = self._get_response_details(response)
+        return self.handle_parsed_response(
+            parsed_result, response.reason, response.status_code, headers
         )
 
     def _make_request(
