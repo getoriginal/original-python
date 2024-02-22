@@ -10,6 +10,7 @@ help: ## Display this help message
 	{printf "\033[36m%-40s\033[0m %s\n", $$1, $$2}'
 
 lint:  ## Run linters
+	isort original_sdk
 	black --check original_sdk
 	flake8 --ignore=E501,W503 original_sdk
 	mypy original_sdk
