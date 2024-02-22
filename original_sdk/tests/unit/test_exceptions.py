@@ -55,9 +55,7 @@ class TestExceptions(TestCase):
             },
         }
         with self.assertRaises(ClientError) as context:
-            parse_and_raise_error(
-                error_data, "Reason", 400
-            )
+            parse_and_raise_error(error_data, "Reason", 400)
         self.assertEqual("Invalid request", context.exception.message)
         self.assertEqual(400, context.exception.status)
 

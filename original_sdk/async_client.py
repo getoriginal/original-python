@@ -41,7 +41,9 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         """
         self.session = session
 
-    async def _parse_response(self, response: aiohttp.ClientResponse) -> OriginalResponse:
+    async def _parse_response(
+        self, response: aiohttp.ClientResponse
+    ) -> OriginalResponse:
         try:
             parsed_result = await response.json()
         except (json.JSONDecodeError, aiohttp.ContentTypeError):

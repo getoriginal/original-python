@@ -4,7 +4,7 @@ import time
 import pytest
 from dotenv import load_dotenv
 
-from original_sdk import OriginalClient, ClientError
+from original_sdk import ClientError, OriginalClient
 from original_sdk.tests.utils import get_random_string
 
 load_dotenv()

@@ -29,11 +29,11 @@ class OriginalErrorCode(Enum):
 
 class OriginalError(Exception):
     def __init__(
-            self,
-            message: str,
-            status: int,
-            data: Union[OriginalErrorData, str],
-            code: OriginalErrorCode,
+        self,
+        message: str,
+        status: int,
+        data: Union[OriginalErrorData, str],
+        code: OriginalErrorCode,
     ) -> None:
         super().__init__(message)
         self.message = message
@@ -47,21 +47,21 @@ class OriginalError(Exception):
 
 class ClientError(OriginalError):
     def __init__(
-            self, message: str, status: int, data: Union[OriginalErrorData, str]
+        self, message: str, status: int, data: Union[OriginalErrorData, str]
     ) -> None:
         super().__init__(message, status, data, OriginalErrorCode.client_error)
 
 
 class ServerError(OriginalError):
     def __init__(
-            self, message: str, status: int, data: Union[OriginalErrorData, str]
+        self, message: str, status: int, data: Union[OriginalErrorData, str]
     ) -> None:
         super().__init__(message, status, data, OriginalErrorCode.server_error)
 
 
 class ValidationError(OriginalError):
     def __init__(
-            self, message: str, status: int, data: Union[OriginalErrorData, str]
+        self, message: str, status: int, data: Union[OriginalErrorData, str]
     ) -> None:
         super().__init__(message, status, data, OriginalErrorCode.validation_error)
 
@@ -88,7 +88,11 @@ def parse_and_raise_error(parsed_result: dict, reason: str, status: int) -> None
         else:
             raise ClientError(message=message, status=status, data=parsed_result)
     else:
-        raise ClientError(message="No error found in response when one was expected", status=status, data=parsed_result)
+        raise ClientError(
+            message="No error found in response when one was expected",
+            status=status,
+            data=parsed_result,
+        )
 
 
 OriginalAPIException = OriginalError

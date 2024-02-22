@@ -49,7 +49,9 @@ class OriginalClient(BaseOriginalClient):
             parsed_result = response.json() if response.text else {}
         except ValueError:
             raise ClientError(
-                message="Invalid JSON received", status=response.status_code, data=response.text
+                message="Invalid JSON received",
+                status=response.status_code,
+                data=response.text,
             )
         if is_error_status_code(response.status_code):
             parse_and_raise_error(parsed_result, response.reason, response.status_code)
