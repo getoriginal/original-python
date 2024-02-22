@@ -6,7 +6,7 @@ import aiohttp
 
 from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
-from .base.exceptions import OriginalAPIException
+from .types.exceptions import ClientError, is_error_status_code, parse_and_raise_error
 from .types.original_response import OriginalResponse
 
 
@@ -41,16 +41,15 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         """
         self.session = session
 
-    async def _parse_response(
-        self, response: aiohttp.ClientResponse
-    ) -> OriginalResponse:
+    async def _parse_response(self, response: aiohttp.ClientResponse) -> OriginalResponse:
         text = await response.text()
         try:
-            parsed_result = await response.json() if text else {}
-        except aiohttp.ClientResponseError:
-            raise OriginalAPIException(text, response.status)
-        if response.status >= 399:
-            raise OriginalAPIException(text, response.status)
+            parsed_result = json.loads(text) if text else {}
+        except json.JSONDecodeError:
+            raise ClientError(message="Invalid JSON received", status=response.status, data=text)
+
+        if is_error_status_code(response.status):
+            parse_and_raise_error(parsed_result, response.reason, response.status)
 
         return OriginalResponse(parsed_result, dict(response.headers), response.status)
 

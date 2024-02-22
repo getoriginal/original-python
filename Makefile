@@ -21,6 +21,9 @@ lint-fix:
 test:  ## Run tests
 	pytest original_sdk/tests
 
+test-unit:
+	pytest original_sdk/tests/unit
+
 check: lint test  ## Run linters + tests
 
 reviewdog:

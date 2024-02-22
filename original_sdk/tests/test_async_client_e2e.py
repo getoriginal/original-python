@@ -4,6 +4,7 @@ import time
 import pytest
 from dotenv import load_dotenv
 
+from original_sdk import ClientError
 from original_sdk.async_client import OriginalAsyncClient
 from original_sdk.tests.utils import get_random_string
 
@@ -32,9 +33,8 @@ class TestClientE2E:
     async def test_error_message(self, client: OriginalAsyncClient):
         client_id = "existing_user"
         with pytest.raises(
-            Exception,
-            match="Original error code 400: type: client_error: {'code': 'bad_request', 'message': 'User already "
-            "exists.'}",
+            ClientError,
+            match="'message': 'User already exists.'",
         ):
             await client.create_user(email=f"{client_id}@test.com", client_id=client_id)
 
@@ -64,8 +64,8 @@ class TestClientE2E:
     ):
         try:
             await async_client.get_user("not_found")
-        except Exception as e:
-            assert e.status_code == 404
+        except ClientError as e:
+            assert e.status == 404
 
     async def test_get_collection(self, async_client: OriginalAsyncClient):
         response = await async_client.get_collection(TEST_APP_COLLECTION_UID)
@@ -76,8 +76,8 @@ class TestClientE2E:
     ):
         try:
             await async_client.get_collection("not_found")
-        except Exception as e:
-            assert e.status_code == 404
+        except ClientError as e:
+            assert e.status == 404
 
     async def test_create_asset(self, async_client: OriginalAsyncClient):
         asset_name = get_random_string(8)
@@ -145,8 +145,8 @@ class TestClientE2E:
     ):
         try:
             await async_client.get_asset("not_found")
-        except Exception as e:
-            assert e.status_code == 404
+        except ClientError as e:
+            assert e.status == 404
 
     async def test_get_asset_by_user_uid(self, async_client: OriginalAsyncClient):
         response = await async_client.get_assets_by_user_uid(TEST_APP_USER_UID)

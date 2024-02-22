@@ -3,9 +3,14 @@ from typing import Any, Callable, Dict
 
 import requests
 
+from original_sdk.types.exceptions import (
+    ClientError,
+    is_error_status_code,
+    parse_and_raise_error,
+)
+
 from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
-from .base.exceptions import OriginalAPIException
 from .types.original_response import OriginalResponse
 
 
@@ -43,9 +48,11 @@ class OriginalClient(BaseOriginalClient):
         try:
             parsed_result = json.loads(response.text) if response.text else {}
         except ValueError:
-            raise OriginalAPIException(response.text, response.status_code)
-        if response.status_code >= 399:
-            raise OriginalAPIException(response.text, response.status_code)
+            raise ClientError(
+                message="Invalid JSON received", status=response.status_code, data=response.text
+            )
+        if is_error_status_code(response.status_code):
+            parse_and_raise_error(parsed_result, response.reason, response.status_code)
 
         return OriginalResponse(
             parsed_result, dict(response.headers), response.status_code
