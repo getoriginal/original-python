@@ -42,11 +42,13 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         self.session = session
 
     async def _parse_response(self, response: aiohttp.ClientResponse) -> OriginalResponse:
-        text = await response.text()
         try:
-            parsed_result = json.loads(text) if text else {}
-        except json.JSONDecodeError:
-            raise ClientError(message="Invalid JSON received", status=response.status, data=text)
+            parsed_result = await response.json()
+        except (json.JSONDecodeError, aiohttp.ContentTypeError):
+            text = await response.text()
+            raise ClientError(
+                message="Invalid JSON received", status=response.status, data=text
+            )
 
         if is_error_status_code(response.status):
             parse_and_raise_error(parsed_result, response.reason, response.status)

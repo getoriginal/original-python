@@ -46,7 +46,7 @@ class OriginalClient(BaseOriginalClient):
 
     def _parse_response(self, response: requests.Response) -> OriginalResponse:
         try:
-            parsed_result = json.loads(response.text) if response.text else {}
+            parsed_result = response.json() if response.text else {}
         except ValueError:
             raise ClientError(
                 message="Invalid JSON received", status=response.status_code, data=response.text
