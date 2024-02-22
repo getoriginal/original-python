@@ -119,4 +119,3 @@ class TestExceptions(TestCase):
         with self.assertRaises(OriginalError) as context:
             parse_and_raise_error(error_data, "Unexpected error type", 400)
         self.assertIn("An unexpected error occurred", context.exception.message)
-
