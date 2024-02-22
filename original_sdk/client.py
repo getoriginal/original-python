@@ -1,5 +1,5 @@
 import json
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, Tuple
 
 import requests
 
@@ -40,7 +40,9 @@ class OriginalClient(BaseOriginalClient):
         """
         self.session = session
 
-    def _get_response_details(self, response: requests.Response):
+    def _get_response_details(
+        self, response: requests.Response
+    ) -> Tuple[Any, Dict[str, str], int]:
         try:
             json_response = response.json()
             headers = dict(response.headers)

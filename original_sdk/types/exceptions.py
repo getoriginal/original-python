@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional, TypedDict, Union
+from typing import List, Optional, TypedDict, Union, cast
 
 
 class ErrorDetail(TypedDict, total=False):
@@ -71,10 +71,9 @@ def is_error_status_code(status_code: int) -> bool:
     return status_code < 200 or status_code >= 400
 
 
-def parse_and_raise_error(
-    parsed_result: OriginalErrorData | str, reason: str, status: int
-) -> None:
-    error = parsed_result.get("error") if isinstance(parsed_result, dict) else None
+def parse_and_raise_error(parsed_result: dict, reason: str, status: int) -> None:
+    result: OriginalErrorData = cast(OriginalErrorData, parsed_result)
+    error = result.get("error")
     if error:
         error_type = error.get("type")
         detail = error.get("detail")
@@ -84,16 +83,16 @@ def parse_and_raise_error(
         message = detail.get("message") if detail else reason
 
         if error_type == OriginalErrorCode.server_error.value:
-            raise ServerError(message=message, status=status, data=parsed_result)
+            raise ServerError(message=message, status=status, data=result)
         elif error_type == OriginalErrorCode.validation_error.value:
-            raise ValidationError(message=message, status=status, data=parsed_result)
+            raise ValidationError(message=message, status=status, data=result)
         else:
-            raise ClientError(message=message, status=status, data=parsed_result)
+            raise ClientError(message=message, status=status, data=result)
     else:
         raise ClientError(
             message="No error found in response when one was expected",
             status=status,
-            data=parsed_result,
+            data=result,
         )
 
 

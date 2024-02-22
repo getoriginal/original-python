@@ -1,6 +1,6 @@
 import json
 from types import TracebackType
-from typing import Any, AsyncContextManager, Callable, Dict, Optional, Type
+from typing import Any, AsyncContextManager, Callable, Dict, Optional, Tuple, Type
 
 import aiohttp
 
@@ -41,7 +41,9 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         """
         self.session = session
 
-    async def _get_response_details(self, response: aiohttp.ClientResponse):
+    async def _get_response_details(
+        self, response: aiohttp.ClientResponse
+    ) -> Tuple[Any, Dict[str, str], int]:
         try:
             json_response = await response.json()
             headers = dict(response.headers)
