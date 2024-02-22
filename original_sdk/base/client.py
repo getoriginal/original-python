@@ -159,12 +159,12 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def edit_asset(
-        self, asset_uid: str, **asset_data: Any
+        self, uid: str, **asset_data: Any
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Update an Original asset.
 
-        :param asset_uid: the asset uid
+        :param uid: the asset uid
         :param asset_data: the asset data
         :return:
         """
@@ -172,24 +172,24 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_asset(
-        self, asset_uid: str
+        self, uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original asset.
 
-        :param asset_uid: the asset uid
+        :param uid: the asset uid
         :return:
         """
         pass
 
     @abc.abstractmethod
     def get_assets_by_user_uid(
-        self, app_user_uid: str
+        self, user_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
-        Get an Original asset by owner uid.
+        Get a list of Original assets by user uid.
 
-        :param app_user_uid: the app user uid
+        :param user_uid: the user uid
         :return:
         """
         pass
@@ -208,24 +208,24 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_transfer(
-        self, transfer_uid: str
+        self, uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original transfer.
 
-        :param transfer_uid: the transfer uid
+        :param uid: the transfer uid
         :return:
         """
         pass
 
     @abc.abstractmethod
     def get_transfers_by_user_uid(
-        self, app_user_uid: str
+        self, user_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
-        Get an Original transfer by user uid.
+        Get a list of Original transfers by user uid.
 
-        :param app_user_uid: the app user uid
+        :param user_uid: the user uid
         :return:
         """
         pass
@@ -244,24 +244,24 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_burn(
-        self, burn_uid: str
+        self, uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original burn.
 
-        :param burn_uid: the burn uid
+        :param uid: the burn uid
         :return:
         """
         pass
 
     @abc.abstractmethod
     def get_burns_by_user_uid(
-        self, app_user_uid: str
+        self, user_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
-        Get an Original burn by user uid.
+        Get a list of Original burns by user uid.
 
-        :param app_user_uid: the app user uid
+        :param user_uid: the app user uid
         :return:
         """
         pass
@@ -273,7 +273,7 @@ class BaseOriginalClient(abc.ABC):
         """
         Get an Original deposit by user uid.
 
-        :param app_user_uid: the app user uid
+        :param user_uid: the user uid
         :return:
         """
         pass

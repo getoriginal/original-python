@@ -168,13 +168,17 @@ collection = client.get_collection('221137489875')
 The transfer methods exposed by the sdk are used to transfer assets from one user to another wallet.
 
 ```python
+
+# prepare the transfer params
+transfer_params = {
+    "asset_uid": asset_uid,
+    "from_user_uid": user_uid,
+    "to_address": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+}
+
 # create a transfer of an asset, by passing in transfer details
 # returns the uid of the newly created transfer
-transfer_uid = client.create_transfer(
-  asset_uid = asset_uid,
-  from_user_uid = user_uid,
-  to_address = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
-)
+transfer_uid = client.create_transfer(**transfer_params)
 
 # gets a transfer by uid, will throw a 404 Not Found error if the transfer does not exist
 transfer = client.get_transfer(transfer_uid)
@@ -189,12 +193,16 @@ transfers = client.get_transfers_by_user_uid(user_uid)
 The burn methods exposed by the sdk are used to burn assets from a user's wallet.
 
 ```python
+
+# prepare the burn params
+burn_params = {
+    "asset_uid": asset_uid,
+    "from_user_uid": user_uid,
+}
+
 # create a burn of an asset
 # returns the uid of the newly created burn
-burn_uid = client.create_burn(
-  asset_uid=asset_uid,
-  from_user_uid=user_uid,
-)
+burn_uid = client.create_burn(**burn_params)
 
 # gets a burn by uid, will throw a 404 Not Found error if the burn does not exist
 burn = client.get_burn(burn_uid)
