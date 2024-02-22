@@ -71,8 +71,10 @@ def is_error_status_code(status_code: int) -> bool:
     return status_code < 200 or status_code >= 400
 
 
-def parse_and_raise_error(parsed_result: dict, reason: str, status: int) -> None:
-    error = parsed_result.get("error")
+def parse_and_raise_error(
+    parsed_result: OriginalErrorData | str, reason: str, status: int
+) -> None:
+    error = parsed_result.get("error") if isinstance(parsed_result, dict) else None
     if error:
         error_type = error.get("type")
         detail = error.get("detail")

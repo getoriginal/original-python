@@ -119,3 +119,15 @@ class TestExceptions(TestCase):
         with self.assertRaises(OriginalError) as context:
             parse_and_raise_error(error_data, "Unexpected error type", 400)
         self.assertIn("An unexpected error occurred", context.exception.message)
+
+    def test_parse_and_raise_error_with_string_input(self):
+        non_json_text = "This is not JSON"
+        reason = "No error found in response when one was expected"
+        status_code = 400
+
+        with self.assertRaises(ClientError) as context:
+            parse_and_raise_error(non_json_text, reason, status_code)
+
+        self.assertEqual(context.exception.status, status_code)
+        self.assertIn(reason, context.exception.message)
+        self.assertIn(non_json_text, context.exception.data)
