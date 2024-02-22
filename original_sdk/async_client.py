@@ -1,12 +1,12 @@
 import json
 from types import TracebackType
-from typing import Any, AsyncContextManager, Callable, Dict, Optional, Type
+from typing import Any, AsyncContextManager, Callable, Dict, Optional, Tuple, Type
 
 import aiohttp
 
 from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
-from .base.exceptions import OriginalAPIException
+from .types.exceptions import ClientError
 from .types.original_response import OriginalResponse
 
 
@@ -41,18 +41,25 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         """
         self.session = session
 
+    async def _get_response_details(
+        self, response: aiohttp.ClientResponse
+    ) -> Tuple[Any, Dict[str, str], int]:
+        try:
+            json_response = await response.json()
+            headers = dict(response.headers)
+            status = response.status
+            return json_response, headers, status
+        except (json.JSONDecodeError, aiohttp.ContentTypeError):
+            text = await response.text()
+            raise ClientError("Invalid JSON received", response.status, text)
+
     async def _parse_response(
         self, response: aiohttp.ClientResponse
     ) -> OriginalResponse:
-        text = await response.text()
-        try:
-            parsed_result = await response.json() if text else {}
-        except aiohttp.ClientResponseError:
-            raise OriginalAPIException(text, response.status)
-        if response.status >= 399:
-            raise OriginalAPIException(text, response.status)
-
-        return OriginalResponse(parsed_result, dict(response.headers), response.status)
+        parsed_result, headers, status = await self._get_response_details(response)
+        return self.handle_parsed_response(
+            parsed_result, response.reason, response.status, headers
+        )
 
     async def _make_request(
         self,

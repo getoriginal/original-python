@@ -1,11 +1,12 @@
 import json
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, Tuple
 
 import requests
 
+from original_sdk.types.exceptions import ClientError
+
 from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
-from .base.exceptions import OriginalAPIException
 from .types.original_response import OriginalResponse
 
 
@@ -39,16 +40,23 @@ class OriginalClient(BaseOriginalClient):
         """
         self.session = session
 
-    def _parse_response(self, response: requests.Response) -> OriginalResponse:
+    def _get_response_details(
+        self, response: requests.Response
+    ) -> Tuple[Any, Dict[str, str], int]:
         try:
-            parsed_result = json.loads(response.text) if response.text else {}
+            json_response = response.json()
+            headers = dict(response.headers)
+            status = response.status_code
+            return json_response, headers, status
         except ValueError:
-            raise OriginalAPIException(response.text, response.status_code)
-        if response.status_code >= 399:
-            raise OriginalAPIException(response.text, response.status_code)
+            raise ClientError(
+                "Invalid JSON received", response.status_code, response.text
+            )
 
-        return OriginalResponse(
-            parsed_result, dict(response.headers), response.status_code
+    def _parse_response(self, response: requests.Response) -> OriginalResponse:
+        parsed_result, headers, status = self._get_response_details(response)
+        return self.handle_parsed_response(
+            parsed_result, response.reason, response.status_code, headers
         )
 
     def _make_request(

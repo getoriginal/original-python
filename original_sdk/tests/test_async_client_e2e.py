@@ -1,9 +1,10 @@
+import asyncio
 import os
-import time
 
 import pytest
 from dotenv import load_dotenv
 
+from original_sdk import ClientError
 from original_sdk.async_client import OriginalAsyncClient
 from original_sdk.tests.utils import get_random_string
 
@@ -18,10 +19,10 @@ TEST_TRANSFER_TO_WALLET_ADDRESS = os.getenv("TEST_TRANSFER_TO_WALLET_ADDRESS")
 TEST_TRANSFER_TO_USER_UID = os.getenv("TEST_TRANSFER_TO_USER_UID")
 TEST_ACCEPTANCE_CHAIN_ID = 80001
 TEST_ACCEPTANCE_NETWORK = "Mumbai"
-TEST_RETRY_COUNTER = 20
+TEST_RETRY_COUNTER = 30
 
 
-class TestClientE2E:
+class TestAsyncClientE2E:
     async def test_create_user(self, async_client: OriginalAsyncClient):
         client_id = get_random_string(8)
         response = await async_client.create_user(
@@ -32,9 +33,8 @@ class TestClientE2E:
     async def test_error_message(self, client: OriginalAsyncClient):
         client_id = "existing_user"
         with pytest.raises(
-            Exception,
-            match="Original error code 400: type: client_error: {'code': 'bad_request', 'message': 'User already "
-            "exists.'}",
+            ClientError,
+            match="'message': 'User already exists.'",
         ):
             await client.create_user(email=f"{client_id}@test.com", client_id=client_id)
 
@@ -64,8 +64,8 @@ class TestClientE2E:
     ):
         try:
             await async_client.get_user("not_found")
-        except Exception as e:
-            assert e.status_code == 404
+        except ClientError as e:
+            assert e.status == 404
 
     async def test_get_collection(self, async_client: OriginalAsyncClient):
         response = await async_client.get_collection(TEST_APP_COLLECTION_UID)
@@ -76,8 +76,8 @@ class TestClientE2E:
     ):
         try:
             await async_client.get_collection("not_found")
-        except Exception as e:
-            assert e.status_code == 404
+        except ClientError as e:
+            assert e.status == 404
 
     async def test_create_asset(self, async_client: OriginalAsyncClient):
         asset_name = get_random_string(8)
@@ -127,10 +127,12 @@ class TestClientE2E:
         while is_transferable is False and retries < TEST_RETRY_COUNTER:
             response = await async_client.get_asset(asset_uid)
             is_transferable = response["data"]["is_transferable"]
-            time.sleep(15)
+            await asyncio.sleep(15)
             retries += 1
 
-        assert is_transferable is True
+        assert (
+            is_transferable
+        ), f"Asset UID {asset_uid} failed to become transferable after {retries} retries."
         asset_data["description"] = "Edited asset description"
         edited_data = {"data": asset_data}
         edited_response = await async_client.edit_asset(asset_uid, **edited_data)
@@ -145,8 +147,8 @@ class TestClientE2E:
     ):
         try:
             await async_client.get_asset("not_found")
-        except Exception as e:
-            assert e.status_code == 404
+        except ClientError as e:
+            assert e.status == 404
 
     async def test_get_asset_by_user_uid(self, async_client: OriginalAsyncClient):
         response = await async_client.get_assets_by_user_uid(TEST_APP_USER_UID)
@@ -201,10 +203,12 @@ class TestClientE2E:
         while is_transferable is False and retries < TEST_RETRY_COUNTER:
             response = await async_client.get_asset(asset_uid)
             is_transferable = response["data"]["is_transferable"]
-            time.sleep(15)
+            await asyncio.sleep(15)
             retries += 1
 
-        assert is_transferable is True
+        assert (
+            is_transferable
+        ), f"Asset UID {asset_uid} failed to become transferable after {retries} retries."
         transfer_response = await async_client.create_transfer(
             asset_uid=asset_uid,
             from_user_uid=TEST_APP_USER_UID,
@@ -218,7 +222,7 @@ class TestClientE2E:
         while is_transferring is True and retries < TEST_RETRY_COUNTER:
             response = await async_client.get_asset(asset_uid)
             is_transferring = response["data"]["is_transferring"]
-            time.sleep(15)
+            await asyncio.sleep(15)
             retries += 1
 
         transfer_response = await async_client.get_transfer(transfer_uid)
@@ -240,7 +244,7 @@ class TestClientE2E:
         while is_burning is True and retries < TEST_RETRY_COUNTER:
             response = await async_client.get_burn(burn_uid)
             is_burning = response["data"]["status"] != "done"
-            time.sleep(15)
+            await asyncio.sleep(15)
             retries += 1
 
         burn_response = await async_client.get_burn(burn_uid)
@@ -253,7 +257,7 @@ class TestClientE2E:
         while final_asset_burned_status is False and retries < TEST_RETRY_COUNTER:
             response = await async_client.get_asset(asset_uid)
             final_asset_burned_status = response["data"]["is_burned"]
-            time.sleep(15)
+            await asyncio.sleep(15)
             retries += 1
 
         final_asset = await async_client.get_asset(asset_uid)
