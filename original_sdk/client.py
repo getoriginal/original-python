@@ -112,8 +112,8 @@ class OriginalClient(BaseOriginalClient):
     def create_user(self, email: str, client_id: str) -> OriginalResponse:
         return self.post("user", data={"email": email, "client_id": client_id})
 
-    def get_user(self, user_id: str) -> OriginalResponse:
-        return self.get(f"user/{user_id}")
+    def get_user(self, uid: str) -> OriginalResponse:
+        return self.get(f"user/{uid}")
 
     def get_user_by_email(self, email: str) -> OriginalResponse:
         return self.get("user", params={"email": email})
@@ -127,8 +127,8 @@ class OriginalClient(BaseOriginalClient):
     def create_asset(self, **asset_data: Any) -> OriginalResponse:
         return self.post("asset", data=asset_data)
 
-    def edit_asset(self, asset_uid: str, **asset_data: Any) -> OriginalResponse:
-        return self.put(f"asset/{asset_uid}", data=asset_data)
+    def edit_asset(self, uid: str, **asset_data: Any) -> OriginalResponse:
+        return self.put(f"asset/{uid}", data=asset_data)
 
     def get_asset(self, uid: str) -> OriginalResponse:
         return self.get(f"asset/{uid}")

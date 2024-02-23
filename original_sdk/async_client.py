@@ -117,8 +117,8 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     async def create_user(self, email: str, client_id: str) -> OriginalResponse:
         return await self.post("user", data={"email": email, "client_id": client_id})
 
-    async def get_user(self, user_id: str) -> OriginalResponse:
-        return await self.get(f"user/{user_id}")
+    async def get_user(self, uid: str) -> OriginalResponse:
+        return await self.get(f"user/{uid}")
 
     async def get_user_by_email(self, email: str) -> OriginalResponse:
         return await self.get("user", params={"email": email})
@@ -132,32 +132,32 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     async def create_asset(self, **asset_data: Any) -> OriginalResponse:
         return await self.post("asset", data=asset_data)
 
-    async def edit_asset(self, asset_uid: str, **asset_data: Any) -> OriginalResponse:
-        return await self.put(f"asset/{asset_uid}", data=asset_data)
+    async def edit_asset(self, uid: str, **asset_data: Any) -> OriginalResponse:
+        return await self.put(f"asset/{uid}", data=asset_data)
 
-    async def get_asset(self, asset_uid: str) -> OriginalResponse:
-        return await self.get(f"asset/{asset_uid}")
+    async def get_asset(self, uid: str) -> OriginalResponse:
+        return await self.get(f"asset/{uid}")
 
-    async def get_assets_by_user_uid(self, app_user_uid: str) -> OriginalResponse:
-        return await self.get("asset", params={"user_uid": app_user_uid})
+    async def get_assets_by_user_uid(self, user_uid: str) -> OriginalResponse:
+        return await self.get("asset", params={"user_uid": user_uid})
 
     async def create_transfer(self, **transfer_data: Any) -> OriginalResponse:
         return await self.post("transfer", data=transfer_data)
 
-    async def get_transfer(self, transfer_uid: str) -> OriginalResponse:
-        return await self.get(f"transfer/{transfer_uid}")
+    async def get_transfer(self, uid: str) -> OriginalResponse:
+        return await self.get(f"transfer/{uid}")
 
-    async def get_transfers_by_user_uid(self, app_user_uid: str) -> OriginalResponse:
-        return await self.get("transfer", params={"user_uid": app_user_uid})
+    async def get_transfers_by_user_uid(self, user_uid: str) -> OriginalResponse:
+        return await self.get("transfer", params={"user_uid": user_uid})
 
     async def create_burn(self, **burn_data: Any) -> OriginalResponse:
         return await self.post("burn", data=burn_data)
 
-    async def get_burn(self, burn_uid: str) -> OriginalResponse:
-        return await self.get(f"burn/{burn_uid}")
+    async def get_burn(self, uid: str) -> OriginalResponse:
+        return await self.get(f"burn/{uid}")
 
-    async def get_burns_by_user_uid(self, app_user_uid: str) -> OriginalResponse:
-        return await self.get("burn", params={"user_uid": app_user_uid})
+    async def get_burns_by_user_uid(self, user_uid: str) -> OriginalResponse:
+        return await self.get("burn", params={"user_uid": user_uid})
 
     async def get_deposit(self, user_uid: str) -> OriginalResponse:
         return await self.get("deposit", params={"user_uid": user_uid})
