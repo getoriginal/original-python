@@ -5,6 +5,6 @@ repos:
     hooks:
       - id: lint
         name: lint
-        entry: make lint
+        entry: make lint-fix
         language: system
         types_or: [python, pyi]

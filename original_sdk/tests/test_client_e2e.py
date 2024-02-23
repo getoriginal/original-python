@@ -18,7 +18,7 @@ TEST_TRANSFER_TO_WALLET_ADDRESS = os.getenv("TEST_TRANSFER_TO_WALLET_ADDRESS")
 TEST_TRANSFER_TO_USER_UID = os.getenv("TEST_TRANSFER_TO_USER_UID")
 TEST_ACCEPTANCE_CHAIN_ID = 80001
 TEST_ACCEPTANCE_NETWORK = "Mumbai"
-TEST_RETRY_COUNTER = 20
+TEST_RETRY_COUNTER = 30
 
 
 class TestClientE2E:
@@ -120,10 +120,11 @@ class TestClientE2E:
         while is_transferable is False and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             is_transferable = response["data"]["is_transferable"]
-            time.sleep(15)
+            if not is_transferable:
+                time.sleep(15)
             retries += 1
 
-        assert is_transferable is True
+        assert is_transferable, f"Asset {asset_uid} is not transferable."
         edited_data = {
             "data": {**asset_data, "description": "Asset description edited"}
         }
@@ -189,10 +190,12 @@ class TestClientE2E:
         while is_transferable is False and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             is_transferable = response["data"]["is_transferable"]
-            time.sleep(15)
+            if not is_transferable:
+                time.sleep(15)
             retries += 1
 
-        assert is_transferable is True
+        assert is_transferable, f"Asset {asset_uid} is not transferable."
+
         transfer_response = client.create_transfer(
             asset_uid=asset_uid,
             from_user_uid=TEST_APP_USER_UID,
@@ -206,11 +209,14 @@ class TestClientE2E:
         while is_transferring is True and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             is_transferring = response["data"]["is_transferring"]
-            time.sleep(15)
+            if is_transferring:
+                time.sleep(15)
             retries += 1
 
         transfer_response = client.get_transfer(transfer_uid)
-        assert transfer_response["success"] is True
+        assert (
+            transfer_response["success"] is True
+        ), f"Transfer {transfer_uid} is not done."
         assert transfer_response["data"]["status"] == "done"
 
         transferred_asset = client.get_asset(asset_uid)
@@ -228,11 +234,12 @@ class TestClientE2E:
         while is_burning is True and retries < TEST_RETRY_COUNTER:
             response = client.get_burn(burn_uid)
             is_burning = response["data"]["status"] != "done"
-            time.sleep(15)
+            if is_burning:
+                time.sleep(15)
             retries += 1
 
         burn_response = client.get_burn(burn_uid)
-        assert burn_response["success"] is True
+        assert burn_response["success"] is True, f"Burn {burn_uid} is not done."
         assert burn_response["data"]["status"] == "done"
 
         final_asset_burned_status = False
@@ -241,9 +248,10 @@ class TestClientE2E:
         while final_asset_burned_status is False and retries < TEST_RETRY_COUNTER:
             response = client.get_asset(asset_uid)
             final_asset_burned_status = response["data"]["is_burned"]
-            time.sleep(15)
+            if not final_asset_burned_status:
+                time.sleep(15)
             retries += 1
 
         final_asset = client.get_asset(asset_uid)
-        assert final_asset["success"] is True
+        assert final_asset["success"] is True, f"Asset {asset_uid} is not burned."
         assert final_asset["data"]["is_burned"] is True
