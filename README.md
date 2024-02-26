@@ -6,11 +6,27 @@
 - [Documentation](#-documentation)
   - [Initialization](#initialization)
   - [User](#user)
+    - [Create a new user](#create-a-new-user)
+    - [Get a user by UID](#get-a-user-by-uid)
+    - [Get a user by email](#get-a-user-by-email)
+    - [Get a user by client ID](#get-a-user-by-client-id)
   - [Asset](#asset)
-  - [Collection](#collection)
+    - [Create a new asset](#create-a-new-asset)
+    - [Get an asset by UID](#get-an-asset-by-asset-uid)
+    - [Get assets by user UID](#get-assets-by-user-uid)
+    - [Edit an asset](#edit-an-asset)
   - [Transfer](#transfer)
+    - [Create a new transfer](#create-a-new-transfer)
+    - [Get a transfer](#get-a-transfer-by-transfer-uid)
+    - [Get transfers by user UID](#get-transfers-by-user-uid)
   - [Burn](#burn)
+    - [Create a new burn](#create-a-new-burn)
+    - [Get a burn by burn UID](#get-a-burn-by-burn-uid)
+    - [Get burns by user UID](#get-burns-by-user-uid)
   - [Deposit](#deposit)
+    - [Get deposit details for a user](#get-deposit-details-by-user-uid)
+  - [Collection](#collection)
+    - [Get a collection by UID](#get-a-collection-by-collection-uid)
 
 
 ## ✨ Getting started
@@ -61,33 +77,102 @@ from original_sdk import OriginalClient
 client = OriginalClient(api_key='YOUR_PROD_APP_API_KEY', api_secret='YOUR_PROD_APP_SECRET')
 ```
 
-
-### User
+## User
 
 The user methods exposed by the sdk are used to create and retrieve users from the Original API.
 
+### Create a new user
+
 ```python
-# create a new user
-new_user_uid = client.create_user(email='YOUR_EMAIL', client_id='YOUR_CLIENT_ID' )
-
-# gets a user by uid, will throw a 404 Not Found error if the user does not exist
-# returns user data
-user = client.get_user(new_user_uid)
-
-# gets a user by email or client_id
-# will return user data type if the user exists, otherwise will return null
-user_by_email = client.get_user_by_email('YOUR_EMAIL')
-
-user_by_client_id = client.get_user_by_client_id('YOUR_CLIENT_ID')
+# Returns a response object. Access the user's UID through the `data` attribute.
+create_response = client.create_user(email='YOUR_EMAIL', client_id='YOUR_CLIENT_ID')
+new_user_uid = create_response['data']['uid']
+# Sample create_response:
+{
+    "success": True,
+    "data": {
+        "uid": "175324281338"
+    }
+}
 ```
 
-### Asset
+### Get a user by UID
+```python
+# Get a user by UID
+# Returns their details in a response object if the user exists. If not, a 404 client error will be raised.
+user_response = client.get_user(new_user_uid)
+user_details = user_response['data']  # Contains user details such as UID, email, etc.
+# Sample user_response:
+{
+    "success": True,
+    "data": {
+        "uid": "754566475542",
+        "client_id": "user_client_id",
+        "created_at": "2024-02-26T13:12:31.798296Z",
+        "email": "user_email@email.com",
+        "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
+    }
+}
+```
+
+### Get a user by email
+```python
+# Get a user by email
+# Attempts to retrieve a user by their email address. If the user does not exist, `data` will be None.
+user_by_email_response = client.get_user_by_email('YOUR_EMAIL')
+user_by_email_details = user_by_email_response['data']
+# Sample user_by_email_response on success:
+{
+    "success": True,
+    "data": {
+        "uid": "754566475542",
+        "client_id": "user_client_id",
+        "created_at": "2024-02-26T13:12:31.798296Z",
+        "email": "user_email@email.com",
+        "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
+    }
+}
+
+# Sample user_by_email_response (if user does not exist) on failure
+{
+    "success": False,
+    "data": None
+}
+```
+
+### Get a user by client ID
+```python
+# Get a user by client ID
+# Retrieves a user by their client ID. If the user does not exist, `data` will be None.
+user_by_client_id_response = client.get_user_by_client_id('YOUR_CLIENT_ID')
+user_by_client_id_details = user_by_client_id_response['data']
+# Sample user_by_client_id_response on success:
+{
+    "success": True,
+    "data": {
+        "uid": "754566475542",
+        "client_id": "user_client_id",
+        "created_at": "2024-02-26T13:12:31.798296Z",
+        "email": "user_email@email.com",
+        "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
+    }
+}
+# Sample user_by_client_id_response on failure:
+{
+    "success": False,
+    "data": None
+}
+```
+
+## Asset
 
 The asset methods exposed by the sdk are used to create (mint) assets and retrieve assets from the Original API.
 
+### Create a new asset
+
 ```python
 # prepare the new asset params
-new_asset_data = {
+new_asset_params = {
     "user_uid": "324167489835",
     "client_id": "client_id_1",
     "collection_uid": "221137489875",
@@ -104,15 +189,6 @@ new_asset_data = {
                 "value": "Starfish"
             },
             {
-                "trait_type": "Eyes",
-                "value": "Big"
-            },
-            {
-                "trait_type": "Aqua Power",
-                "display_type": "boost_number",
-                "value": 40
-            },
-            {
                 "trait_type": "Stamina Increase",
                 "display_type": "boost_percentage",
                 "value": 10
@@ -121,19 +197,110 @@ new_asset_data = {
     }
 }
 
-# create a new asset
-# returns the uid of the newly created asset
-new_asset_uid = client.create_asset(**new_asset_data)
+# Create a new asset
+create_asset_response = client.create_asset(**new_asset_params)
+new_asset_uid = create_asset_response['data']['uid']
+# Sample create_asset_response:
+{
+    "success": True,
+    "data": {
+        "uid": "151854912345"
+    }
+}
+```
 
-# gets an asset by uid, will throw a 404 Not Found error if the asset does not exist
-asset = client.get_asset(new_asset_uid)
+### Get an asset by asset UID
 
-# gets assets by the owner uid
-# will return a list of assets owned by the user
-assets = client.get_asset_by_user_uid(user_uid)
+```python
+# Get an asset by UID
+asset_response = client.get_asset(new_asset_uid)
+asset_details = asset_response['data']
+# Sample asset_response:
+{
+    "success": True,
+    "data": {
+        "uid": "151854912345",
+        "name": "random name #2",
+        "client_id": "asset_client_id_1",
+        "collection_uid": "471616646163",
+        "collection_name": "Test SDK Collection 1",
+        "token_id": 2,
+        "created_at": "2024-02-16T11:33:19.577827Z",
+        "is_minted": True,
+        "is_burned": False,
+        "is_transferring": False,
+        "is_transferable": True,
+        "is_editing": False,
+        "mint_for_user_uid": "885810911461",
+        "owner_user_uid": "885810911461",
+        "owner_address": "0x32e28bfe647939d073d39113c697a11e3065ea97",
+        "metadata": {
+            "name": "random name",
+            "image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
+            "description": "nft_description",
+            "original_id": "151854912345",
+            "external_url": "external_url@example.com",
+            "org_image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+        },
+        "explorer_url": "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
+        "token_uri": "https://storage.googleapis.com/{...}.json"
+    }
+}
 
+```
+
+### Get assets by user UID
+
+```python
+# Get assets by the owner's UID
+assets_response = client.get_assets_by_user_uid("user_uid")
+assets_list = assets_response['data']
+# Sample assets_response (showing one asset for brevity, wrapped in a response object):
+{
+    "success": True,
+    "data": [
+        {
+            "uid": "151854912345",
+            "name": "random name #2",
+            "client_id": "asset_client_id_1",
+            "collection_uid": "471616646163",
+            "collection_name": "Test SDK Collection 1",
+            "token_id": 2,
+            "created_at": "2024-02-16T11:33:19.577827Z",
+            "is_minted": True,
+            "is_burned": False,
+            "is_transferring": False,
+            "is_transferable": True,
+            "is_editing": False,
+            "mint_for_user_uid": "885810911461",
+            "owner_user_uid": "885810911461",
+            "owner_address": "0x32e28bfe647939d073d39113c697a11e3065ea97",
+            "metadata": {
+                "name": "random name",
+                "image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
+                "description": "nft_description",
+                "original_id": "151854912345",
+                "external_url": "external_url@example.com",
+                "org_image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+            },
+            "explorer_url": "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
+            "token_uri": "https://storage.googleapis.com/original-production-media/data/metadata/9ac0dad4-75ae-4406-94fd-1a0f6bf75db3.json"
+        }
+        # Additional assets would be listed here
+    ]
+}
+
+```
+
+### Edit an asset
+
+NOTE: Editing an asset will overwrite the existing asset data with the new data provided.
+If you want to maintain any of the existing data, you must include it in the new data.
+
+NOTE: You must include all the required fields. See https://docs.getoriginal.com/docs/edit-asset for more information.
+```python
 # prepare the edit asset params
-edit_asset_data = {
+edit_asset_params = {
     "data": {
         "name": "Dave Starbelly Edited",
         "unique_name": True,
@@ -148,78 +315,197 @@ edit_asset_data = {
     }
 }
 
-# edits an asset by uid, by passing in the new asset data
-# returns success true or false
-client.edit_asset(new_asset_uid, **edit_asset_data)
+# Edits an asset by UID, by passing in the new asset data
+edit_asset_response = client.edit_asset(new_asset_uid, **edit_asset_params)
+edit_success = edit_asset_response['success']
+# Sample edit_asset_response:
+{
+    "success": True,
+    "data": None
+}
 ```
 
-### Collection
-
-The collection methods exposed by the sdk are used to retrieve collection details from the Original API.
-
-```python
-# gets a collection by uid, will throw a 404 Not Found error if the collection does not exist
-# returns collection detail
-collection = client.get_collection('221137489875')
-```
-
-### Transfer
+## Transfer
 
 The transfer methods exposed by the sdk are used to transfer assets from one user to another wallet.
 
+### Create a new transfer
+
 ```python
 
-# prepare the transfer params
+# Prepare the transfer parameters
 transfer_params = {
-    "asset_uid": asset_uid,
-    "from_user_uid": user_uid,
+    "asset_uid": "708469717542",
+    "from_user_uid": "149997600351",
     "to_address": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
 }
 
-# create a transfer of an asset, by passing in transfer details
-# returns the uid of the newly created transfer
-transfer_uid = client.create_transfer(**transfer_params)
-
-# gets a transfer by uid, will throw a 404 Not Found error if the transfer does not exist
-transfer = client.get_transfer(transfer_uid)
-
-# gets transfers by user uid
-# will return a list of transfers for the user
-transfers = client.get_transfers_by_user_uid(user_uid)
+# Create a transfer of an asset
+transfer_response = client.create_transfer(**transfer_params)
+transfer_uid = transfer_response['data']['uid']
+# Sample transfer_response:
+{
+    "success": True,
+    "data": {
+        "uid": "883072660397"
+    }
+}
 ```
 
-### Burn
+### Get a transfer by transfer UID
+
+```python
+# Get a transfer by transfer UID
+transfer_response = client.get_transfer("883072660397")
+transfer_details = transfer_response['data']
+# Sample transfer_response:
+{
+    "success": True,
+    "data": {
+        "uid": "883072660397",
+        "status": "done",
+        "asset_uid": "708469717542",
+        "from_user_uid": "149997600351",
+        "to_address": "0xe02522d0ac9f53e35a56f42cd5e54fc7b5a12f05",
+        "created_at": "2024-02-26T10:20:17.668254Z"
+    }
+}
+```
+
+### Get transfers by user UID
+
+```python
+# Get transfers by user UID
+transfers_response = client.get_transfers_by_user_uid("149997600351")
+transfers_list = transfers_response['data']
+# Sample transfers_response:
+{
+    "success": True,
+    "data": [
+        {
+            "uid": "883072660397",
+            "status": "done",
+            "asset_uid": "708469717542",
+            "from_user_uid": "149997600351",
+            "to_address": "0xe02522d0ac9f53e35a56f42cd5e54fc7b5a12f05",
+            "created_at": "2024-02-26T10:20:17.668254Z"
+        }
+        # Additional transfers would be listed here
+    ]
+}
+```
+
+## Burn
 
 The burn methods exposed by the sdk are used to burn assets from a user's wallet.
 
+### Create a new burn
 ```python
 
-# prepare the burn params
+# Prepare the burn parameters
 burn_params = {
-    "asset_uid": asset_uid,
-    "from_user_uid": user_uid,
+    "asset_uid": "708469717542",
+    "from_user_uid": "483581848722",
 }
 
-# create a burn of an asset
-# returns the uid of the newly created burn
-burn_uid = client.create_burn(**burn_params)
-
-# gets a burn by uid, will throw a 404 Not Found error if the burn does not exist
-burn = client.get_burn(burn_uid)
-
-# gets burns by user uid
-burns = client.get_burn_by_user_uid(user_uid)
+# Create a burn of an asset
+burn_response = client.create_burn(**burn_params)
+burn_uid = burn_response['data']['uid']
+# Sample burn_response:
+{
+    "success": True,
+    "data": {
+        "uid": "365684656925",
+    }
+}
 ```
 
+### Get a burn by burn UID
+```python
 
-### Deposit
+# Get a burn by UID, will throw a 404 Not Found error if the burn does not exist
+burn_response = client.get_burn("365684656925")
+burn_details = burn_response['data']
+# Sample burn_response:
+{
+    "success": True,
+    "data": {
+        "uid": "365684656925",
+        "status": "done",
+        "asset_uid": "708469717542",
+        "from_user_uid": "483581848722",
+        "created_at": "2024-02-26T10:20:17.668254Z"
+    }
+}
+```
+
+### Get burns by user UID
+```python
+# Get burns by user UID
+burns_response = client.get_burns_by_user_uid("483581848722")
+burns_list = burns_response['data']
+# Sample burns_response:
+{
+    "success": True,
+    "data": [
+        {
+            "uid": "365684656925",
+            "status": "done",
+            "asset_uid": "708469717542",
+            "from_user_uid": "483581848722",
+            "created_at": "2024-02-26T10:22:47.848973Z"
+        }
+        # Additional burns would be listed here
+    ]
+}
+```
+
+## Deposit
 
 The deposit methods exposed by the sdk are used to return the details for depositing assets.
 
+### Get deposit details by user UID
 ```python
-# gets deposit details for a user
-# returns the deposit details
-deposit = client.get_deposit(user_uid)
+# Get deposit details for a user
+deposit_response = client.get_deposit("user_uid")
+deposit_details = deposit_response['data']
+# Sample deposit_response:
+{
+    "success": True,
+    "data": {
+        "network": "Mumbai",
+        "chain_id": 80001,
+        "wallet_address": "0x1d6169328e0a2e0a0709115d1860c682cf8d1398",
+        "qr_code_data": "ethereum:0x1d6169328e0a2e0a0709115d1860c682cf8d1398@80001"
+    }
+}
+```
+
+## Collection
+
+The collection methods exposed by the sdk are used to retrieve collection details from the Original API.
+
+### Get a collection by collection UID
+```python
+# Get a collection by UID, will throw a 404 Not Found error if the collection does not exist
+collection_response = client.get_collection('221137489875')
+collection_details = collection_response['data']
+# Sample collection_response:
+{
+    "success": True,
+    "data": {
+        "uid": "471616646163",
+        "name": "Test SDK Collection 1",
+        "status": "deployed",
+        "type": "ERC721",
+        "created_at": "2024-02-13T10:45:56.952745Z",
+        "editable_assets": True,
+        "contract_address": "0x124a6755ee787153bb6228463d5dc3a02890a7db",
+        "symbol": "SYM",
+        "description": "Description of the collection",
+        "explorer_url": "https://mumbai.polygonscan.com/address/0x124a6755ee787153bb6228463d5dc3a02890a7db"
+    }
+}
 ```
 
 
