@@ -54,14 +54,14 @@ async def test_get_response_details_non_json(async_client):
         )
     )
     mock_response.text = MagicMock(return_value=asyncio.Future())
-    mock_response.text.return_value.set_result("Invalid JSON received")
+    mock_response.text.return_value.set_result("Bad Request")
 
     with pytest.raises(ClientError) as exc_info:
         await async_client._get_response_details(mock_response)
 
-    assert "Invalid JSON received" in str(exc_info.value)
+    assert "Bad Request" in str(exc_info.value)
     assert exc_info.value.status == 400
-    assert "Invalid JSON received" in exc_info.value.message
+    assert "Bad Request" in exc_info.value.message
 
 
 @pytest.mark.asyncio

@@ -8,6 +8,7 @@ from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
 from .types.exceptions import ClientError
 from .types.original_response import OriginalResponse
+from .utils import get_default_error_message
 
 
 def get_user_agent() -> str:
@@ -51,7 +52,8 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
             return json_response, headers, status
         except (json.JSONDecodeError, aiohttp.ContentTypeError):
             text = await response.text()
-            raise ClientError("Invalid JSON received", response.status, text)
+            message = get_default_error_message(response.status) or text
+            raise ClientError(message=message, status=response.status, data=message)
 
     async def _parse_response(
         self, response: aiohttp.ClientResponse
