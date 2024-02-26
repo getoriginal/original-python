@@ -12,7 +12,7 @@ help: ## Display this help message
 lint:  ## Run linters
 	isort original_sdk
 	black --check original_sdk
-	flake8 --ignore=E501,W503 original_sdk
+	flake8 --ignore=E501,W503,B010 original_sdk
 	mypy original_sdk
 
 lint-fix:
@@ -24,6 +24,9 @@ test:  ## Run tests
 
 test-unit:
 	pytest original_sdk/tests/unit
+
+test-e2e:
+	pytest original_sdk/tests/e2e
 
 check: lint test  ## Run linters + tests
 
