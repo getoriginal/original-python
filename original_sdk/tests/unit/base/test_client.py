@@ -71,6 +71,18 @@ def client(api_key="test_api_key", api_secret="test_api_secret", **options):
 def test_constructor_uses_env_vars(monkeypatch):
     monkeypatch.setenv("ORIGINAL_TIMEOUT", "10")
     monkeypatch.setenv("ORIGINAL_URL", "https://customapi.getoriginal.com")
+    monkeypatch.setenv("API_VERSION", "v2")
+
+    client = MockClient("api_key", "api_secret")
+    assert client.timeout == 10
+    assert client.base_url == "https://customapi.getoriginal.com"
+    assert client.env is None
+    assert client.api_version == "v2"
+
+
+def test_constructor_uses_env_vars_but_prioritised_env(monkeypatch):
+    monkeypatch.setenv("ORIGINAL_TIMEOUT", "10")
+    monkeypatch.setenv("ORIGINAL_URL", "https://customapi.getoriginal.com")
     monkeypatch.setenv("ORIGINAL_ENV", "development")
     monkeypatch.setenv("API_VERSION", "v2")
 
