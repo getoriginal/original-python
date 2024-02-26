@@ -235,12 +235,12 @@ class ValidationError(OriginalError): ...
 
 All errors inherit from an `OriginalError` class where you can access the standard properties from the `Exception` class as well as the following:
 
-```typescript
-export enum OriginalErrorCode {
-  clientError = 'client_error',
-  serverError = 'server_error',
-  validationError = 'validation_error',
-}
+```python
+class OriginalErrorCode(Enum):
+    client_error = "client_error"
+    server_error = "server_error"
+    validation_error = "validation_error"
+    
 
 class OriginalError(Exception):
     def __init__(self, message, status, data, code):
