@@ -212,7 +212,7 @@ new_asset_uid = create_asset_response['data']['uid']
 ### Get an asset by asset UID
 
 ```python
-# Get an asset by UID
+# Get an asset by UID, returns the asset details in a response object if the asset exists. If not, a 404 client error will be raised.
 asset_response = client.get_asset(new_asset_uid)
 asset_details = asset_response['data']
 # Sample asset_response:
@@ -355,7 +355,7 @@ transfer_uid = transfer_response['data']['uid']
 ### Get a transfer by transfer UID
 
 ```python
-# Get a transfer by transfer UID
+# Get a transfer by transfer UID, will throw a 404 Not Found error if the transfer does not exist
 transfer_response = client.get_transfer("883072660397")
 transfer_details = transfer_response['data']
 # Sample transfer_response:
