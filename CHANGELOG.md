@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/getoriginal/original-python/compare/v1.2.0...v1.2.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* Async client using incorrect URL concatenation ([a7b316c](https://github.com/getoriginal/original-python/commit/a7b316cb48a7adb74eed637b2d0ac5d6b393b51c))
+* Inconsistent naming of params and incorrect example in readme ([df2f7f8](https://github.com/getoriginal/original-python/commit/df2f7f8f3c9d735351500c99e93c7c453889d8dd))
+* Update readme to full describe how to manage responses. ([6078e6d](https://github.com/getoriginal/original-python/commit/6078e6d75e0253867f22c433668b67e7f405632d))
+* Update Readme with error details. Return a reasonable error message if we fail to parse json response. ([fd579e4](https://github.com/getoriginal/original-python/commit/fd579e4c32f41c910b3489983aadc7f15f71da6f))
+
 ## [1.2.0](https://github.com/getoriginal/original-python/compare/v1.1.3...v1.2.0) (2024-02-13)
 
 
