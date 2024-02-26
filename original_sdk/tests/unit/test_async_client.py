@@ -24,11 +24,9 @@ async def async_client():
 
 @pytest.mark.asyncio
 async def test_get_response_details_json(async_client):
-    with patch(
-        "aiohttp.ClientResponse.json", new_callable=AsyncMock
-    ) as mock_json, patch(
+    with patch("aiohttp.ClientResponse.json", new_callable=AsyncMock), patch(
         "aiohttp.ClientResponse.text", new_callable=AsyncMock
-    ) as mock_text:
+    ):
         mock_response = MagicMock()
         mock_response.json = AsyncMock(return_value={"data": "test"})
         mock_response.headers = {"Content-Type": "application/json"}

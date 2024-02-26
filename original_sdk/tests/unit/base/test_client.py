@@ -104,7 +104,7 @@ def test_constructor_prioritizes_options_over_env_vars_with_monkeypatch(monkeypa
 
     assert client.timeout == 10
     assert client.base_url == "https://optionapi.getoriginal.com"
-    assert client.env == None
+    assert client.env is None
     assert client.api_version == "v2"
 
 
