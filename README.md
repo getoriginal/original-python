@@ -221,3 +221,101 @@ The deposit methods exposed by the sdk are used to return the details for deposi
 # returns the deposit details
 deposit = client.get_deposit(user_uid)
 ```
+
+
+### Handling Errors
+
+If something goes wrong, you will receive well typed error messages.
+
+```python
+class ClientError(OriginalError): ...
+class ServerError(OriginalError): ...
+class ValidationError(OriginalError): ...
+```
+
+All errors inherit from an `OriginalError` class where you can access the standard properties from the `Exception` class as well as the following:
+
+```typescript
+export enum OriginalErrorCode {
+  clientError = 'client_error',
+  serverError = 'server_error',
+  validationError = 'validation_error',
+}
+
+class OriginalError(Exception):
+    def __init__(self, message, status, data, code):
+        self.message = message
+        self.status = status
+        self.data = data
+        self.code = code.value # 'client_error' | 'server_error' | 'validation_error'
+}
+```
+
+So when an error occurs, you can either catch all using the OriginalError class:
+
+```python
+from original_sdk import OriginalError
+
+try:
+    result = client.create_user('invalid_email', 'client_id');
+except OriginalError as e:
+    # handle all errors
+```
+
+or specific errors:
+
+```python
+from original_sdk import ClientError, ServerError, ValidationError
+
+try:
+    result = client.create_user('invalid_email', 'client_id');
+except ClientError as e:
+    # handle client errors
+except ServerError as e:
+    # handle server errors
+except ValidationError as e:
+    # handle validation errors
+```
+
+The error will have this structure:
+```python
+except OriginalError as error:
+    # error.code == 'client_error' | 'server_error' | 'validation_error'
+    # error.status == 400 | 404 | ...
+    # error.message == 'Not Found' | 'Enter a valid email address.' | ...
+    # error.data == { 
+    #   "success": False, 
+    #   "error": { 
+    #       "type": "validation_error", 
+    #       "detail": { 
+    #           "code": "invalid",
+    #           "message": "Enter a valid email address.",
+    #           "field_name": "email"
+    #        }  
+    #    }
+    # }
+```
+
+Please note, if you plan to parse the error detail, it can also be an array if there are multiple errors.
+```python
+    # ...
+    # "detail": [
+    #     {
+    #         "code": "null",
+    #         "message": "This field may not be null.",
+    #         "field_name": "client_id"
+    #     },
+    #     {
+    #         "code": "invalid",
+    #         "message": "Enter a valid email address.",
+    #         "field_name": "email"
+    #     }
+    # ]
+```
+
+If it's a client (SDK) error and not a json response error from our server/REST API, we will return data as a string.
+```python
+    # "error.data": "Not Found"
+    # "error.status": 404
+    # "error.code": "client_error"
+```

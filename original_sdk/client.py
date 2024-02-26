@@ -8,6 +8,7 @@ from original_sdk.types.exceptions import ClientError
 from .__pkg__ import __version__
 from .base.client import BaseOriginalClient
 from .types.original_response import OriginalResponse
+from .utils import get_default_error_message
 
 
 def get_user_agent() -> str:
@@ -49,8 +50,9 @@ class OriginalClient(BaseOriginalClient):
             status = response.status_code
             return json_response, headers, status
         except ValueError:
+            message = get_default_error_message(response.status_code) or response.text
             raise ClientError(
-                "Invalid JSON received", response.status_code, response.text
+                message=message, status=response.status_code, data=message
             )
 
     def _parse_response(self, response: requests.Response) -> OriginalResponse:
