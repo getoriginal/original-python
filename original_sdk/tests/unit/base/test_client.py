@@ -102,7 +102,6 @@ def test_constructor_prioritizes_options_over_env_vars_with_monkeypatch(monkeypa
     options = {"base_url": "https://optionapi.getoriginal.com", "api_version": "v2"}
     client = MockClient("api_key", "api_secret", **options)
 
-    # Assertions
     assert client.timeout == 10
     assert client.base_url == "https://optionapi.getoriginal.com"
     assert client.env == None
