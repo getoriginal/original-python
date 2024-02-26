@@ -25,6 +25,9 @@ test:  ## Run tests
 test-unit:
 	pytest original_sdk/tests/unit
 
+test-e2e:
+	pytest original_sdk/tests/e2e
+
 check: lint test  ## Run linters + tests
 
 reviewdog:

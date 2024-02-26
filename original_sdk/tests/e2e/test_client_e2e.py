@@ -5,7 +5,7 @@ import pytest
 from dotenv import load_dotenv
 
 from original_sdk import ClientError, OriginalClient
-from original_sdk.tests.utils import get_random_string
+from original_sdk.utils import get_random_string
 
 load_dotenv()
 

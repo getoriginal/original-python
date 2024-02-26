@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 from original_sdk import ClientError
 from original_sdk.async_client import OriginalAsyncClient
-from original_sdk.tests.utils import get_random_string
+from original_sdk.utils import get_random_string
 
 load_dotenv()
 
