@@ -77,6 +77,15 @@ from original_sdk import OriginalClient
 client = OriginalClient(api_key='YOUR_PROD_APP_API_KEY', api_secret='YOUR_PROD_APP_SECRET')
 ```
 
+### Async Client
+There is also an async client available for use with async/await syntax:
+
+```python
+from original_sdk import OriginalAsyncClient, Environment
+
+client = OriginalAsyncClient(api_key='YOUR_DEV_APP_API_KEY', api_secret='YOUR_DEV_APP_SECRET', env=Environment.Development)
+```
+
 ## User
 
 The user methods exposed by the sdk are used to create and retrieve users from the Original API.
