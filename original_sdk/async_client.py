@@ -126,7 +126,7 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         return await self._make_request(self.session.patch, relative_url, params, data)
 
     async def create_user(
-        self, email: Union[None, str], client_id: Union[None, str]
+        self, email: Union[None, str] = None, client_id: Union[None, str] = None
     ) -> OriginalResponse:
         return await self.post("user", data={"email": email, "client_id": client_id})
 
