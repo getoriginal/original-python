@@ -27,6 +27,7 @@
     - [Get deposit details for a user](#get-deposit-details-by-user-uid)
   - [Collection](#collection)
     - [Get a collection by UID](#get-a-collection-by-collection-uid)
+  - [Handling Errors](#handling-errors)
 
 
 ## ✨ Getting started
