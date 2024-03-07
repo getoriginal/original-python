@@ -1,5 +1,5 @@
 import json
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable, Dict, Tuple, Union
 
 import requests
 
@@ -111,7 +111,9 @@ class OriginalClient(BaseOriginalClient):
     ) -> OriginalResponse:
         return self._make_request(self.session.patch, relative_url, params, data)
 
-    def create_user(self, email: str, client_id: str) -> OriginalResponse:
+    def create_user(
+        self, email: Union[None, str], client_id: Union[None, str]
+    ) -> OriginalResponse:
         return self.post("user", data={"email": email, "client_id": client_id})
 
     def get_user(self, uid: str) -> OriginalResponse:

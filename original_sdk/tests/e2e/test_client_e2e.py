@@ -22,11 +22,15 @@ TEST_RETRY_COUNTER = 30
 
 
 class TestClientE2E:
-    def test_create_user(self, client: OriginalClient):
+    def test_create_user_with_params(self, client: OriginalClient):
         client_id = get_random_string(8)
         response = client.create_user(
             email=f"{client_id}@test.com", client_id=client_id
         )
+        assert response["data"]["uid"] is not None
+
+    def test_create_user_with_no_params(self, client: OriginalClient):
+        response = client.create_user()
         assert response["data"]["uid"] is not None
 
     def test_error_message(self, client: OriginalClient):
