@@ -256,7 +256,14 @@ asset_details = asset_response['data']
             "description": "nft_description",
             "original_id": "151854912345",
             "external_url": "external_url@example.com",
-            "org_image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+            "org_image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
+            "attributes": [
+                {
+                    "trait_type": "Stamina Increase",
+                    "display_type": "boost_percentage",
+                    "value": 10
+                }
+            ]
         },
         "explorer_url": "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
         "token_uri": "https://storage.googleapis.com/{...}.json"
@@ -297,7 +304,14 @@ assets_list = assets_response['data']
                 "description": "nft_description",
                 "original_id": "151854912345",
                 "external_url": "external_url@example.com",
-                "org_image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+                "org_image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
+                "attributes": [
+                    {
+                        "trait_type": "Stamina Increase",
+                        "display_type": "boost_percentage",
+                        "value": 10
+                    }
+                ]
             },
             "explorer_url": "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
             "token_uri": "https://storage.googleapis.com/original-production-media/data/metadata/9ac0dad4-75ae-4406-94fd-1a0f6bf75db3.json"
