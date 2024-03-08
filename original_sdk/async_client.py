@@ -1,6 +1,15 @@
 import json
 from types import TracebackType
-from typing import Any, AsyncContextManager, Callable, Dict, Optional, Tuple, Type
+from typing import (
+    Any,
+    AsyncContextManager,
+    Callable,
+    Dict,
+    Optional,
+    Tuple,
+    Type,
+    Union,
+)
 
 import aiohttp
 
@@ -116,7 +125,9 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     ) -> OriginalResponse:
         return await self._make_request(self.session.patch, relative_url, params, data)
 
-    async def create_user(self, email: str, client_id: str) -> OriginalResponse:
+    async def create_user(
+        self, email: Union[None, str] = None, client_id: Union[None, str] = None
+    ) -> OriginalResponse:
         return await self.post("user", data={"email": email, "client_id": client_id})
 
     async def get_user(self, uid: str) -> OriginalResponse:

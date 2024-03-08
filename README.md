@@ -27,6 +27,7 @@
     - [Get deposit details for a user](#get-deposit-details-by-user-uid)
   - [Collection](#collection)
     - [Get a collection by UID](#get-a-collection-by-collection-uid)
+  - [Handling Errors](#handling-errors)
 
 
 ## ✨ Getting started
@@ -94,7 +95,7 @@ The user methods exposed by the sdk are used to create and retrieve users from t
 
 ```python
 # Returns a response object. Access the user's UID through the `data` attribute.
-create_response = client.create_user(email='YOUR_EMAIL', client_id='YOUR_CLIENT_ID')
+create_response = client.create_user()
 new_user_uid = create_response['data']['uid']
 # Sample create_response:
 {
@@ -103,6 +104,12 @@ new_user_uid = create_response['data']['uid']
         "uid": "175324281338"
     }
 }
+
+# You can also pass in a client_id and/or email for your external reference.
+# The client ID and/or email supplied must be unique per app
+create_response = client.create_user(email='YOUR_EMAIL', client_id='YOUR_CLIENT_ID')
+new_user_uid = create_response['data']['uid']
+# ...
 ```
 
 ### Get a user by UID

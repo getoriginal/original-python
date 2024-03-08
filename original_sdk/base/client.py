@@ -90,7 +90,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def create_user(
-        self, email: str, client_id: str
+        self, email: Union[None, str] = None, client_id: Union[None, str] = None
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original user.
