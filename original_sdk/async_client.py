@@ -132,6 +132,12 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         client_id: Union[None, str] = None,
         user_external_id: Union[None, str] = None,
     ) -> OriginalResponse:
+        if client_id:
+            warnings.warn(
+                "client_id is deprecated, please use user_external_id instead",
+                DeprecationWarning,
+                stacklevel=2,
+            )
         return await self.post(
             "user",
             data={
