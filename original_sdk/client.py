@@ -1,4 +1,5 @@
 import json
+import warnings
 from typing import Any, Callable, Dict, Tuple, Union
 
 import requests
@@ -112,9 +113,19 @@ class OriginalClient(BaseOriginalClient):
         return self._make_request(self.session.patch, relative_url, params, data)
 
     def create_user(
-        self, email: Union[None, str] = None, client_id: Union[None, str] = None
+        self,
+        email: Union[None, str] = None,
+        client_id: Union[None, str] = None,
+        user_external_id: Union[None, str] = None,
     ) -> OriginalResponse:
-        return self.post("user", data={"email": email, "client_id": client_id})
+        return self.post(
+            "user",
+            data={
+                "email": email,
+                "client_id": client_id,
+                "user_external_id": user_external_id,
+            },
+        )
 
     def get_user(self, uid: str) -> OriginalResponse:
         return self.get(f"user/{uid}")
@@ -123,7 +134,15 @@ class OriginalClient(BaseOriginalClient):
         return self.get("user", params={"email": email})
 
     def get_user_by_client_id(self, client_id: str) -> OriginalResponse:
+        warnings.warn(
+            "get_user_by_client_id is deprecated, please use get_user_by_user_external_id instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return self.get("user", params={"client_id": client_id})
+
+    def get_user_by_user_external_id(self, user_external_id: str) -> OriginalResponse:
+        return self.get("user", params={"user_external_id": user_external_id})
 
     def get_collection(self, uid: str) -> OriginalResponse:
         return self.get(f"collection/{uid}")

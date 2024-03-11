@@ -1,4 +1,5 @@
 import json
+import warnings
 from types import TracebackType
 from typing import (
     Any,
@@ -126,9 +127,19 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         return await self._make_request(self.session.patch, relative_url, params, data)
 
     async def create_user(
-        self, email: Union[None, str] = None, client_id: Union[None, str] = None
+        self,
+        email: Union[None, str] = None,
+        client_id: Union[None, str] = None,
+        user_external_id: Union[None, str] = None,
     ) -> OriginalResponse:
-        return await self.post("user", data={"email": email, "client_id": client_id})
+        return await self.post(
+            "user",
+            data={
+                "email": email,
+                "client_id": client_id,
+                "user_external_id": user_external_id,
+            },
+        )
 
     async def get_user(self, uid: str) -> OriginalResponse:
         return await self.get(f"user/{uid}")
@@ -137,7 +148,17 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         return await self.get("user", params={"email": email})
 
     async def get_user_by_client_id(self, client_id: str) -> OriginalResponse:
+        warnings.warn(
+            "get_user_by_client_id is deprecated, please use get_user_by_user_external_id instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return await self.get("user", params={"client_id": client_id})
+
+    async def get_user_by_user_external_id(
+        self, user_external_id: str
+    ) -> OriginalResponse:
+        return await self.get("user", params={"user_external_id": user_external_id})
 
     async def get_collection(self, uid: str) -> OriginalResponse:
         return await self.get(f"collection/{uid}")

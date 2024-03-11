@@ -23,7 +23,17 @@ TEST_RETRY_COUNTER = 30
 
 
 class TestAsyncClientE2E:
+
     async def test_create_user_with_params(self, async_client: OriginalAsyncClient):
+        user_external_id = get_random_string(8)
+        response = await async_client.create_user(
+            email=f"{user_external_id}@test.com", client_id=user_external_id
+        )
+        assert response["data"]["uid"] is not None
+
+    async def test_create_user_with_deprecated_client_id(
+        self, async_client: OriginalAsyncClient
+    ):
         client_id = get_random_string(8)
         response = await async_client.create_user(
             email=f"{client_id}@test.com", client_id=client_id
@@ -49,6 +59,15 @@ class TestAsyncClientE2E:
 
     async def test_get_user_by_email(self, async_client: OriginalAsyncClient):
         response = await async_client.get_user_by_email(TEST_APP_USER_EMAIL)
+        assert response["data"]["uid"] == TEST_APP_USER_UID
+        assert response["data"]["email"] == TEST_APP_USER_EMAIL
+
+    async def test_get_user_by_user_external_id(
+        self, async_client: OriginalAsyncClient
+    ):
+        response = await async_client.get_user_by_user_external_id(
+            TEST_APP_USER_CLIENT_ID
+        )
         assert response["data"]["uid"] == TEST_APP_USER_UID
         assert response["data"]["email"] == TEST_APP_USER_EMAIL
 
@@ -84,6 +103,29 @@ class TestAsyncClientE2E:
             assert e.status == 404
 
     async def test_create_asset(self, async_client: OriginalAsyncClient):
+        asset_name = get_random_string(8)
+        asset_data = {
+            "name": asset_name,
+            "unique_name": True,
+            "image_url": "https://example.com/image.png",
+            "store_image_on_ipfs": False,
+            "attributes": [
+                {"trait_type": "Eyes", "value": "Green"},
+                {"trait_type": "Hair", "value": "Black"},
+            ],
+        }
+        request_data = {
+            "data": asset_data,
+            "user_uid": TEST_APP_USER_UID,
+            "asset_external_id": asset_name,
+            "collection_uid": TEST_APP_COLLECTION_UID,
+        }
+        response = await async_client.create_asset(**request_data)
+        assert response["data"]["uid"] is not None
+
+    async def test_create_asset_with_deprecated_client_id(
+        self, async_client: OriginalAsyncClient
+    ):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,
