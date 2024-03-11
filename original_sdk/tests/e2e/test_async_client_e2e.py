@@ -27,7 +27,7 @@ class TestAsyncClientE2E:
     async def test_create_user_with_params(self, async_client: OriginalAsyncClient):
         user_external_id = get_random_string(8)
         response = await async_client.create_user(
-            email=f"{user_external_id}@test.com", client_id=user_external_id
+            email=f"{user_external_id}@test.com", user_external_id=user_external_id
         )
         assert response["data"]["uid"] is not None
 
