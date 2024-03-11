@@ -277,3 +277,87 @@ class BaseOriginalClient(abc.ABC):
         :return:
         """
         pass
+
+    @abc.abstractmethod
+    def get_reward(
+        self, uid: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Get an Original reward.
+
+        :param uid: the reward uid
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def create_allocation(
+        self, **allocation_data: Any
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Create an Original allocation.
+
+        :param allocation_data: the allocation data
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_allocation(
+        self, uid: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Get an Original allocation.
+
+        :param uid: the allocation uid
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_allocations_by_user_uid(
+        self, user_uid: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Get a list of Original allocations by user uid.
+
+        :param user_uid: the app user uid
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def create_claim(
+        self, **claim_data: Any
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Create an Original claim.
+
+        :param claim_data: the claim data
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_claim(
+        self, uid: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Get an Original claim.
+
+        :param uid: the claim uid
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_claims_by_user_uid(
+        self, user_uid: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Get a list of Original claims by user uid.
+
+        :param user_uid: the app user uid
+        :return:
+        """
+        pass
