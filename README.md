@@ -539,7 +539,7 @@ collection_details = collection_response['data']
 ```
 
 
-### Handling Errors
+## Handling Errors
 
 If something goes wrong, you will receive well typed error messages.
 
