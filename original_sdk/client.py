@@ -161,14 +161,14 @@ class OriginalClient(BaseOriginalClient):
     def get_deposit(self, user_uid: str) -> OriginalResponse:
         return self.get("deposit", params={"user_uid": user_uid})
 
-    def get_reward(self, reward_uid: str) -> OriginalResponse:
-        return self.get(f"reward/{reward_uid}")
+    def get_reward(self, uid: str) -> OriginalResponse:
+        return self.get(f"reward/{uid}")
 
     def create_allocation(self, **allocation_data: Any) -> OriginalResponse:
         return self.post("reward/allocate", data=allocation_data)
 
-    def get_allocation(self, allocation_uid: str) -> OriginalResponse:
-        return self.get(f"reward/allocate/{allocation_uid}")
+    def get_allocation(self, uid: str) -> OriginalResponse:
+        return self.get(f"reward/allocate/{uid}")
 
     def get_allocations_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return self.get("reward/allocate", params={"user_uid": user_uid})
@@ -176,8 +176,8 @@ class OriginalClient(BaseOriginalClient):
     def create_claim(self, **claim_data: Any) -> OriginalResponse:
         return self.post("reward/claim", data=claim_data)
 
-    def get_claim(self, claim_uid: str) -> OriginalResponse:
-        return self.get(f"reward/claim/{claim_uid}")
+    def get_claim(self, uid: str) -> OriginalResponse:
+        return self.get(f"reward/claim/{uid}")
 
     def get_claims_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return self.get("reward/claim", params={"user_uid": user_uid})
