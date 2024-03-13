@@ -709,6 +709,7 @@ reward_details = reward_response['data']
         "token_name": "TestnetORI",
         "created_at": "2024-02-13T10:45:56.952745Z",
         "contract_address": "0x124a6755ee787153bb6228463d5dc3a02890a7db",
+        "withdraw_receiver": "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
         "description": "Description of the reward",
         "explorer_url": "https://mumbai.polygonscan.com/address/0x124a6755ee787153bb6228463d5dc3a02890a7db"
     }
