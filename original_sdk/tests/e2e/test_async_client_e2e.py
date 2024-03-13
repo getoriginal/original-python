@@ -17,6 +17,10 @@ TEST_APP_COLLECTION_UID = os.getenv("TEST_APP_COLLECTION_UID")
 TEST_ASSET_UID = os.getenv("TEST_ASSET_UID")
 TEST_TRANSFER_TO_WALLET_ADDRESS = os.getenv("TEST_TRANSFER_TO_WALLET_ADDRESS")
 TEST_TRANSFER_TO_USER_UID = os.getenv("TEST_TRANSFER_TO_USER_UID")
+TEST_APP_REWARD_UID = os.getenv("TEST_APP_REWARD_UID")
+TEST_ALLOCATION_UID = os.getenv("TEST_ALLOCATION_UID")
+TEST_CLAIM_UID = os.getenv("TEST_CLAIM_UID")
+TEST_CLAIM_TO_ADDRESS = os.getenv("TEST_CLAIM_TO_ADDRESS")
 TEST_ACCEPTANCE_CHAIN_ID = 80001
 TEST_ACCEPTANCE_NETWORK = "Mumbai"
 TEST_RETRY_COUNTER = 30
@@ -242,6 +246,81 @@ class TestAsyncClientE2E:
         assert response["data"]["chain_id"] == TEST_ACCEPTANCE_CHAIN_ID
         assert response["data"]["network"] == TEST_ACCEPTANCE_NETWORK
 
+    async def test_get_reward(self, async_client: OriginalAsyncClient):
+        response = await async_client.get_reward(TEST_APP_REWARD_UID)
+        assert response["data"]["uid"] == TEST_APP_REWARD_UID
+
+    async def test_get_reward_not_found_throws_404(
+        self, async_client: OriginalAsyncClient
+    ):
+        try:
+            await async_client.get_reward("not_found")
+        except ClientError as e:
+            assert e.status == 404
+
+    async def test_create_allocation(self, async_client: OriginalAsyncClient):
+        allocation_data = {
+            "amount": 0.001,
+            "nonce": get_random_string(8),
+            "reward_uid": TEST_APP_REWARD_UID,
+            "to_user_uid": TEST_APP_USER_UID,
+        }
+        response = await async_client.create_allocation(**allocation_data)
+        assert response["data"]["uid"] is not None
+
+    async def test_get_allocation(self, async_client: OriginalAsyncClient):
+        response = await async_client.get_allocation(TEST_ALLOCATION_UID)
+        assert response["data"]["uid"] == TEST_ALLOCATION_UID
+
+    async def test_get_allocation_not_found_throws_404(
+        self, async_client: OriginalAsyncClient
+    ):
+        try:
+            await async_client.get_allocation("not_found")
+        except ClientError as e:
+            assert e.status == 404
+
+    async def test_get_allocations_by_user_uid(self, async_client: OriginalAsyncClient):
+        response = await async_client.get_allocations_by_user_uid(TEST_APP_USER_UID)
+        assert isinstance(response["data"], list)
+
+    async def test_get_allocations_by_user_uid_with_no_results(
+        self, async_client: OriginalAsyncClient
+    ):
+        response = await async_client.get_allocations_by_user_uid("no_results")
+        assert response["data"] == []
+
+    async def test_create_claim(self, async_client: OriginalAsyncClient):
+        claim_data = {
+            "reward_uid": TEST_APP_REWARD_UID,
+            "from_user_uid": TEST_APP_USER_UID,
+            "to_address": TEST_CLAIM_TO_ADDRESS,
+        }
+        response = await async_client.create_claim(**claim_data)
+        assert response["data"]["uid"] is not None
+
+    async def test_get_claim(self, async_client: OriginalAsyncClient):
+        response = await async_client.get_claim(TEST_CLAIM_UID)
+        assert response["data"]["uid"] == TEST_CLAIM_UID
+
+    async def test_get_claim_not_found_throws_404(
+        self, async_client: OriginalAsyncClient
+    ):
+        try:
+            await async_client.get_claim("not_found")
+        except ClientError as e:
+            assert e.status == 404
+
+    async def test_get_claims_by_user_uid(self, async_client: OriginalAsyncClient):
+        response = await async_client.get_claims_by_user_uid(TEST_APP_USER_UID)
+        assert isinstance(response["data"], list)
+
+    async def test_get_claims_by_user_uid_with_no_results(
+        self, async_client: OriginalAsyncClient
+    ):
+        response = await async_client.get_claims_by_user_uid("no_results")
+        assert response["data"] == []
+
     async def test_full_create_transfer_burn_asset_flow(
         self, async_client: OriginalAsyncClient
     ):
@@ -331,3 +410,47 @@ class TestAsyncClientE2E:
         final_asset = await async_client.get_asset(asset_uid)
         assert final_asset["success"] is True
         assert final_asset["data"]["is_burned"] is True
+
+    async def test_full_allocate_claim_flow(self, async_client: OriginalAsyncClient):
+        allocation_data = {
+            "amount": 0.001,
+            "nonce": get_random_string(8),
+            "reward_uid": TEST_APP_REWARD_UID,
+            "to_user_uid": TEST_APP_USER_UID,
+        }
+        response = await async_client.create_allocation(**allocation_data)
+        allocation_uid = response["data"]["uid"]
+        is_allocating = True
+        retries = 0
+
+        while is_allocating is True and retries < TEST_RETRY_COUNTER:
+            response = await async_client.get_allocation(allocation_uid)
+            is_allocating = response["data"]["status"] != "done"
+            if is_allocating:
+                await asyncio.sleep(15)
+            retries += 1
+
+        allocation_response = await async_client.get_allocation(allocation_uid)
+        assert (
+            allocation_response["success"] is True
+        ), f"Allocation {allocation_uid} is not done."
+
+        claim_data = {
+            "reward_uid": TEST_APP_REWARD_UID,
+            "from_user_uid": TEST_APP_USER_UID,
+            "to_address": TEST_CLAIM_TO_ADDRESS,
+        }
+
+        response = await async_client.create_claim(**claim_data)
+        claim_uid = response["data"]["uid"]
+        is_claiming = True
+
+        while is_claiming is True and retries < TEST_RETRY_COUNTER:
+            response = await async_client.get_claim(claim_uid)
+            is_claiming = response["data"]["status"] != "done"
+            if is_claiming:
+                await asyncio.sleep(15)
+            retries += 1
+
+        claim_response = await async_client.get_claim(claim_uid)
+        assert claim_response["success"] is True, f"Claim {claim_uid} is not done."

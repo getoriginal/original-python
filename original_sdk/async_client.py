@@ -202,6 +202,27 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     async def get_deposit(self, user_uid: str) -> OriginalResponse:
         return await self.get("deposit", params={"user_uid": user_uid})
 
+    async def get_reward(self, uid: str) -> OriginalResponse:
+        return await self.get(f"reward/{uid}")
+
+    async def create_allocation(self, **allocation_data: Any) -> OriginalResponse:
+        return await self.post("reward/allocate", data=allocation_data)
+
+    async def get_allocation(self, uid: str) -> OriginalResponse:
+        return await self.get(f"reward/allocate/{uid}")
+
+    async def get_allocations_by_user_uid(self, user_uid: str) -> OriginalResponse:
+        return await self.get("reward/allocate", params={"user_uid": user_uid})
+
+    async def create_claim(self, **claim_data: Any) -> OriginalResponse:
+        return await self.post("reward/claim", data=claim_data)
+
+    async def get_claim(self, uid: str) -> OriginalResponse:
+        return await self.get(f"reward/claim/{uid}")
+
+    async def get_claims_by_user_uid(self, user_uid: str) -> OriginalResponse:
+        return await self.get("reward/claim", params={"user_uid": user_uid})
+
     async def close(self) -> None:
         await self.session.close()
 
