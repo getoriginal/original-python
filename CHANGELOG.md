@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/getoriginal/original-python/compare/v1.2.3...v1.3.0) (2024-04-02)
+
+
+### Features
+
+* **ORI-1755:** add reward methods ([e2f3ede](https://github.com/getoriginal/original-python/commit/e2f3edecaf7fdbe59c608e92431ca1a6d97177e2))
+
 ### [1.2.3](https://github.com/getoriginal/original-python/compare/v1.2.2...v1.2.3) (2024-03-12)
 
 
