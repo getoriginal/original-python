@@ -27,6 +27,13 @@ TEST_RETRY_COUNTER = 30
 
 class TestClientE2E:
     def test_create_user_with_params(self, client: OriginalClient):
+        user_external_id = get_random_string(8)
+        response = client.create_user(
+            email=f"{user_external_id}@test.com", user_external_id=user_external_id
+        )
+        assert response["data"]["uid"] is not None
+
+    def test_create_user_with_deprecated_client_id(self, client: OriginalClient):
         client_id = get_random_string(8)
         response = client.create_user(
             email=f"{client_id}@test.com", client_id=client_id
@@ -52,6 +59,11 @@ class TestClientE2E:
 
     def test_get_user_by_email(self, client: OriginalClient):
         response = client.get_user_by_email(TEST_APP_USER_EMAIL)
+        assert response["data"]["uid"] == TEST_APP_USER_UID
+        assert response["data"]["email"] == TEST_APP_USER_EMAIL
+
+    def test_get_user_by_user_external_id(self, client: OriginalClient):
+        response = client.get_user_by_user_external_id(TEST_APP_USER_CLIENT_ID)
         assert response["data"]["uid"] == TEST_APP_USER_UID
         assert response["data"]["email"] == TEST_APP_USER_EMAIL
 
@@ -81,6 +93,27 @@ class TestClientE2E:
             assert e.status == 404
 
     def test_create_asset(self, client: OriginalClient):
+        asset_name = get_random_string(8)
+        asset_data = {
+            "name": asset_name,
+            "unique_name": True,
+            "image_url": "https://example.com/image.png",
+            "store_image_on_ipfs": False,
+            "attributes": [
+                {"trait_type": "Eyes", "value": "Green"},
+                {"trait_type": "Hair", "value": "Black"},
+            ],
+        }
+        request_data = {
+            "data": asset_data,
+            "user_uid": TEST_APP_USER_UID,
+            "asset_external_id": asset_name,
+            "collection_uid": TEST_APP_COLLECTION_UID,
+        }
+        response = client.create_asset(**request_data)
+        assert response["data"]["uid"] is not None
+
+    def test_create_asset_with_deprecated_client_id(self, client: OriginalClient):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,

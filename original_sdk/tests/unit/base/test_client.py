@@ -28,6 +28,9 @@ class MockClient(BaseOriginalClient):
     def get_user_by_client_id(self, client_id: str):
         pass
 
+    def get_user_by_user_external_id(self, user_external_id: str):
+        pass
+
     def get_collection(self, uid: str):
         pass
 

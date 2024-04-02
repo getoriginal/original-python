@@ -90,7 +90,10 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def create_user(
-        self, email: Union[None, str] = None, client_id: Union[None, str] = None
+        self,
+        email: Union[None, str] = None,
+        client_id: Union[None, str] = None,
+        user_external_id: Union[None, str] = None,
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Create an Original user.
@@ -116,7 +119,7 @@ class BaseOriginalClient(abc.ABC):
         """
         Gets a user by email
 
-        :param email: the users email
+        :param email: the user's email
         :return:
         """
         pass
@@ -126,9 +129,23 @@ class BaseOriginalClient(abc.ABC):
         self, client_id: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
+        Deprecated: use get_user_by_user_external_id instead.
+
         Gets a user by client_id
 
-        :param client_id: the users email
+        :param client_id: the user's client_id
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_user_by_user_external_id(
+        self, user_external_id: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Gets a user by user_external_id
+
+        :param user_external_id: the user's user_external_id
         :return:
         """
         pass

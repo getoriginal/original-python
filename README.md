@@ -9,7 +9,7 @@
     - [Create a new user](#create-a-new-user)
     - [Get a user by UID](#get-a-user-by-uid)
     - [Get a user by email](#get-a-user-by-email)
-    - [Get a user by client ID](#get-a-user-by-client-id)
+    - [Get a user by user external ID](#get-a-user-by-client-id)
   - [Asset](#asset)
     - [Create a new asset](#create-a-new-asset)
     - [Get an asset by UID](#get-an-asset-by-asset-uid)
@@ -115,9 +115,9 @@ new_user_uid = create_response['data']['uid']
     }
 }
 
-# You can also pass in a client_id and/or email for your external reference.
-# The client ID and/or email supplied must be unique per app
-create_response = client.create_user(email='YOUR_EMAIL', client_id='YOUR_CLIENT_ID')
+# You can also pass in a user_external_id and/or email for your external reference.
+# The user_external_id and/or email supplied must be unique per app
+create_response = client.create_user(email='YOUR_EMAIL', user_external_id='YOUR_USER_EXTERNAL_ID')
 new_user_uid = create_response['data']['uid']
 # ...
 ```
@@ -133,7 +133,7 @@ user_details = user_response['data']  # Contains user details such as UID, email
     "success": True,
     "data": {
         "uid": "754566475542",
-        "client_id": "user_client_id",
+        "user_external_id": "user_external_id_1",
         "created_at": "2024-02-26T13:12:31.798296Z",
         "email": "user_email@email.com",
         "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
@@ -152,7 +152,7 @@ user_by_email_details = user_by_email_response['data']
     "success": True,
     "data": {
         "uid": "754566475542",
-        "client_id": "user_client_id",
+        "user_external_id": "user_external_id_1",
         "created_at": "2024-02-26T13:12:31.798296Z",
         "email": "user_email@email.com",
         "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
@@ -166,24 +166,24 @@ user_by_email_details = user_by_email_response['data']
 }
 ```
 
-### Get a user by client ID
+### Get a user by user external ID
 ```python
-# Get a user by client ID
-# Retrieves a user by their client ID. If the user does not exist, `data` will be None.
-user_by_client_id_response = client.get_user_by_client_id('YOUR_CLIENT_ID')
-user_by_client_id_details = user_by_client_id_response['data']
-# Sample user_by_client_id_response on success:
+# Get a user by user external ID
+# Retrieves a user by their user external ID. If the user does not exist, `data` will be None.
+user_by_user_external_id_response = client.get_user_by_user_external_id('YOUR_USER_EXTERNAL_ID')
+user_by_user_external_details = user_by_user_external_id_response['data']
+# Sample user_by_user_external_id_response on success:
 {
     "success": True,
     "data": {
         "uid": "754566475542",
-        "client_id": "user_client_id",
+        "user_external_id": "user_external_id",
         "created_at": "2024-02-26T13:12:31.798296Z",
         "email": "user_email@email.com",
         "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
     }
 }
-# Sample user_by_client_id_response on failure:
+# Sample user_by_user_external_id_response on failure:
 {
     "success": False,
     "data": None
@@ -200,7 +200,7 @@ The asset methods exposed by the sdk are used to create (mint) assets and retrie
 # prepare the new asset params
 new_asset_params = {
     "user_uid": "324167489835",
-    "client_id": "client_id_1",
+    "asset_external_id": "asset_external_id_1",
     "collection_uid": "221137489875",
     "data": {
         "name": "Dave Starbelly",
@@ -247,7 +247,7 @@ asset_details = asset_response['data']
     "data": {
         "uid": "151854912345",
         "name": "random name #2",
-        "client_id": "asset_client_id_1",
+        "asset_external_id": "asset_external_id_1",
         "collection_uid": "471616646163",
         "collection_name": "Test SDK Collection 1",
         "token_id": 2,
@@ -295,7 +295,7 @@ assets_list = assets_response['data']
         {
             "uid": "151854912345",
             "name": "random name #2",
-            "client_id": "asset_client_id_1",
+            "asset_external_id": "asset_external_id_1",
             "collection_uid": "471616646163",
             "collection_name": "Test SDK Collection 1",
             "token_id": 2,
@@ -716,7 +716,7 @@ reward_details = reward_response['data']
 }
 ```
 
-### Handling Errors
+## Handling Errors
 
 If something goes wrong, you will receive well typed error messages.
 
@@ -750,7 +750,7 @@ So when an error occurs, you can either catch all using the OriginalError class:
 from original_sdk import OriginalError
 
 try:
-    result = client.create_user('invalid_email', 'client_id');
+    result = client.create_user(email='invalid_email', user_external_id='user_external_id');
 except OriginalError as e:
     # handle all errors
 ```
@@ -761,7 +761,7 @@ or specific errors:
 from original_sdk import ClientError, ServerError, ValidationError
 
 try:
-    result = client.create_user('invalid_email', 'client_id');
+    result = client.create_user(email='invalid_email', user_external_id='user_external_id');
 except ClientError as e:
     # handle client errors
 except ServerError as e:
@@ -796,7 +796,7 @@ Please note, if you plan to parse the error detail, it can also be an array if t
     #     {
     #         "code": "null",
     #         "message": "This field may not be null.",
-    #         "field_name": "client_id"
+    #         "field_name": "user_external_id"
     #     },
     #     {
     #         "code": "invalid",

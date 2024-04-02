@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.3](https://github.com/getoriginal/original-python/compare/v1.2.2...v1.2.3) (2024-03-12)
+
+
+### Bug Fixes
+
+* **ORI-2209:** add external ids for user and asset ([2eb7cd8](https://github.com/getoriginal/original-python/commit/2eb7cd82f9db0522e50f654ef522ac36a0c32a02))
+
 ### [1.2.2](https://github.com/getoriginal/original-python/compare/v1.2.1...v1.2.2) (2024-03-08)
 
 
