@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Union
 
 import jwt
 import pytest
@@ -14,7 +14,9 @@ DEFAULT_API_VERSION = "v1"
 
 
 class MockClient(BaseOriginalClient):
-    def create_user(self, email: str, client_id: str):
+    def create_user(
+        self, email: Union[None, str] = None, client_id: Union[None, str] = None
+    ):
         pass
 
     def get_user(self, uid: str):
@@ -63,6 +65,27 @@ class MockClient(BaseOriginalClient):
         pass
 
     def get_deposit(self, user_uid: str):
+        pass
+
+    def get_reward(self, uid: str):
+        pass
+
+    def create_allocation(self, **allocation_data: Any):
+        pass
+
+    def get_allocation(self, uid: str):
+        pass
+
+    def get_allocations_by_user_uid(self, user_uid: str):
+        pass
+
+    def create_claim(self, **claim_data: Any):
+        pass
+
+    def get_claim(self, uid: str):
+        pass
+
+    def get_claims_by_user_uid(self, user_uid: str):
         pass
 
 
