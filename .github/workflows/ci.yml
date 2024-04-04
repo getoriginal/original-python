@@ -58,5 +58,7 @@ jobs:
           TEST_ALLOCATION_UID: ${{secrets.TEST_ALLOCATION_UID}}
           TEST_CLAIM_UID: ${{secrets.TEST_CLAIM_UID}}
           TEST_CLAIM_TO_ADDRESS: ${{secrets.TEST_CLAIM_TO_ADDRESS}}
+          TEST_ACCEPTANCE_CHAIN_ID: ${{secrets.TEST_ACCEPTANCE_CHAIN_ID}}
+          TEST_ACCEPTANCE_NETWORK: ${{secrets.TEST_ACCEPTANCE_NETWORK}}
           PYTHONPATH: ${{ github.workspace }}
         run: make test

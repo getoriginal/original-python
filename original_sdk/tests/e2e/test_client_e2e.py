@@ -221,7 +221,7 @@ class TestClientE2E:
     def test_get_deposit(self, client: OriginalClient):
         response = client.get_deposit(TEST_TRANSFER_TO_USER_UID)
         assert response["data"]["wallet_address"] == TEST_TRANSFER_TO_WALLET_ADDRESS
-        assert response["data"]["chain_id"] == TEST_ACCEPTANCE_CHAIN_ID
+        assert response["data"]["chain_id"] == int(TEST_ACCEPTANCE_CHAIN_ID)
         assert response["data"]["network"] == TEST_ACCEPTANCE_NETWORK
 
     def test_get_reward(self, client: OriginalClient):
