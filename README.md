@@ -27,6 +27,16 @@
     - [Get deposit details for a user](#get-deposit-details-by-user-uid)
   - [Collection](#collection)
     - [Get a collection by UID](#get-a-collection-by-collection-uid)
+  - [Allocation](#allocation)
+    - [Create a new allocation](#create-a-new-allocation)
+    - [Get an allocation by UID](#get-an-allocation-by-allocation-uid)
+    - [Get allocations by user UID](#get-allocations-by-user-uid)
+  - [Claim](#claim)
+    - [Create a new claim](#create-a-new-claim)
+    - [Get a claim by UID](#get-a-claim-by-claim-uid)
+    - [Get claims by user UID](#get-claims-by-user-uid)
+  - [Reward](#reward)
+    - [Get a reward by UID)](#get-a-reward-by-reward-uid)
   - [Handling Errors](#handling-errors)
 
 
@@ -538,6 +548,173 @@ collection_details = collection_response['data']
 }
 ```
 
+## Allocation
+
+The allocation methods exposed by the sdk are used to create and retrieve allocations from the Original API.
+
+### Create a new allocation
+```python
+
+# Prepare the allocation parameters
+allocation_params = {
+    "amount": 123.123,
+    "nonce": "nonce1",
+    "user_uid": "483581848722",
+    "reward_uid": "708469717542",
+}
+
+# Create an allocation
+allocation_response = client.create_allocation(**allocation_params)
+allocation_uid = allocation_response['data']['uid']
+# Sample allocation_response:
+{
+    "success": True,
+    "data": {
+        "uid": "365684656925",
+    }
+}
+```
+
+### Get an allocation by allocation UID
+```python
+
+# Get an allocation by UID, will throw a 404 Not Found error if the allocation does not exist
+allocation_response = client.get_allocation("365684656925")
+allocation_details = allocation_response['data']
+# Sample allocation_response:
+{
+    "success": True,
+    "data": {
+        "uid": "365684656925",
+        "status": "done",
+        "reward_uid": "reward_uid",
+        "to_user_uid": "754566475542",
+        "amount": 123.123,
+        "nonce": "nonce1",
+        "created_at": "2024-02-16T11:33:19.577827Z"
+    }
+}
+```
+
+### Get allocations by user UID
+```python
+# Get allocations by user UID
+allocations_response = client.get_allocations_by_user_uid("483581848722")
+allocations_list = allocations_response['data']
+# Sample allocations_response:
+{
+    "success": True,
+    "data": [
+        {
+            "uid": "365684656925",
+            "status": "done",
+            "reward_uid": "reward_uid",
+            "to_user_uid": "754566475542",
+            "amount": 123.123,
+            "nonce": "nonce1",
+            "created_at": "2024-02-16T11:33:19.577827Z"
+        }
+        # Additional allocations would be listed here
+    ]
+}
+```
+
+## Claim
+
+The claim methods exposed by the sdk are used to create and retrieve claims from the Original API.
+
+### Create a new claim
+```python
+
+# Prepare the claim parameters
+claim_params = {
+    "from_user_uid": "483581848722",
+    "reward_uid": "708469717542",
+    "to_address": '0x4881ab2f73c48a54b907a8b697b270f490768e6d'
+}
+
+# Create a claim
+claim_response = client.create_claim(**claim_params)
+claim_uid = claim_response['data']['uid']
+# Sample claim_response:
+{
+    "success": True,
+    "data": {
+        "uid": "365684656925",
+    }
+}
+```
+
+### Get a claim by claim UID
+```python
+
+# Get a claim by UID, will throw a 404 Not Found error if the claim does not exist
+claim_response = client.get_claim("365684656925")
+claim_details = claim_response['data']
+# Sample claim_response:
+{
+    "success": True,
+    "data": {
+        "uid": "365684656925",
+        "status": "done",
+        "reward_uid": "708469717542",
+        "from_user_uid": "754566475542",
+        "to_address": "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
+        "amount": 123.123,
+        "created_at": "2024-02-16T11:33:19.577827Z"
+    }
+}
+```
+
+### Get claims by user UID
+```python
+# Get claims by user UID
+claims_response = client.get_claims_by_user_uid("483581848722")
+claims_list = claims_response['data']
+# Sample claims_response:
+{
+    "success": True,
+    "data": [
+        {
+            "uid": "365684656925",
+            "status": "done",
+            "reward_uid": "708469717542",
+            "from_user_uid": "754566475542",
+            "to_address": "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
+            "amount": 123.123,
+            "created_at": "2024-02-16T11:33:19.577827Z"
+        }
+        # Additional claims would be listed here
+    ]
+}
+```
+
+## Reward
+
+The reward methods exposed by the sdk are used to retrieve reward details from the Original API.
+
+### Get a reward by reward UID
+```python
+# Get a reward by UID, will throw a 404 Not Found error if the reward does not exist
+reward_response = client.get_reward('221137489875')
+reward_details = reward_response['data']
+# Sample reward_response:
+{
+    "success": True,
+    "data": {
+        "uid": "151854912345",
+        "name": "Test SDK Reward 1",
+        "status": "deployed",
+        "token_type": "ERC20",
+        "token_name": "TestnetORI",
+        "created_at": "2024-02-13T10:45:56.952745Z",
+        "contract_address": "0x124a6755ee787153bb6228463d5dc3a02890a7db",
+        "withdraw_receiver": "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
+        "description": "Description of the reward",
+        "explorer_url": "https://mumbai.polygonscan.com/address/0x124a6755ee787153bb6228463d5dc3a02890a7db"
+    }
+}
+```
 
 ## Handling Errors
 
