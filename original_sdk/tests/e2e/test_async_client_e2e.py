@@ -27,7 +27,6 @@ TEST_RETRY_COUNTER = 30
 
 
 class TestAsyncClientE2E:
-
     async def test_create_user_with_params(self, async_client: OriginalAsyncClient):
         user_external_id = get_random_string(8)
         response = await async_client.create_user(
@@ -127,7 +126,9 @@ class TestAsyncClientE2E:
         response = await async_client.create_asset(**request_data)
         assert response["data"]["uid"] is not None
 
-    async def test_create_asset_with_mint_price(self, async_client: OriginalAsyncClient):
+    async def test_create_asset_with_mint_price(
+        self, async_client: OriginalAsyncClient
+    ):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,
