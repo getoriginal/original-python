@@ -134,7 +134,7 @@ class TestAsyncClientE2E:
             "unique_name": True,
             "image_url": "https://example.com/image.png",
             "store_image_on_ipfs": False,
-            "mint_price_in_usd": 9.99,
+            "sale_price_in_usd": 9.99,
             "attributes": [
                 {"trait_type": "Eyes", "value": "Green"},
                 {"trait_type": "Hair", "value": "Black"},
