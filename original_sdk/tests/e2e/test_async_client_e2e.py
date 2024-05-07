@@ -27,7 +27,6 @@ TEST_RETRY_COUNTER = 30
 
 
 class TestAsyncClientE2E:
-
     async def test_create_user_with_params(self, async_client: OriginalAsyncClient):
         user_external_id = get_random_string(8)
         response = await async_client.create_user(
@@ -113,6 +112,30 @@ class TestAsyncClientE2E:
             "unique_name": True,
             "image_url": "https://example.com/image.png",
             "store_image_on_ipfs": False,
+            "attributes": [
+                {"trait_type": "Eyes", "value": "Green"},
+                {"trait_type": "Hair", "value": "Black"},
+            ],
+        }
+        request_data = {
+            "data": asset_data,
+            "user_uid": TEST_APP_USER_UID,
+            "asset_external_id": asset_name,
+            "collection_uid": TEST_APP_COLLECTION_UID,
+        }
+        response = await async_client.create_asset(**request_data)
+        assert response["data"]["uid"] is not None
+
+    async def test_create_asset_with_mint_price(
+        self, async_client: OriginalAsyncClient
+    ):
+        asset_name = get_random_string(8)
+        asset_data = {
+            "name": asset_name,
+            "unique_name": True,
+            "image_url": "https://example.com/image.png",
+            "store_image_on_ipfs": False,
+            "sale_price_in_usd": 9.99,
             "attributes": [
                 {"trait_type": "Eyes", "value": "Green"},
                 {"trait_type": "Hair", "value": "Black"},
