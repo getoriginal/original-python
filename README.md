@@ -560,7 +560,7 @@ The allocation methods exposed by the sdk are used to create and retrieve alloca
 allocation_params = {
     "amount": 123.123,
     "nonce": "nonce1",
-    "user_uid": "483581848722",
+    "to_user_uid": "483581848722",
     "reward_uid": "708469717542",
 }
 
