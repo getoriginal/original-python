@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/getoriginal/original-python/compare/v1.3.0...v1.3.1) (2024-05-08)
+
+
+### Features
+
+* [ori-2517] add mint price support ([f1df19b](https://github.com/getoriginal/original-python/commit/f1df19ba53d0d2b89a8cf9d8989a13eceecfb766))
+
+
+### Bug Fixes
+
+* [ori-2338] Add configuration for chain_id and network to env vars, move to amoy ([2b3f5da](https://github.com/getoriginal/original-python/commit/2b3f5dafe5f9e2b916dd71f03a30973bc12dd26b))
+* [ori-2338] pr review ([75cced3](https://github.com/getoriginal/original-python/commit/75cced33754d6e609ae589facc5b27581e3f019f))
+* [ori-2338] pr review, int() casting ([5452776](https://github.com/getoriginal/original-python/commit/545277605edbc2d3a8531e85662de4f4c51ce584))
+* Fix but with README allocation_params, 'user_uid' -> 'to_user_uid' ([8acd041](https://github.com/getoriginal/original-python/commit/8acd041da414b8a42fc8528c0444bd3ed800a8c3))
+* Fix readme allocation params, ([83cc53c](https://github.com/getoriginal/original-python/commit/83cc53c5e14e4f3530345ce0dd35e4b5306bfa22))
+* lint ([a49668f](https://github.com/getoriginal/original-python/commit/a49668f30afd98593f5c556a8a42dc1e9aa5b576))
+* **ori-2365:** fix release script ignoring pre-release versions ([04f1299](https://github.com/getoriginal/original-python/commit/04f1299eb557c6d5a3ab84ee3a615e6d2cba8b1d))
+* pytest-asyncio version to fix this issue: https://github.com/pytest-dev/pytest/issues/12269 ([89bb13d](https://github.com/getoriginal/original-python/commit/89bb13dc7b93cdf66a0c225d9b55a5abc30065b6))
+* pytest-asyncio version to fix this issue: https://github.com/pytest-dev/pytest/issues/12269 ([34febb4](https://github.com/getoriginal/original-python/commit/34febb44fd8eb710b3fea81c890aceeceadcb7e1))
+* pytest-asyncio version to fix this issue: https://github.com/pytest-dev/pytest/issues/12269 ([7a496d8](https://github.com/getoriginal/original-python/commit/7a496d806c7aa16b7b4b2f6ce2bc0e2d97092b87))
+* rename mint_price_in_usd -> sale_price_in_usd ([4b643c2](https://github.com/getoriginal/original-python/commit/4b643c2611dc2f750a2c49e320f049eee89f602a))
+* reordering tests ([d00e5ba](https://github.com/getoriginal/original-python/commit/d00e5bafe11a0996b5f6a58634da225513787d6d))
+
 ## [1.3.0](https://github.com/getoriginal/original-python/compare/v1.2.3...v1.3.0) (2024-04-02)
 
 
