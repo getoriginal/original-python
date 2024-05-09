@@ -21,7 +21,7 @@ def populate_globals():
     test_allocation_uid = os.getenv("TEST_ALLOCATION_UID")
     test_claim_uid = os.getenv("TEST_CLAIM_UID")
     test_claim_to_address = os.getenv("TEST_CLAIM_TO_ADDRESS")
-    test_acceptance_chain_id = os.getenv("TEST_ACCEPTANCE_CHAIN_ID")
+    test_acceptance_chain_id = int(os.getenv("TEST_ACCEPTANCE_CHAIN_ID"))
     test_acceptance_network = os.getenv("TEST_ACCEPTANCE_NETWORK")
     test_retry_counter = 30
 
