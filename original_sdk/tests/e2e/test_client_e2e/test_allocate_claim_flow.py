@@ -7,7 +7,6 @@ from original_sdk.utils import get_random_string
 
 
 class TestClientE2E:
-
     def test_full_allocate_claim_flow(self, client: OriginalClient):
         allocation_data = {
             "amount": 0.001,

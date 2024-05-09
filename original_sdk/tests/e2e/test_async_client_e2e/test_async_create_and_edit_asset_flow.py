@@ -1,4 +1,5 @@
 import time
+
 import globals as gbl
 
 from original_sdk import OriginalAsyncClient
@@ -6,7 +7,6 @@ from original_sdk.utils import get_random_string
 
 
 class TestClientE2E:
-
     async def test_edit_asset(self, async_client: OriginalAsyncClient):
         asset_name = get_random_string(8)
         asset_data = {

@@ -1,5 +1,6 @@
 import globals as gbl
 import pytest
+
 from original_sdk import ClientError, OriginalClient
 from original_sdk.utils import get_random_string
 
@@ -42,7 +43,9 @@ class TestClientE2E:
         assert response["data"]["email"] == gbl.env_data["test_app_user_email"]
 
     def test_get_user_by_user_external_id(self, client: OriginalClient):
-        response = client.get_user_by_user_external_id(gbl.env_data["test_app_user_client_id"])
+        response = client.get_user_by_user_external_id(
+            gbl.env_data["test_app_user_client_id"]
+        )
         assert response["data"]["uid"] == gbl.env_data["test_app_user_uid"]
         assert response["data"]["email"] == gbl.env_data["test_app_user_email"]
 

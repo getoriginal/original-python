@@ -1,7 +1,7 @@
 import asyncio
 import os
-import globals as gbl
 
+import globals as gbl
 import pytest
 
 from original_sdk import OriginalClient
@@ -89,9 +89,9 @@ async def async_client():
     options = {"base_url": base_url} if base_url else {}
     options = {**options, "api_version": api_version} if api_version else {**options}
     async with OriginalAsyncClient(
-            api_key=os.environ["TEST_API_KEY"],
-            api_secret=os.environ["TEST_API_SECRET"],
-            timeout=10,
-            **options,
+        api_key=os.environ["TEST_API_KEY"],
+        api_secret=os.environ["TEST_API_SECRET"],
+        timeout=10,
+        **options,
     ) as original_client:
         yield original_client

@@ -1,11 +1,10 @@
 import globals as gbl
 
-from original_sdk import OriginalClient, ClientError
+from original_sdk import ClientError, OriginalClient
 from original_sdk.utils import get_random_string
 
 
 class TestClientE2E:
-
     def test_create_allocation(self, client: OriginalClient):
         allocation_data = {
             "amount": 0.001,

@@ -7,8 +7,9 @@ from original_sdk.utils import get_random_string
 
 
 class TestClientE2E:
-
-    async def test_full_create_transfer_burn_asset_flow(self, async_client: OriginalAsyncClient):
+    async def test_full_create_transfer_burn_asset_flow(
+        self, async_client: OriginalAsyncClient
+    ):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,
@@ -90,7 +91,10 @@ class TestClientE2E:
         final_asset_burned_status = False
         retries = 0
 
-        while final_asset_burned_status is False and retries < gbl.env_data["test_retry_counter"]:
+        while (
+            final_asset_burned_status is False
+            and retries < gbl.env_data["test_retry_counter"]
+        ):
             response = await async_client.get_asset(asset_uid)
             final_asset_burned_status = response["data"]["is_burned"]
             if not final_asset_burned_status:
