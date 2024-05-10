@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/getoriginal/original-python/compare/v1.3.0...v1.3.1) (2024-05-08)
+
+
+### Features
+
+* [ori-2517] add mint price support ([f1df19b](https://github.com/getoriginal/original-python/commit/f1df19ba53d0d2b89a8cf9d8989a13eceecfb766))
+
+
+### Bug Fixes
+
+* [ori-2338] Add configuration for chain_id and network to env vars, move to amoy ([2b3f5da](https://github.com/getoriginal/original-python/commit/2b3f5dafe5f9e2b916dd71f03a30973bc12dd26b))
+* Fix readme allocation params, ([83cc53c](https://github.com/getoriginal/original-python/commit/83cc53c5e14e4f3530345ce0dd35e4b5306bfa22))
+* **ori-2365:** fix release script ignoring pre-release versions ([04f1299](https://github.com/getoriginal/original-python/commit/04f1299eb557c6d5a3ab84ee3a615e6d2cba8b1d))
+* pytest-asyncio version to fix this issue: https://github.com/pytest-dev/pytest/issues/12269 ([89bb13d](https://github.com/getoriginal/original-python/commit/89bb13dc7b93cdf66a0c225d9b55a5abc30065b6))
+
+
 ## [1.3.0](https://github.com/getoriginal/original-python/compare/v1.2.3...v1.3.0) (2024-04-02)
 
 
