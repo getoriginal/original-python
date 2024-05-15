@@ -3,7 +3,7 @@ import globals as gbl
 from original_sdk import ClientError, OriginalAsyncClient
 
 
-class TestClientE2E:
+class TestAsyncClientClaimE2E:
     async def test_create_claim(self, async_client: OriginalAsyncClient):
         claim_data = {
             "reward_uid": gbl.env_data["test_app_reward_uid"],

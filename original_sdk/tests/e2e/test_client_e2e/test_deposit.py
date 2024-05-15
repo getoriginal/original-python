@@ -3,7 +3,7 @@ import globals as gbl
 from original_sdk import OriginalClient
 
 
-class TestClientE2E:
+class TestClientDepositE2E:
     def test_get_deposit(self, client: OriginalClient):
         response = client.get_deposit(gbl.env_data["test_transfer_to_user_uid"])
         assert (

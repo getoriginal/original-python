@@ -6,7 +6,7 @@ from original_sdk import OriginalClient
 from original_sdk.utils import get_random_string
 
 
-class TestClientE2E:
+class TestClientCreateTransferBurnAssetFlowE2E:
     def test_full_create_transfer_burn_asset_flow(self, client: OriginalClient):
         asset_name = get_random_string(8)
         asset_data = {

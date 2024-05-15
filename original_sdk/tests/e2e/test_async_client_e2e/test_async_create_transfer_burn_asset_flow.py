@@ -6,7 +6,7 @@ from original_sdk import OriginalAsyncClient
 from original_sdk.utils import get_random_string
 
 
-class TestClientE2E:
+class TestAsyncClientTransferBurnAssetFlowE2E:
     async def test_full_create_transfer_burn_asset_flow(
         self, async_client: OriginalAsyncClient
     ):

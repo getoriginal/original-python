@@ -3,7 +3,7 @@ import globals as gbl
 from original_sdk import OriginalAsyncClient
 
 
-class TestClientE2E:
+class TestAsyncClientDepositE2E:
     async def test_get_deposit(self, async_client: OriginalAsyncClient):
         response = await async_client.get_deposit(
             gbl.env_data["test_transfer_to_user_uid"]

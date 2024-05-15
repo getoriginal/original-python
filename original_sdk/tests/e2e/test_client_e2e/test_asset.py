@@ -4,7 +4,7 @@ from original_sdk import ClientError, OriginalClient
 from original_sdk.utils import get_random_string
 
 
-class TestClientE2E:
+class TestAssetE2E:
     def test_create_asset(self, client: OriginalClient):
         asset_name = get_random_string(8)
         asset_data = {

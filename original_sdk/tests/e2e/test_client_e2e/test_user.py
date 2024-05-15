@@ -5,7 +5,7 @@ from original_sdk import ClientError, OriginalClient
 from original_sdk.utils import get_random_string
 
 
-class TestClientE2E:
+class TestClientUserE2E:
     def test_create_user_with_params(self, client: OriginalClient):
         user_external_id = get_random_string(8)
         response = client.create_user(

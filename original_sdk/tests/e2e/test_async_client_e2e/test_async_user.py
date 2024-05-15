@@ -5,7 +5,7 @@ from original_sdk import ClientError, OriginalAsyncClient
 from original_sdk.utils import get_random_string
 
 
-class TestClientE2E:
+class TestAsyncClientUserE2E:
     async def test_create_user_with_params(self, async_client: OriginalAsyncClient):
         user_external_id = get_random_string(8)
         response = await async_client.create_user(

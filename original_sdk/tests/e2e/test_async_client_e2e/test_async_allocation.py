@@ -4,7 +4,7 @@ from original_sdk import ClientError, OriginalAsyncClient
 from original_sdk.utils import get_random_string
 
 
-class TestClientE2E:
+class TestAsyncClientAllocationE2E:
     async def test_create_allocation(self, async_client: OriginalAsyncClient):
         allocation_data = {
             "amount": 0.001,

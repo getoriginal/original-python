@@ -3,7 +3,7 @@ import globals as gbl
 from original_sdk import ClientError, OriginalClient
 
 
-class TestClientE2E:
+class TestClientClaimE2E:
     def test_create_claim(self, client: OriginalClient):
         claim_data = {
             "reward_uid": gbl.env_data["test_app_reward_uid"],

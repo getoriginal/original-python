@@ -3,7 +3,7 @@ import globals as gbl
 from original_sdk import ClientError, OriginalAsyncClient
 
 
-class TestClientE2E:
+class TestAsyncClientCollectionE2E:
     async def test_get_collection(self, async_client: OriginalAsyncClient):
         response = await async_client.get_collection(
             gbl.env_data["test_app_collection_uid"]
