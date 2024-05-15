@@ -263,7 +263,7 @@ asset_details = asset_response['data']
         "owner_address": "0x32e28bfe647939d073d39113c697a11e3065ea97",
         "metadata": {
             "name": "random name",
-            "image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
+            "image": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
             "description": "nft_description",
             "original_id": "151854912345",
             "external_url": "external_url@example.com",
@@ -311,7 +311,7 @@ assets_list = assets_response['data']
             "owner_address": "0x32e28bfe647939d073d39113c697a11e3065ea97",
             "metadata": {
                 "name": "random name",
-                "image_url": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
+                "image": "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
                 "description": "nft_description",
                 "original_id": "151854912345",
                 "external_url": "external_url@example.com",
