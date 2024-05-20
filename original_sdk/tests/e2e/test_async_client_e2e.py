@@ -150,51 +150,6 @@ class TestAsyncClientE2E:
         response = await async_client.create_asset(**request_data)
         assert response["data"]["uid"] is not None
 
-    async def test_create_asset_with_deprecated_client_id(
-        self, async_client: OriginalAsyncClient
-    ):
-        asset_name = get_random_string(8)
-        asset_data = {
-            "name": asset_name,
-            "unique_name": True,
-            "image_url": "https://example.com/image.png",
-            "store_image_on_ipfs": False,
-            "attributes": [
-                {"trait_type": "Eyes", "value": "Green"},
-                {"trait_type": "Hair", "value": "Black"},
-            ],
-        }
-        request_data = {
-            "data": asset_data,
-            "user_uid": TEST_APP_USER_UID,
-            "client_id": asset_name,
-            "collection_uid": TEST_APP_COLLECTION_UID,
-        }
-        response = await async_client.create_asset(**request_data)
-        assert response["data"]["uid"] is not None
-
-    async def test_create_asset_with_no_client_id(
-        self, async_client: OriginalAsyncClient
-    ):
-        asset_name = get_random_string(8)
-        asset_data = {
-            "name": asset_name,
-            "unique_name": True,
-            "image_url": "https://example.com/image.png",
-            "store_image_on_ipfs": False,
-            "attributes": [
-                {"trait_type": "Eyes", "value": "Green"},
-                {"trait_type": "Hair", "value": "Black"},
-            ],
-        }
-        request_data = {
-            "data": asset_data,
-            "user_uid": TEST_APP_USER_UID,
-            "collection_uid": TEST_APP_COLLECTION_UID,
-        }
-        response = await async_client.create_asset(**request_data)
-        assert response["data"]["uid"] is not None
-
     async def test_edit_asset(self, async_client: OriginalAsyncClient):
         asset_name = get_random_string(8)
         asset_data = {
@@ -211,7 +166,7 @@ class TestAsyncClientE2E:
         request_data = {
             "data": asset_data,
             "user_uid": TEST_APP_USER_UID,
-            "client_id": asset_name,
+            "asset_external_id": asset_name,
             "collection_uid": TEST_APP_COLLECTION_UID,
         }
         asset_response = await async_client.create_asset(**request_data)
@@ -362,7 +317,7 @@ class TestAsyncClientE2E:
         request_data = {
             "data": asset_data,
             "user_uid": TEST_APP_USER_UID,
-            "client_id": asset_name,
+            "asset_external_id": asset_name,
             "collection_uid": TEST_APP_COLLECTION_UID,
         }
         asset_response = await async_client.create_asset(**request_data)

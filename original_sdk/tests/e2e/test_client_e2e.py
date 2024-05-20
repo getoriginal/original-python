@@ -135,47 +135,6 @@ class TestClientE2E:
         response = client.create_asset(**request_data)
         assert response["data"]["uid"] is not None
 
-    def test_create_asset_with_deprecated_client_id(self, client: OriginalClient):
-        asset_name = get_random_string(8)
-        asset_data = {
-            "name": asset_name,
-            "unique_name": True,
-            "image_url": "https://example.com/image.png",
-            "store_image_on_ipfs": False,
-            "attributes": [
-                {"trait_type": "Eyes", "value": "Green"},
-                {"trait_type": "Hair", "value": "Black"},
-            ],
-        }
-        request_data = {
-            "data": asset_data,
-            "user_uid": TEST_APP_USER_UID,
-            "client_id": asset_name,
-            "collection_uid": TEST_APP_COLLECTION_UID,
-        }
-        response = client.create_asset(**request_data)
-        assert response["data"]["uid"] is not None
-
-    def test_create_asset_with_no_client_id(self, client: OriginalClient):
-        asset_name = get_random_string(8)
-        asset_data = {
-            "name": asset_name,
-            "unique_name": True,
-            "image_url": "https://example.com/image.png",
-            "store_image_on_ipfs": False,
-            "attributes": [
-                {"trait_type": "Eyes", "value": "Green"},
-                {"trait_type": "Hair", "value": "Black"},
-            ],
-        }
-        request_data = {
-            "data": asset_data,
-            "user_uid": TEST_APP_USER_UID,
-            "collection_uid": TEST_APP_COLLECTION_UID,
-        }
-        response = client.create_asset(**request_data)
-        assert response["data"]["uid"] is not None
-
     def test_get_asset(self, client: OriginalClient):
         response = client.get_asset(TEST_ASSET_UID)
         assert response["data"]["uid"] == TEST_ASSET_UID
@@ -289,7 +248,7 @@ class TestClientE2E:
         request_data = {
             "data": asset_data,
             "user_uid": TEST_APP_USER_UID,
-            "client_id": asset_name,
+            "asset_external_id": asset_name,
             "collection_uid": TEST_APP_COLLECTION_UID,
         }
         asset_response = client.create_asset(**request_data)
@@ -327,7 +286,7 @@ class TestClientE2E:
         request_data = {
             "data": asset_data,
             "user_uid": TEST_APP_USER_UID,
-            "client_id": asset_name,
+            "asset_external_id": asset_name,
             "collection_uid": TEST_APP_COLLECTION_UID,
         }
         asset_response = client.create_asset(**request_data)
