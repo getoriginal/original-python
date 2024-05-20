@@ -1,10 +1,46 @@
 import asyncio
 import os
 
+import globals as gbl
 import pytest
 
 from original_sdk import OriginalClient
 from original_sdk.async_client import OriginalAsyncClient
+
+
+@pytest.fixture(autouse=True)
+def populate_globals():
+    test_app_user_email = os.getenv("TEST_APP_USER_EMAIL")
+    test_app_user_uid = os.getenv("TEST_APP_USER_UID")
+    test_app_user_client_id = os.getenv("TEST_APP_USER_CLIENT_ID")
+    test_app_collection_uid = os.getenv("TEST_APP_COLLECTION_UID")
+    test_asset_uid = os.getenv("TEST_ASSET_UID")
+    test_transfer_to_wallet_address = os.getenv("TEST_TRANSFER_TO_WALLET_ADDRESS")
+    test_transfer_to_user_uid = os.getenv("TEST_TRANSFER_TO_USER_UID")
+    test_app_reward_uid = os.getenv("TEST_APP_REWARD_UID")
+    test_allocation_uid = os.getenv("TEST_ALLOCATION_UID")
+    test_claim_uid = os.getenv("TEST_CLAIM_UID")
+    test_claim_to_address = os.getenv("TEST_CLAIM_TO_ADDRESS")
+    test_acceptance_chain_id = int(os.getenv("TEST_ACCEPTANCE_CHAIN_ID"))
+    test_acceptance_network = os.getenv("TEST_ACCEPTANCE_NETWORK")
+    test_retry_counter = 30
+
+    gbl.env_data = {
+        "test_app_user_email": test_app_user_email,
+        "test_app_user_uid": test_app_user_uid,
+        "test_app_user_client_id": test_app_user_client_id,
+        "test_app_collection_uid": test_app_collection_uid,
+        "test_asset_uid": test_asset_uid,
+        "test_transfer_to_wallet_address": test_transfer_to_wallet_address,
+        "test_transfer_to_user_uid": test_transfer_to_user_uid,
+        "test_app_reward_uid": test_app_reward_uid,
+        "test_allocation_uid": test_allocation_uid,
+        "test_claim_uid": test_claim_uid,
+        "test_claim_to_address": test_claim_to_address,
+        "test_acceptance_chain_id": test_acceptance_chain_id,
+        "test_acceptance_network": test_acceptance_network,
+        "test_retry_counter": test_retry_counter,
+    }
 
 
 def pytest_runtest_makereport(item, call):
