@@ -25,7 +25,7 @@ class TestAsyncClientTransferBurnAssetFlowE2E:
         request_data = {
             "data": asset_data,
             "user_uid": gbl.env_data["test_app_user_uid"],
-            "client_id": asset_name,
+            "asset_external_id": asset_name,
             "collection_uid": gbl.env_data["test_app_collection_uid"],
         }
         asset_response = await async_client.create_asset(**request_data)
