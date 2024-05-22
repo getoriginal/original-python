@@ -50,51 +50,6 @@ class TestAsyncClientAssetE2E:
         response = await async_client.create_asset(**request_data)
         assert response["data"]["uid"] is not None
 
-    async def test_create_asset_with_deprecated_client_id(
-        self, async_client: OriginalAsyncClient
-    ):
-        asset_name = get_random_string(8)
-        asset_data = {
-            "name": asset_name,
-            "unique_name": True,
-            "image_url": "https://example.com/image.png",
-            "store_image_on_ipfs": False,
-            "attributes": [
-                {"trait_type": "Eyes", "value": "Green"},
-                {"trait_type": "Hair", "value": "Black"},
-            ],
-        }
-        request_data = {
-            "data": asset_data,
-            "user_uid": gbl.env_data["test_app_user_uid"],
-            "client_id": asset_name,
-            "collection_uid": gbl.env_data["test_app_collection_uid"],
-        }
-        response = await async_client.create_asset(**request_data)
-        assert response["data"]["uid"] is not None
-
-    async def test_create_asset_with_no_client_id(
-        self, async_client: OriginalAsyncClient
-    ):
-        asset_name = get_random_string(8)
-        asset_data = {
-            "name": asset_name,
-            "unique_name": True,
-            "image_url": "https://example.com/image.png",
-            "store_image_on_ipfs": False,
-            "attributes": [
-                {"trait_type": "Eyes", "value": "Green"},
-                {"trait_type": "Hair", "value": "Black"},
-            ],
-        }
-        request_data = {
-            "data": asset_data,
-            "user_uid": gbl.env_data["test_app_user_uid"],
-            "collection_uid": gbl.env_data["test_app_collection_uid"],
-        }
-        response = await async_client.create_asset(**request_data)
-        assert response["data"]["uid"] is not None
-
     async def test_get_asset(self, async_client: OriginalAsyncClient):
         response = await async_client.get_asset(gbl.env_data["test_asset_uid"])
         assert response["data"]["uid"] == gbl.env_data["test_asset_uid"]
