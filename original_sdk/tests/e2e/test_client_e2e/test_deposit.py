@@ -13,8 +13,8 @@ class TestClientDepositE2E:
         assert response["data"]["chain_id"] == gbl.env_data["test_acceptance_chain_id"]
         assert response["data"]["network"] == gbl.env_data["test_acceptance_network"]
 
-    def test_get_deposit_multi_chain(self, client: OriginalClient):
-        response = client.get_deposit(
+    def test_get_deposit_multi_chain(self, multi_chain_client: OriginalClient):
+        response = multi_chain_client.get_deposit(
             gbl.env_data["test_multi_chain_transfer_to_user_uid"],
             gbl.env_data["test_multi_chain_collection_uid"],
         )
