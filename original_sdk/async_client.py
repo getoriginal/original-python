@@ -205,9 +205,7 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
         params = {"user_uid": user_uid}
         if collection_uid is not None:
             params["collection_uid"] = collection_uid
-        return await self.get(
-            "deposit", params=params
-        )
+        return await self.get("deposit", params=params)
 
     async def get_reward(self, uid: str) -> OriginalResponse:
         return await self.get(f"reward/{uid}")

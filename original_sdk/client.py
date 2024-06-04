@@ -189,9 +189,7 @@ class OriginalClient(BaseOriginalClient):
         params = {"user_uid": user_uid}
         if collection_uid is not None:
             params["collection_uid"] = collection_uid
-        return self.get(
-            "deposit", params=params
-        )
+        return self.get("deposit", params=params)
 
     def get_reward(self, uid: str) -> OriginalResponse:
         return self.get(f"reward/{uid}")
