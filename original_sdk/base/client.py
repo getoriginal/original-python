@@ -1,6 +1,6 @@
 import abc
 import os
-from typing import Any, Awaitable, Dict, Union, Optional
+from typing import Any, Awaitable, Dict, Optional, Union
 
 import jwt
 

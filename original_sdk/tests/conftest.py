@@ -26,8 +26,12 @@ def populate_globals():
     test_multi_chain_api_key = os.getenv("TEST_MULTI_CHAIN_API_KEY")
     test_multi_chain_api_secret = os.getenv("TEST_MULTI_CHAIN_API_SECRET")
     test_multi_chain_collection_uid = os.getenv("TEST_MULTI_CHAIN_COLLECTION_UID")
-    test_multi_chain_transfer_to_user_wallet = os.getenv("TEST_MULTI_CHAIN_TRANSFER_TO_USER_WALLET")
-    test_multi_chain_transfer_to_user_uid = os.getenv("TEST_MULTI_CHAIN_TRANSFER_TO_USER_UID")
+    test_multi_chain_transfer_to_user_wallet = os.getenv(
+        "TEST_MULTI_CHAIN_TRANSFER_TO_USER_WALLET"
+    )
+    test_multi_chain_transfer_to_user_uid = os.getenv(
+        "TEST_MULTI_CHAIN_TRANSFER_TO_USER_UID"
+    )
     test_retry_counter = 30
 
     gbl.env_data = {
