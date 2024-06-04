@@ -1,6 +1,6 @@
 import abc
 import os
-from typing import Any, Awaitable, Dict, Union
+from typing import Any, Awaitable, Dict, Union, Optional
 
 import jwt
 
@@ -285,12 +285,13 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_deposit(
-        self, user_uid: str
+        self, user_uid: str, collection_uid: Optional[str] = None
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original deposit by user uid.
 
         :param user_uid: the user uid
+        :param collection_uid: the collection uid
         :return:
         """
         pass

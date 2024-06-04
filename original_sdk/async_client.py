@@ -199,8 +199,8 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     async def get_burns_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return await self.get("burn", params={"user_uid": user_uid})
 
-    async def get_deposit(self, user_uid: str) -> OriginalResponse:
-        return await self.get("deposit", params={"user_uid": user_uid})
+    async def get_deposit(self, user_uid: str, collection_uid: Optional[str] = None) -> OriginalResponse:
+        return await self.get("deposit", params={"user_uid": user_uid, "collection_uid": collection_uid})
 
     async def get_reward(self, uid: str) -> OriginalResponse:
         return await self.get(f"reward/{uid}")

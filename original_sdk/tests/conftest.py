@@ -23,6 +23,11 @@ def populate_globals():
     test_claim_to_address = os.getenv("TEST_CLAIM_TO_ADDRESS")
     test_acceptance_chain_id = int(os.getenv("TEST_ACCEPTANCE_CHAIN_ID"))
     test_acceptance_network = os.getenv("TEST_ACCEPTANCE_NETWORK")
+    test_multi_chain_api_key = os.getenv("TEST_MULTI_CHAIN_API_KEY")
+    test_multi_chain_api_secret = os.getenv("TEST_MULTI_CHAIN_API_SECRET")
+    test_multi_chain_collection_uid = os.getenv("TEST_MULTI_CHAIN_COLLECTION_UID")
+    test_multi_chain_transfer_to_user_wallet = os.getenv("TEST_MULTI_CHAIN_TRANSFER_TO_USER_WALLET")
+    test_multi_chain_transfer_to_user_uid = os.getenv("TEST_MULTI_CHAIN_TRANSFER_TO_USER_UID")
     test_retry_counter = 30
 
     gbl.env_data = {
@@ -40,6 +45,11 @@ def populate_globals():
         "test_acceptance_chain_id": test_acceptance_chain_id,
         "test_acceptance_network": test_acceptance_network,
         "test_retry_counter": test_retry_counter,
+        "test_multi_chain_api_key": test_multi_chain_api_key,
+        "test_multi_chain_api_secret": test_multi_chain_api_secret,
+        "test_multi_chain_collection_uid": test_multi_chain_collection_uid,
+        "test_multi_chain_transfer_to_user_wallet": test_multi_chain_transfer_to_user_wallet,
+        "test_multi_chain_transfer_to_user_uid": test_multi_chain_transfer_to_user_uid,
     }
 
 
