@@ -84,6 +84,7 @@ def client():
         **options,
     )
 
+
 @pytest.fixture(scope="module")
 def multi_chain_client():
     base_url = os.environ.get("TEST_ORIGINAL_HOST")
@@ -118,6 +119,7 @@ async def async_client():
         **options,
     ) as original_client:
         yield original_client
+
 
 @pytest.fixture(scope="module")
 async def async_multi_chain_client():
