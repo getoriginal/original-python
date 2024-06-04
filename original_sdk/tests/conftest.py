@@ -92,8 +92,8 @@ def multi_chain_client():
     options = {"base_url": base_url} if base_url else {}
     options = {**options, "api_version": api_version} if api_version else {**options}
     return OriginalClient(
-        api_key=os.environ["MULTI_CHAIN_TEST_API_KEY"],
-        api_secret=os.environ["MULTI_CHAIN_TEST_API_SECRET"],
+        api_key=os.environ["TEST_MULTI_CHAIN_API_KEY"],
+        api_secret=os.environ["TEST_MULTI_CHAIN_API_SECRET"],
         timeout=10,
         **options,
     )
