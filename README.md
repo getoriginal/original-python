@@ -508,7 +508,8 @@ The deposit methods exposed by the sdk are used to return the details for deposi
 ### Get deposit details by user UID
 ```python
 # Get deposit details for a user
-deposit_response = client.get_deposit("user_uid")
+# collection_uid is optional, but required for multi-chain applications
+deposit_response = client.get_deposit("user_uid", "collection_uid")
 deposit_details = deposit_response['data']
 # Sample deposit_response:
 {
