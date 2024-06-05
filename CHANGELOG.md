@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/getoriginal/original-python/compare/v1.3.2...v1.3.3) (2024-06-05)
+
+
+### Features
+
+* **ORI-2818:** add multichain support to get deposit, optional collection_uid param ([274b7d7](https://github.com/getoriginal/original-python/commit/274b7d79a9f456b4b6710b72ceda1ed585eafd09))
+* **ORI-2818:** linting ([aa06a15](https://github.com/getoriginal/original-python/commit/aa06a15129dad5fa968985200fb7b218f12e827d))
+* **ORI-2818:** linting ([c7d14c3](https://github.com/getoriginal/original-python/commit/c7d14c3da4819b9e8ed3c2a2e51718b859719383))
+* **ORI-2818:** pr review ([4ae3a19](https://github.com/getoriginal/original-python/commit/4ae3a19d79ac8c3af6d3ddac82551ba7b21fa800))
+* **ORI-2818:** pr review ([ed4f66c](https://github.com/getoriginal/original-python/commit/ed4f66c430e55f31d7423332dd6e3790c05c7ead))
+* **ORI-2818:** pr review ([41bb272](https://github.com/getoriginal/original-python/commit/41bb27202e6120fef767d300d8893fc7034eaa32))
+* **ORI-2818:** pr review ([b6f64b2](https://github.com/getoriginal/original-python/commit/b6f64b2b189919cb012138505390a7b2f9bf1365))
+
 ### [1.3.2](https://github.com/getoriginal/original-python/compare/v1.3.0...v1.3.2) (2024-05-22)
 
 
