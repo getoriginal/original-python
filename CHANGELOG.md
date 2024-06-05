@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/getoriginal/original-python/compare/v1.3.2...v1.3.3) (2024-06-05)
+
+
+### Features
+
+* **ORI-2818:** add multichain support to get deposit, optional collection_uid param ([274b7d7](https://github.com/getoriginal/original-python/commit/274b7d79a9f456b4b6710b72ceda1ed585eafd09))
+
 ### [1.3.2](https://github.com/getoriginal/original-python/compare/v1.3.0...v1.3.2) (2024-05-22)
 
 
