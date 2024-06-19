@@ -32,8 +32,8 @@ class TestClientUserE2E:
         ):
             client.create_user(email=f"{client_id}@test.com", client_id=client_id)
 
-    def test_get_user(self, client: OriginalClient):
-        response = client.get_user(gbl.env_data["test_transfer_to_user_uid"])
+    def test_get_user(self, multi_chain_client: OriginalClient):
+        response = multi_chain_client.get_user(gbl.env_data["test_transfer_to_user_uid"])
         assert response["data"]["uid"] == gbl.env_data["test_transfer_to_user_uid"]
         assert response["data"]["wallets"] is not None
         assert (

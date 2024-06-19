@@ -36,8 +36,8 @@ class TestAsyncClientUserE2E:
                 email=f"{client_id}@test.com", client_id=client_id
             )
 
-    async def test_get_user(self, async_client: OriginalAsyncClient):
-        response = await async_client.get_user(
+    async def test_get_user(self, multi_chain_client: OriginalAsyncClient):
+        response = await multi_chain_client.get_user(
             gbl.env_data["test_transfer_to_user_uid"]
         )
         assert response["data"]["uid"] == gbl.env_data["test_transfer_to_user_uid"]
