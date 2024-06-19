@@ -42,7 +42,10 @@ class TestClientUserE2E:
         response = client.get_user(gbl.env_data["test_transfer_to_user_uid"])
         assert response["data"]["uid"] == gbl.env_data["test_transfer_to_user_uid"]
         assert response["data"]["wallets"] is not None
-        assert response["data"]["wallets"][0]["wallet_address"] == gbl.env_data["test_transfer_to_wallet_address"]
+        assert (
+            response["data"]["wallets"][0]["wallet_address"]
+            == gbl.env_data["test_transfer_to_wallet_address"]
+        )
 
     def test_get_user_by_email(self, client: OriginalClient):
         response = client.get_user_by_email(gbl.env_data["test_app_user_email"])
