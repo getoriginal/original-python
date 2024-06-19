@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* **ORI-2818:** add multichain support to get deposit, optional collection_uid param ([274b7d7](https://github.com/getoriginal/original-python/commit/274b7d79a9f456b4b6710b72ceda1ed585eafd09))
+* **ORI-2919:** docs for wallets and wallet_address update, tests ([fc54a90](https://github.com/getoriginal/original-python/commit/fc54a90ac59c08223e90ef8daf4f936de4f10d08))
 
 ### [1.3.3](https://github.com/getoriginal/original-python/compare/v1.3.2...v1.3.3) (2024-06-05)
 
