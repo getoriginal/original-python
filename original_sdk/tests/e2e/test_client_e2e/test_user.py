@@ -34,13 +34,13 @@ class TestClientUserE2E:
 
     def test_get_user(self, multi_chain_client: OriginalClient):
         response = multi_chain_client.get_user(
-            gbl.env_data["test_transfer_to_user_uid"]
+            gbl.env_data["test_multi_chain_transfer_to_user_uid"]
         )
-        assert response["data"]["uid"] == gbl.env_data["test_transfer_to_user_uid"]
+        assert response["data"]["uid"] == gbl.env_data["test_multi_chain_transfer_to_user_uid"]
         assert response["data"]["wallets"] is not None
         assert (
-            response["data"]["wallets"][0]["wallet_address"]
-            == gbl.env_data["test_transfer_to_wallet_address"]
+            response["data"]["wallets"][0]["address"]
+            == gbl.env_data["test_multi_chain_transfer_to_user_wallet"]
         )
 
     def test_get_user_by_email(self, client: OriginalClient):
