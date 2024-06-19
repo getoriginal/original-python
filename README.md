@@ -128,6 +128,7 @@ new_user_uid = create_response['data']['uid']
 # Returns their details in a response object if the user exists. If not, a 404 client error will be raised.
 user_response = client.get_user(new_user_uid)
 user_details = user_response['data']  # Contains user details such as UID, email, etc.
+# User response will return either wallet_address or wallets depending on if the application is single or multi-chain.
 # Sample user_response:
 {
     "success": True,
@@ -136,7 +137,15 @@ user_details = user_response['data']  # Contains user details such as UID, email
         "user_external_id": "user_external_id_1",
         "created_at": "2024-02-26T13:12:31.798296Z",
         "email": "user_email@email.com",
-        "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
+        "wallet_address": "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40",
+        "wallets": [
+            { 
+                "address": "0x1d6169328e0a2e0a0709115d1860c682cf8d1398",
+                "chain_id": 80001,
+                "explorer_url": "https://amoy.polygonscan.com/address/0x1d6169328e0a2e0a0709115d1860c682cf8d1398"
+                "network": "Amoy",
+            }
+        ]
     }
 }
 ```

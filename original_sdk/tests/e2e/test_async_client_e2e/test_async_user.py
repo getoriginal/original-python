@@ -36,10 +36,17 @@ class TestAsyncClientUserE2E:
                 email=f"{client_id}@test.com", client_id=client_id
             )
 
-    async def test_get_user(self, async_client: OriginalAsyncClient):
+    async def test_get_user_single_chain(self, async_client: OriginalAsyncClient):
         response = await async_client.get_user(gbl.env_data["test_app_user_uid"])
         assert response["data"]["uid"] == gbl.env_data["test_app_user_uid"]
         assert response["data"]["email"] == gbl.env_data["test_app_user_email"]
+        assert response["data"]["wallet_address"] is not None
+
+    async def test_get_user_single_multi_chain(self, async_client: OriginalAsyncClient):
+        response = await async_client.get_user(gbl.env_data["test_transfer_to_user_uid"])
+        assert response["data"]["uid"] == gbl.env_data["test_transfer_to_user_uid"]
+        assert response["data"]["wallets"] is not None
+        assert response["data"]["wallets"][0]["wallet_address"] == gbl.env_data["test_transfer_to_wallet_address"
 
     async def test_get_user_by_email(self, async_client: OriginalAsyncClient):
         response = await async_client.get_user_by_email(
