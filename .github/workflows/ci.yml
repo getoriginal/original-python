@@ -1,17 +1,13 @@
-name: build
-on:
-  push:
-    branches:
-      - "main"
-  pull_request:
+name: Lint and Test
+on: [pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Test & lint
+  test:
+    name: Lint and Test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
