@@ -37,6 +37,7 @@
     - [Get claims by user UID](#get-claims-by-user-uid)
   - [Reward](#reward)
     - [Get a reward by UID)](#get-a-reward-by-reward-uid)
+    - [Get a user's reward balance](#get-a-users-reward-balance)
   - [Handling Errors](#handling-errors)
 
 
@@ -512,18 +513,17 @@ burns_list = burns_response['data']
 
 The deposit methods exposed by the sdk are used to return the details for depositing assets.
 
-### Get deposit details by user UID
+### Get deposit details by user UID and collection UID
 ```python
-# Get deposit details for a user
-# collection_uid is optional, but required for multi-chain applications
+# Get deposit details for a user and collection
 deposit_response = client.get_deposit("user_uid", "collection_uid")
 deposit_details = deposit_response['data']
 # Sample deposit_response:
 {
     "success": True,
     "data": {
-        "network": "Mumbai",
-        "chain_id": 80001,
+        "network": "Amoy",
+        "chain_id": 80002,
         "wallet_address": "0x1d6169328e0a2e0a0709115d1860c682cf8d1398",
         "qr_code_data": "ethereum:0x1d6169328e0a2e0a0709115d1860c682cf8d1398@80001"
     }
@@ -721,6 +721,22 @@ reward_details = reward_response['data']
         "withdraw_receiver": "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
         "description": "Description of the reward",
         "explorer_url": "https://mumbai.polygonscan.com/address/0x124a6755ee787153bb6228463d5dc3a02890a7db"
+    }
+}
+```
+
+### Get a user's reward balance
+```python
+# Get a user's reward balance, will throw a 404 Not Found error if the reward does not exist
+reward_response = client.get_balance(reward_uid='221137489875', user_uid='754566475542')
+reward_details = reward_response['data']
+# Sample reward_response:
+{
+    "success": True,
+    "data": {
+        "reward_uid": "221137489875",
+        "user_uid": "754566475542",
+        "amount": 100.0
     }
 }
 ```

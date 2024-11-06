@@ -90,7 +90,7 @@ async def test_async_client_create_user(async_client):
         mock_post.return_value.__aenter__.return_value = mock_response
 
         response = await async_client.create_user(
-            email="test@example.com", client_id="client123"
+            email="test@example.com", user_external_id="client123"
         )
 
         assert response["data"] == "user_created"

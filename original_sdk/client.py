@@ -1,6 +1,5 @@
 import json
-import warnings
-from typing import Any, Callable, Dict, Optional, Tuple, Union
+from typing import Any, Callable, Dict, Tuple, Union
 
 import requests
 
@@ -115,20 +114,12 @@ class OriginalClient(BaseOriginalClient):
     def create_user(
         self,
         email: Union[None, str] = None,
-        client_id: Union[None, str] = None,
         user_external_id: Union[None, str] = None,
     ) -> OriginalResponse:
-        if client_id:
-            warnings.warn(
-                "client_id is deprecated, please use user_external_id instead",
-                DeprecationWarning,
-                stacklevel=2,
-            )
         return self.post(
             "user",
             data={
                 "email": email,
-                "client_id": client_id,
                 "user_external_id": user_external_id,
             },
         )
@@ -138,14 +129,6 @@ class OriginalClient(BaseOriginalClient):
 
     def get_user_by_email(self, email: str) -> OriginalResponse:
         return self.get("user", params={"email": email})
-
-    def get_user_by_client_id(self, client_id: str) -> OriginalResponse:
-        warnings.warn(
-            "get_user_by_client_id is deprecated, please use get_user_by_user_external_id instead",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        return self.get("user", params={"client_id": client_id})
 
     def get_user_by_user_external_id(self, user_external_id: str) -> OriginalResponse:
         return self.get("user", params={"user_external_id": user_external_id})
@@ -183,12 +166,8 @@ class OriginalClient(BaseOriginalClient):
     def get_burns_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return self.get("burn", params={"user_uid": user_uid})
 
-    def get_deposit(
-        self, user_uid: str, collection_uid: Optional[str] = None
-    ) -> OriginalResponse:
-        params = {"user_uid": user_uid}
-        if collection_uid is not None:
-            params["collection_uid"] = collection_uid
+    def get_deposit(self, user_uid: str, collection_uid: str) -> OriginalResponse:
+        params = {"user_uid": user_uid, "collection_uid": collection_uid}
         return self.get("deposit", params=params)
 
     def get_reward(self, uid: str) -> OriginalResponse:
@@ -211,3 +190,8 @@ class OriginalClient(BaseOriginalClient):
 
     def get_claims_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return self.get("reward/claim", params={"user_uid": user_uid})
+
+    def get_balance(self, reward_uid: str, user_uid: str) -> OriginalResponse:
+        return self.get(
+            "reward/balance", params={"reward_uid": reward_uid, "user_uid": user_uid}
+        )

@@ -15,7 +15,7 @@ DEFAULT_API_VERSION = "v1"
 
 class MockClient(BaseOriginalClient):
     def create_user(
-        self, email: Union[None, str] = None, client_id: Union[None, str] = None
+        self, email: Union[None, str] = None, user_external_id: Union[None, str] = None
     ):
         pass
 
@@ -23,9 +23,6 @@ class MockClient(BaseOriginalClient):
         pass
 
     def get_user_by_email(self, email: str):
-        pass
-
-    def get_user_by_client_id(self, client_id: str):
         pass
 
     def get_user_by_user_external_id(self, user_external_id: str):
@@ -86,6 +83,9 @@ class MockClient(BaseOriginalClient):
         pass
 
     def get_claims_by_user_uid(self, user_uid: str):
+        pass
+
+    def get_balance(self, reward_uid: str, user_uid: str):
         pass
 
 
