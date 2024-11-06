@@ -273,7 +273,7 @@ class BaseOriginalClient(abc.ABC):
         self, user_uid: str, collection_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
-        Get an Original deposit by user uid.
+        Get an Original deposit by user uid and collection uid.
 
         :param user_uid: the user uid
         :param collection_uid: the collection uid
