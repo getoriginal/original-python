@@ -1,6 +1,6 @@
 import abc
 import os
-from typing import Any, Awaitable, Dict, Optional, Union
+from typing import Any, Awaitable, Dict, Union
 
 import jwt
 
@@ -92,7 +92,6 @@ class BaseOriginalClient(abc.ABC):
     def create_user(
         self,
         email: Union[None, str] = None,
-        client_id: Union[None, str] = None,
         user_external_id: Union[None, str] = None,
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
@@ -120,20 +119,6 @@ class BaseOriginalClient(abc.ABC):
         Gets a user by email
 
         :param email: the user's email
-        :return:
-        """
-        pass
-
-    @abc.abstractmethod
-    def get_user_by_client_id(
-        self, client_id: str
-    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
-        """
-        Deprecated: use get_user_by_user_external_id instead.
-
-        Gets a user by client_id
-
-        :param client_id: the user's client_id
         :return:
         """
         pass
@@ -285,7 +270,7 @@ class BaseOriginalClient(abc.ABC):
 
     @abc.abstractmethod
     def get_deposit(
-        self, user_uid: str, collection_uid: Optional[str] = None
+        self, user_uid: str, collection_uid: str
     ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
         """
         Get an Original deposit by user uid.
@@ -375,6 +360,19 @@ class BaseOriginalClient(abc.ABC):
         """
         Get a list of Original claims by user uid.
 
+        :param user_uid: the app user uid
+        :return:
+        """
+        pass
+
+    @abc.abstractmethod
+    def get_balance(
+        self, reward_uid: str, user_uid: str
+    ) -> Union[OriginalResponse, Awaitable[OriginalResponse]]:
+        """
+        Get a user's reward balance.
+
+        :param reward_uid: the reward uid
         :param user_uid: the app user uid
         :return:
         """

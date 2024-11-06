@@ -1,5 +1,4 @@
 import json
-import warnings
 from types import TracebackType
 from typing import (
     Any,
@@ -129,20 +128,12 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     async def create_user(
         self,
         email: Union[None, str] = None,
-        client_id: Union[None, str] = None,
         user_external_id: Union[None, str] = None,
     ) -> OriginalResponse:
-        if client_id:
-            warnings.warn(
-                "client_id is deprecated, please use user_external_id instead",
-                DeprecationWarning,
-                stacklevel=2,
-            )
         return await self.post(
             "user",
             data={
                 "email": email,
-                "client_id": client_id,
                 "user_external_id": user_external_id,
             },
         )
@@ -152,14 +143,6 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
 
     async def get_user_by_email(self, email: str) -> OriginalResponse:
         return await self.get("user", params={"email": email})
-
-    async def get_user_by_client_id(self, client_id: str) -> OriginalResponse:
-        warnings.warn(
-            "get_user_by_client_id is deprecated, please use get_user_by_user_external_id instead",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        return await self.get("user", params={"client_id": client_id})
 
     async def get_user_by_user_external_id(
         self, user_external_id: str
@@ -199,12 +182,8 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
     async def get_burns_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return await self.get("burn", params={"user_uid": user_uid})
 
-    async def get_deposit(
-        self, user_uid: str, collection_uid: Optional[str] = None
-    ) -> OriginalResponse:
-        params = {"user_uid": user_uid}
-        if collection_uid is not None:
-            params["collection_uid"] = collection_uid
+    async def get_deposit(self, user_uid: str, collection_uid: str) -> OriginalResponse:
+        params = {"user_uid": user_uid, "collection_uid": collection_uid}
         return await self.get("deposit", params=params)
 
     async def get_reward(self, uid: str) -> OriginalResponse:
@@ -227,6 +206,11 @@ class OriginalAsyncClient(BaseOriginalClient, AsyncContextManager):
 
     async def get_claims_by_user_uid(self, user_uid: str) -> OriginalResponse:
         return await self.get("reward/claim", params={"user_uid": user_uid})
+
+    async def get_balance(self, reward_uid: str, user_uid: str) -> OriginalResponse:
+        return await self.get(
+            "reward/balance", params={"reward_uid": reward_uid, "user_uid": user_uid}
+        )
 
     async def close(self) -> None:
         await self.session.close()

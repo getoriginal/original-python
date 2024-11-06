@@ -26,14 +26,13 @@ class TestAssetE2E:
         response = client.create_asset(**request_data)
         assert response["data"]["uid"] is not None
 
-    def test_create_asset_with_mint_price(self, client: OriginalClient):
+    def test_create_asset_with_sale_price(self, client: OriginalClient):
         asset_name = get_random_string(8)
         asset_data = {
             "name": asset_name,
             "unique_name": True,
             "image_url": "https://example.com/image.png",
             "store_image_on_ipfs": False,
-            "sale_price_in_usd": 9.99,
             "attributes": [
                 {"trait_type": "Eyes", "value": "Green"},
                 {"trait_type": "Hair", "value": "Black"},
@@ -44,6 +43,7 @@ class TestAssetE2E:
             "user_uid": gbl.env_data["test_app_user_uid"],
             "asset_external_id": asset_name,
             "collection_uid": gbl.env_data["test_app_collection_uid"],
+            "sale_price_in_usd": 9.99,
         }
         response = client.create_asset(**request_data)
         assert response["data"]["uid"] is not None
