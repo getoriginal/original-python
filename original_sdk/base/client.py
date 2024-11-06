@@ -263,7 +263,7 @@ class BaseOriginalClient(abc.ABC):
         """
         Get a list of Original burns by user uid.
 
-        :param user_uid: the app user uid
+        :param user_uid: the user uid
         :return:
         """
         pass
@@ -324,7 +324,7 @@ class BaseOriginalClient(abc.ABC):
         """
         Get a list of Original allocations by user uid.
 
-        :param user_uid: the app user uid
+        :param user_uid: the user uid
         :return:
         """
         pass
@@ -360,7 +360,7 @@ class BaseOriginalClient(abc.ABC):
         """
         Get a list of Original claims by user uid.
 
-        :param user_uid: the app user uid
+        :param user_uid: the user uid
         :return:
         """
         pass
@@ -373,7 +373,7 @@ class BaseOriginalClient(abc.ABC):
         Get a user's reward balance.
 
         :param reward_uid: the reward uid
-        :param user_uid: the app user uid
+        :param user_uid: the user uid
         :return:
         """
         pass
